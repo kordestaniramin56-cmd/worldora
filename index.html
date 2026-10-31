@@ -1,391 +1,50 @@
 
-function setLanguage(lang) {
- const translations = {
- fa: {
- dir:"rtl",
- nav:["خانه","اکتشاف","نقشه جهان","درباره ما"],
- tagline:"جهان از آن توست؛ کشف کن، بیاموز و تجربه کن.",
- hero:"سفری دیجیتال به تاریخ، فرهنگ، طبیعت و شگفتی‌های جهان.",
- discover:"جهان را کشف کن",
- intro:"از تمدن‌های باستانی تا شهرهای مدرن، جهان را از اینجا بشناس.",
- search:"نام کشور یا جاذبه را جست‌وجو کن...",
- map:"نقشه تعاملی جهان",
- mapintro:"روی نشانگرهای نقشه بزن تا مقصدها را بشناسی.",
- about:"درباره WORLDORA",
- abouttext:"WORLDORA پروژه‌ای برای گردشگری مجازی و آموزش تاریخ و فرهنگ جهان است.",
- titles:["تخت جمشید، ایران","اهرام جیزه، مصر","کولوسئوم، ایتالیا","موزه لوور، فرانسه","کیوتو، ژاپن","آکروپولیس، یونان"],
- descs:["میراث باشکوه تمدن هخامنشی.","شاهکار معماری مصر باستان.","نماد تمدن روم باستان.","موزه مشهور هنر و تاریخ جهان.","شهر تاریخی معابد و باغ‌های ژاپنی.","نماد هنر و تمدن یونان باستان."]
- },
- en: {
- dir:"ltr",
- nav:["Home","Discover","World Map","About"],
- tagline:"The World Is Yours to Explore.",
- hero:"A digital journey through history, culture, nature and the wonders of our world.",
- discover:"Discover the World",
- intro:"From ancient civilizations to modern cities, explore the world here.",
- search:"Search for a country or attraction...",
- map:"Interactive World Map",
- mapintro:"Select a marker to explore a destination.",
- about:"About WORLDORA",
- abouttext:"WORLDORA is a virtual tourism and global cultural education project.",
- titles:["Persepolis, Iran","Giza Pyramids, Egypt","Colosseum, Italy","Louvre Museum, France","Kyoto, Japan","Acropolis, Greece"],
- descs:["A magnificent heritage of the Achaemenid Empire.","A wonder of ancient Egyptian architecture.","An icon of ancient Roman civilization.","A world-famous art and history museum.","A historic city of Japanese temples and gardens.","A landmark of ancient Greek civilization."]
- },
- ar: {
- dir:"rtl",
- nav:["الرئيسية","اكتشف","خريطة العالم","من نحن"],
- tagline:"العالم بين يديك، اكتشف وتعلم واستمتع.",
- hero:"رحلة رقمية عبر التاريخ والثقافة والطبيعة.",
- discover:"اكتشف العالم",
- intro:"من الحضارات القديمة إلى المدن الحديثة.",
- search:"ابحث عن بلد أو معلم...",
- map:"خريطة العالم التفاعلية",
- mapintro:"اختر علامة لاستكشاف الوجهة.",
- about:"عن WORLDORA",
- abouttext:"مشروع للسياحة الافتراضية والتعليم الثقافي العالمي.",
- titles:["برسبوليس، إيران","أهرامات الجيزة، مصر","الكولوسيوم، إيطاليا","متحف اللوفر، فرنسا","كيوتو، اليابان","الأكروبوليس، اليونان"],
- descs:["تراث الإمبراطورية الأخمينية.","عجائب العمارة المصرية القديمة.","رمز الحضارة الرومانية.","متحف عالمي للفن والتاريخ.","مدينة المعابد والحدائق اليابانية.","معلم من الحضارة اليونانية."]
- },
- fr: {
- dir:"ltr",
- nav:["Accueil","Découvrir","Carte du monde","À propos"],
- tagline:"Le monde est à vous. Explorez-le.",
- hero:"Un voyage numérique à travers l'histoire, la culture et la nature.",
- discover:"Découvrez le monde",
- intro:"Des civilisations anciennes aux villes modernes.",
- search:"Rechercher un pays ou un site...",
- map:"Carte interactive du monde",
- mapintro:"Sélectionnez un marqueur pour explorer une destination.",
- about:"À propos de WORLDORA",
- abouttext:"WORLDORA est un projet de tourisme virtuel et d'éducation culturelle.",
- titles:["Persépolis, Iran","Pyramides de Gizeh, Égypte","Colisée, Italie","Musée du Louvre, France","Kyoto, Japon","Acropole, Grèce"],
- descs:["Héritage de l'empire achéménide.","Merveille de l'Égypte ancienne.","Symbole de la Rome antique.","Musée mondial d'art et d'histoire.","Ville historique de temples et jardins.","Monument de la civilisation grecque."]
- },
- de: {
- dir:"ltr",
- nav:["Startseite","Entdecken","Weltkarte","Über uns"],
- tagline:"Die Welt gehört dir. Entdecke sie.",
- hero:"Eine digitale Reise durch Geschichte, Kultur und Natur.",
- discover:"Entdecke die Welt",
- intro:"Von alten Zivilisationen bis zu modernen Städten.",
- search:"Land oder Sehenswürdigkeit suchen...",
- map:"Interaktive Weltkarte",
- mapintro:"Wähle eine Markierung, um ein Reiseziel zu entdecken.",
- about:"Über WORLDORA",
- abouttext:"WORLDORA ist ein Projekt für virtuellen Tourismus und kulturelle Bildung.",
- titles:["Persepolis, Iran","Pyramiden von Gizeh, Ägypten","Kolosseum, Italien","Louvre, Frankreich","Kyoto, Japan","Akropolis, Griechenland"],
- descs:["Erbe des Achämenidenreichs.","Wunder der altägyptischen Architektur.","Symbol des antiken Roms.","Weltberühmtes Kunst- und Geschichtsmuseum.","Historische Stadt mit Tempeln und Gärten.","Wahrzeichen der antiken griechischen Kultur."]
- },
- es: {
- dir:"ltr",
- nav:["Inicio","Descubrir","Mapa mundial","Acerca de"],
- tagline:"El mundo es tuyo para explorar.",
- hero:"Un viaje digital por la historia, la cultura y la naturaleza.",
- discover:"Descubre el mundo",
- intro:"Desde civilizaciones antiguas hasta ciudades modernas.",
- search:"Buscar país o lugar...",
- map:"Mapa interactivo del mundo",
- mapintro:"Selecciona un marcador para explorar un destino.",
- about:"Acerca de WORLDORA",
- abouttext:"WORLDORA es un proyecto de turismo virtual y educación cultural.",
- titles:["Persépolis, Irán","Pirámides de Guiza, Egipto","Coliseo, Italia","Museo del Louvre, Francia","Kioto, Japón","Acrópolis, Grecia"],
- descs:["Herencia del Imperio aqueménida.","Maravilla del antiguo Egipto.","Símbolo de la antigua Roma.","Museo mundial de arte e historia.","Ciudad histórica de templos y jardines.","Monumento de la civilización griega."]
- },
- zh: {
- dir:"ltr",
- nav:["首页","探索","世界地图","关于我们"],
- tagline:"世界属于你，尽情探索。",
- hero:"开启历史、文化与自然的数字之旅。",
- discover:"探索世界",
- intro:"从古代文明到现代城市，探索世界。",
- search:"搜索国家或景点...",
- map:"互动世界地图",
- mapintro:"点击地图标记探索目的地。",
- about:"关于 WORLDORA",
- abouttext:"WORLDORA 是一个虚拟旅游与全球文化教育项目。",
- titles:["波斯波利斯，伊朗","吉萨金字塔，埃及","罗马斗兽场，意大利","卢浮宫，法国","京都，日本","雅典卫城，希腊"],
- descs:["阿契美尼德王朝的历史遗产。","古埃及建筑奇迹。","古罗马文明的象征。","世界著名艺术与历史博物馆。","拥有寺庙和花园的历史名城。","古希腊文明的地标。"]
- },
- ja: {
- dir:"ltr",
- nav:["ホーム","発見","世界地図","概要"],
- tagline:"世界はあなたのもの。探検しよう。",
- hero:"歴史、文化、自然を巡るデジタルの旅。",
- discover:"世界を発見",
- intro:"古代文明から現代都市まで、世界を探索しましょう。",
- search:"国や観光地を検索...",
- map:"インタラクティブ世界地図",
- mapintro:"マーカーを選択して目的地を探索。",
- about:"WORLDORAについて",
- abouttext:"WORLDORAはバーチャル観光と文化教育のプロジェクトです。",
- titles:["ペルセポリス、イラン","ギザのピラミッド、エジプト","コロッセオ、イタリア","ルーブル美術館、フランス","京都、日本","アクロポリス、ギリシャ"],
- descs:["アケメネス朝の歴史遺産。","古代エジプト建築の驚異。","古代ローマ文明の象徴。","世界的に有名な美術歴史博物館。","寺院と庭園のある歴史都市。","古代ギリシャ文明の名所。"]
- },
- ru: {
- dir:"ltr",
- nav:["Главная","Открытия","Карта мира","О проекте"],
- tagline:"Мир открыт для твоих открытий.",
- hero:"Цифровое путешествие по истории, культуре и природе.",
- discover:"Открой мир",
- intro:"От древних цивилизаций до современных городов.",
- search:"Найти страну или достопримечательность...",
- map:"Интерактивная карта мира",
- mapintro:"Выберите метку, чтобы изучить место.",
- about:"О WORLDORA",
- abouttext:"WORLDORA — проект виртуального туризма и культурного образования.",
- titles:["Персеполь, Иран","Пирамиды Гизы, Египет","Колизей, Италия","Лувр, Франция","Киото, Япония","Акрополь, Греция"],
- descs:["Наследие державы Ахеменидов.","Чудо древнеегипетской архитектуры.","Символ Древнего Рима.","Всемирно известный музей искусства и истории.","Исторический город храмов и садов.","Памятник древнегреческой цивилизации."]
- },
- tr: {
- dir:"ltr",
- nav:["Ana Sayfa","Keşfet","Dünya Haritası","Hakkımızda"],
- tagline:"Dünya keşfetmen için senin.",
- hero:"Tarih, kültür ve doğa boyunca dijital bir yolculuk.",
- discover:"Dünyayı Keşfet",
- intro:"Antik uygarlıklardan modern şehirlere dünyayı keşfet.",
- search:"Ülke veya yer ara...",
- map:"Etkileşimli Dünya Haritası",
- mapintro:"Bir destinasyonu keşfetmek için işaretçiyi seç.",
- about:"WORLDORA Hakkında",
- abouttext:"WORLDORA sanal turizm ve kültürel eğitim projesidir.",
- titles:["Persepolis, İran","Gize Piramitleri, Mısır","Kolezyum, İtalya","Louvre Müzesi, Fransa","Kyoto, Japonya","Akropolis, Yunanistan"],
- descs:["Ahameniş İmparatorluğu mirası.","Antik Mısır mimarisinin harikası.","Antik Roma'nın simgesi.","Dünyaca ünlü sanat ve tarih müzesi.","Tapınakları ve bahçeleriyle tarihi şehir.","Antik Yunan medeniyetinin simgesi."]
- },
- hi: {
- dir:"ltr",
- nav:["होम","खोजें","विश्व मानचित्र","हमारे बारे में"],
- tagline:"दुनिया आपकी है, इसे खोजें।",
- hero:"इतिहास, संस्कृति और प्रकृति की डिजिटल यात्रा।",
- discover:"दुनिया की खोज करें",
- intro:"प्राचीन सभ्यताओं से आधुनिक शहरों तक दुनिया जानें।",
- search:"देश या आकर्षण खोजें...",
- map:"इंटरैक्टिव विश्व मानचित्र",
- mapintro:"किसी स्थान को जानने के लिए निशान चुनें।",
- about:"WORLDORA के बारे में",
- abouttext:"WORLDORA आभासी पर्यटन और सांस्कृतिक शिक्षा की परियोजना है।",
- titles:["पर्सेपोलिस, ईरान","गीज़ा पिरामिड, मिस्र","कोलोसियम, इटली","लूव्र संग्रहालय, फ्रांस","क्योटो, जापान","एक्रोपोलिस, ग्रीस"],
- descs:["अकेमेनिड साम्राज्य की विरासत।","प्राचीन मिस्र की वास्तुकला का चमत्कार।","प्राचीन रोम का प्रतीक।","विश्व प्रसिद्ध कला और इतिहास संग्रहालय।","मंदिरों और बगीचों का ऐतिहासिक शहर।","प्राचीन यूनानी सभ्यता का स्मारक।"]
- },
- pt: {
- dir:"ltr",
- nav:["Início","Descobrir","Mapa mundial","Sobre"],
- tagline:"O mundo é seu para explorar.",
- hero:"Uma viagem digital pela história, cultura e natureza.",
- discover:"Descubra o mundo",
- intro:"Das civilizações antigas às cidades modernas, explore o mundo.",
- search:"Pesquisar país ou atração...",
- map:"Mapa interativo do mundo",
- mapintro:"Selecione um marcador para explorar um destino.",
- about:"Sobre a WORLDORA",
- abouttext:"WORLDORA é um projeto de turismo virtual e educação cultural.",
- titles:["Persépolis, Irã","Pirâmides de Gizé, Egito","Coliseu, Itália","Museu do Louvre, França","Quioto, Japão","Acrópole, Grécia"],
- descs:["Herança do Império Aquemênida.","Maravilha da arquitetura egípcia antiga.","Símbolo da Roma antiga.","Museu mundial de arte e história.","Cidade histórica de templos e jardins.","Marco da civilização grega antiga."]
- }
- };
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WORLDORA | Explore the World</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#081426;color:#f4f1e9;font-family:Arial,sans-serif}
+header{background:#10223b;padding:22px 15px;text-align:center;border-bottom:1px solid #b9954b}
+.logo{font-size:32px;font-weight:bold;color:#e7c36e;letter-spacing:3px}
+.tag{color:#d8dce5;margin-top:8px}
+nav{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;padding:18px}
+a{color:#f4f1e9;text-decoration:none}
+select,input{padding:12px;border-radius:9px;border:1px solid #c5a65e;background:#142945;color:white;font-size:16px}
+main{max-width:1100px;margin:auto;padding:20px}
+.hero{text-align:center;padding:45px 10px}
+h1{color:#e7c36e;font-size:30px}
+h2{color:#e7c36e}
+.intro{line-height:2;color:#d4dbea}
+.search{width:100%;max-width:500px;margin:15px auto;display:block}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:25px}
+.card{background:#142945;border:1px solid #344765;border-radius:14px;padding:20px}
+.card .emoji{font-size:42px}
+.card h3{color:#e7c36e}
+.card p{line-height:1.8;color:#d6deeb}
+.mapbox{background:#142945;padding:20px;border-radius:14px;margin-top:30px;text-align:center}
+.mapbox a{color:#e7c36e;text-decoration:underline}
+footer{text-align:center;padding:30px;color:#bfc9d9}
+button{background:#e7c36e;color:#101a2b;border:0;padding:12px 20px;border-radius:9px;font-weight:bold}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">WORLDORA 🌍</div>
+<div class="tag" id="tag">جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.</div>
+</header>
 
- const t = translations[lang] || translations.en;
- document.documentElement.lang = lang;
- document.documentElement.dir = t.dir;
-
- const nav = document.querySelectorAll("nav a");
- t.nav.forEach((v,i)=>{if(nav[i])nav[i].textContent=v;});
-
- const setText=(id,value)=>{
-  const el=document.getElementById(id);
-  if(el)el.textContent=value;
- };
-
- setText("tagline",t.tagline);
- setText("hero-desc",t.hero);
- setText("discover-title",t.discover);
- setText("discover-intro",t.intro);
- setText("map-title",t.map);
- setText("map-intro",t.mapintro);
- setText("about-title",t.about);
- setText("about-text",t.abouttext);
-
- const search=document.getElementById("search");
- if(search)search.placeholder=t.search;
-
- document.querySelectorAll("#cards .card").forEach((card,i)=>{
-  if(t.titles[i])card.querySelector("h3").textContent=t.titles[i];
-  if(t.descs[i])card.querySelector("p").textContent=t.descs[i];
- });
-
- const selector=document.querySelector(".lang");
- if(selector)selector.value=lang;
-}
-
-const translations = {
-fa: {
-dir:"rtl", nav:["خانه","اکتشاف","نقشه جهان","درباره ما"],
-tag:"جهان از آن توست؛ کشف کن، بیاموز و تجربه کن.",
-hero:"سفری دیجیتال به تاریخ، فرهنگ، طبیعت و شگفتی‌های جهان.",
-discover:"جهان را کشف کن",
-intro:"از تمدن‌های باستانی تا شهرهای مدرن، جهان را از اینجا بشناس.",
-search:"نام کشور یا جاذبه را جست‌وجو کن...",
-map:"نقشه تعاملی جهان",
-mapintro:"روی نشانگرهای نقشه بزن تا مقصدها را بشناسی.",
-about:"درباره WORLDORA",
-abouttext:"WORLDORA پروژه‌ای برای گردشگری مجازی و آموزش تاریخ و فرهنگ جهان است.",
-titles:["تخت جمشید، ایران","اهرام جیزه، مصر","کولوسئوم، ایتالیا","موزه لوور، فرانسه","کیوتو، ژاپن","آکروپولیس، یونان"],
-descs:["میراث باشکوه تمدن هخامنشی.","شاهکار معماری مصر باستان.","نماد تمدن روم باستان.","موزه مشهور هنر و تاریخ جهان.","شهر تاریخی معابد و باغ‌های ژاپنی.","نماد هنر و تمدن یونان باستان."],
-more:"معرفی بیشتر ↗"
-},
-en: {
-dir:"ltr",nav:["Home","Discover","World Map","About"],
-tag:"The World Is Yours to Explore.",
-hero:"A digital journey through history, culture, nature and the wonders of our world.",
-discover:"Discover the World",
-intro:"From ancient civilizations to modern cities, explore the world here.",
-search:"Search for a country or attraction...",
-map:"Interactive World Map",
-mapintro:"Select a marker to explore a destination.",
-about:"About WORLDORA",
-abouttext:"WORLDORA is a virtual tourism and global cultural education project.",
-titles:["Persepolis, Iran","Giza Pyramids, Egypt","Colosseum, Italy","Louvre Museum, France","Kyoto, Japan","Acropolis, Greece"],
-descs:["A magnificent heritage of the Achaemenid Empire.","A wonder of ancient Egyptian architecture.","An icon of ancient Roman civilization.","A world-famous art and history museum.","A historic city of Japanese temples and gardens.","A landmark of ancient Greek civilization."],
-more:"Learn more ↗"
-},
-ar: {
-dir:"rtl",nav:["الرئيسية","اكتشف","خريطة العالم","من نحن"],
-tag:"العالم بين يديك؛ اكتشف وتعلم واستمتع.",
-hero:"رحلة رقمية عبر التاريخ والثقافة والطبيعة.",
-discover:"اكتشف العالم",intro:"من الحضارات القديمة إلى المدن الحديثة، اكتشف العالم معنا.",
-search:"ابحث عن بلد أو معلم...",map:"خريطة العالم التفاعلية",
-mapintro:"اختر علامة لاستكشاف الوجهة.",about:"عن WORLDORA",
-abouttext:"مشروع للسياحة الافتراضية والتعليم الثقافي العالمي.",
-titles:["برسبوليس، إيران","أهرامات الجيزة، مصر","الكولوسيوم، إيطاليا","متحف اللوفر، فرنسا","كيوتو، اليابان","الأكروبوليس، اليونان"],
-descs:["تراث الإمبراطورية الأخمينية.","عجائب العمارة المصرية القديمة.","رمز الحضارة الرومانية.","متحف عالمي للفن والتاريخ.","مدينة المعابد والحدائق اليابانية.","معلم من الحضارة اليونانية."],more:"المزيد ↗"
-},
-fr: {
-dir:"ltr",nav:["Accueil","Découvrir","Carte du monde","À propos"],
-tag:"Le monde est à vous. Explorez-le.",
-hero:"Un voyage numérique à travers l'histoire, la culture et la nature.",
-discover:"Découvrez le monde",intro:"Des civilisations anciennes aux villes modernes, explorez le monde.",
-search:"Rechercher un pays ou un site...",map:"Carte interactive du monde",
-mapintro:"Sélectionnez un marqueur pour explorer une destination.",about:"À propos de WORLDORA",
-abouttext:"WORLDORA est un projet de tourisme virtuel et d'éducation culturelle.",
-titles:["Persépolis, Iran","Pyramides de Gizeh, Égypte","Colisée, Italie","Musée du Louvre, France","Kyoto, Japon","Acropole, Grèce"],
-descs:["Héritage de l'empire achéménide.","Merveille de l'Égypte ancienne.","Symbole de la Rome antique.","Musée mondial d'art et d'histoire.","Ville historique de temples et jardins.","Monument de la civilisation grecque."],more:"En savoir plus ↗"
-},
-de: {
-dir:"ltr",nav:["Startseite","Entdecken","Weltkarte","Über uns"],
-tag:"Die Welt gehört dir. Entdecke sie.",
-hero:"Eine digitale Reise durch Geschichte, Kultur und Natur.",
-discover:"Entdecke die Welt",intro:"Von alten Zivilisationen bis zu modernen Städten.",
-search:"Land oder Sehenswürdigkeit suchen...",map:"Interaktive Weltkarte",
-mapintro:"Wähle eine Markierung, um ein Reiseziel zu entdecken.",about:"Über WORLDORA",
-abouttext:"WORLDORA ist ein Projekt für virtuellen Tourismus und kulturelle Bildung.",
-titles:["Persepolis, Iran","Pyramiden von Gizeh, Ägypten","Kolosseum, Italien","Louvre, Frankreich","Kyoto, Japan","Akropolis, Griechenland"],
-descs:["Erbe des Achämenidenreichs.","Wunder der altägyptischen Architektur.","Symbol des antiken Roms.","Weltberühmtes Kunst- und Geschichtsmuseum.","Historische Stadt mit Tempeln und Gärten.","Wahrzeichen der antiken griechischen Kultur."],more:"Mehr erfahren ↗"
-},
-es: {
-dir:"ltr",nav:["Inicio","Descubrir","Mapa mundial","Acerca de"],
-tag:"El mundo es tuyo para explorar.",
-hero:"Un viaje digital por la historia, la cultura y la naturaleza.",
-discover:"Descubre el mundo",intro:"Desde civilizaciones antiguas hasta ciudades modernas.",
-search:"Buscar país o lugar...",map:"Mapa interactivo del mundo",
-mapintro:"Selecciona un marcador para explorar un destino.",about:"Acerca de WORLDORA",
-abouttext:"WORLDORA es un proyecto de turismo virtual y educación cultural.",
-titles:["Persépolis, Irán","Pirámides de Guiza, Egipto","Coliseo, Italia","Museo del Louvre, Francia","Kioto, Japón","Acrópolis, Grecia"],
-descs:["Herencia del Imperio aqueménida.","Maravilla del antiguo Egipto.","Símbolo de la antigua Roma.","Museo mundial de arte e historia.","Ciudad histórica de templos y jardines.","Monumento de la civilización griega."],more:"Más información ↗"
-},
-zh: {
-dir:"ltr",nav:["首页","探索","世界地图","关于我们"],
-tag:"世界属于你，尽情探索。",
-hero:"开启历史、文化与自然的数字之旅。",
-discover:"探索世界",intro:"从古代文明到现代城市，探索世界。",
-search:"搜索国家或景点...",map:"互动世界地图",
-mapintro:"点击地图标记探索目的地。",about:"关于 WORLDORA",
-abouttext:"WORLDORA 是一个虚拟旅游与全球文化教育项目。",
-titles:["波斯波利斯，伊朗","吉萨金字塔，埃及","罗马斗兽场，意大利","卢浮宫，法国","京都，日本","雅典卫城，希腊"],
-descs:["阿契美尼德王朝的历史遗产。","古埃及建筑奇迹。","古罗马文明的象征。","世界著名艺术与历史博物馆。","拥有寺庙和花园的历史名城。","古希腊文明的地标。"],more:"了解更多 ↗"
-},
-ja: {
-dir:"ltr",nav:["ホーム","発見","世界地図","概要"],
-tag:"世界はあなたのもの。探検しよう。",
-hero:"歴史、文化、自然を巡るデジタルの旅。",
-discover:"世界を発見",intro:"古代文明から現代都市まで、世界を探索しましょう。",
-search:"国や観光地を検索...",map:"インタラクティブ世界地図",
-mapintro:"マーカーを選択して目的地を探索。",about:"WORLDORAについて",
-abouttext:"WORLDORAはバーチャル観光と文化教育のプロジェクトです。",
-titles:["ペルセポリス、イラン","ギザのピラミッド、エジプト","コロッセオ、イタリア","ルーブル美術館、フランス","京都、日本","アクロポリス、ギリシャ"],
-descs:["アケメネス朝の歴史遺産。","古代エジプト建築の驚異。","古代ローマ文明の象徴。","世界的に有名な美術歴史博物館。","寺院と庭園のある歴史都市。","古代ギリシャ文明の名所。"],more:"詳しく見る ↗"
-},
-ru: {
-dir:"ltr",nav:["Главная","Открытия","Карта мира","О проекте"],
-tag:"Мир открыт для твоих открытий.",
-hero:"Цифровое путешествие по истории, культуре и природе.",
-discover:"Открой мир",intro:"От древних цивилизаций до современных городов.",
-search:"Найти страну или достопримечательность...",map:"Интерактивная карта мира",
-mapintro:"Выберите метку, чтобы изучить место.",about:"О WORLDORA",
-abouttext:"WORLDORA — проект виртуального туризма и культурного образования.",
-titles:["Персеполь, Иран","Пирамиды Гизы, Египет","Колизей, Италия","Лувр, Франция","Киото, Япония","Акрополь, Греция"],
-descs:["Наследие державы Ахеменидов.","Чудо древнеегипетской архитектуры.","Символ Древнего Рима.","Всемирно известный музей искусства и истории.","Исторический город храмов и садов.","Памятник древнегреческой цивилизации."],more:"Подробнее ↗"
-},
-tr: {
-dir:"ltr",nav:["Ana Sayfa","Keşfet","Dünya Haritası","Hakkımızda"],
-tag:"Dünya keşfetmen için senin.",
-hero:"Tarih, kültür ve doğa boyunca dijital bir yolculuk.",
-discover:"Dünyayı Keşfet",intro:"Antik uygarlıklardan modern şehirlere dünyayı keşfet.",
-search:"Ülke veya yer ara...",map:"Etkileşimli Dünya Haritası",
-mapintro:"Bir destinasyonu keşfetmek için işaretçiyi seç.",about:"WORLDORA Hakkında",
-abouttext:"WORLDORA sanal turizm ve kültürel eğitim projesidir.",
-titles:["Persepolis, İran","Gize Piramitleri, Mısır","Kolezyum, İtalya","Louvre Müzesi, Fransa","Kyoto, Japonya","Akropolis, Yunanistan"],
-descs:["Ahameniş İmparatorluğu mirası.","Antik Mısır mimarisinin harikası.","Antik Roma'nın simgesi.","Dünyaca ünlü sanat ve tarih müzesi.","Tapınakları ve bahçeleriyle tarihi şehir.","Antik Yunan medeniyetinin simgesi."],more:"Daha fazla ↗"
-},
-hi: {
-dir:"ltr",nav:["होम","खोजें","विश्व मानचित्र","हमारे बारे में"],
-tag:"दुनिया आपकी है, इसे खोजें।",
-hero:"इतिहास, संस्कृति और प्रकृति की डिजिटल यात्रा।",
-discover:"दुनिया की खोज करें",intro:"प्राचीन सभ्यताओं से आधुनिक शहरों तक दुनिया जानें।",
-search:"देश या आकर्षण खोजें...",map:"इंटरैक्टिव विश्व मानचित्र",
-mapintro:"किसी स्थान को जानने के लिए निशान चुनें।",about:"WORLDORA के बारे में",
-abouttext:"WORLDORA आभासी पर्यटन और सांस्कृतिक शिक्षा की परियोजना है।",
-titles:["पर्सेपोलिस, ईरान","गीज़ा पिरामिड, मिस्र","कोलोसियम, इटली","लूव्र संग्रहालय, फ्रांस","क्योटो, जापान","एक्रोपोलिस, ग्रीस"],
-descs:["अकेमेनिड साम्राज्य की विरासत।","प्राचीन मिस्र की वास्तुकला का चमत्कार।","प्राचीन रोम का प्रतीक।","विश्व प्रसिद्ध कला और इतिहास संग्रहालय।","मंदिरों और बगीचों का ऐतिहासिक शहर।","प्राचीन यूनानी सभ्यता का स्मारक।"],more:"और जानें ↗"
-},
-pt: {
-dir:"ltr",nav:["Início","Descobrir","Mapa mundial","Sobre"],
-tag:"O mundo é seu para explorar.",
-hero:"Uma viagem digital pela história, cultura e natureza.",
-discover:"Descubra o mundo",intro:"Das civilizações antigas às cidades modernas, explore o mundo.",
-search:"Pesquisar país ou atração...",map:"Mapa interativo do mundo",
-mapintro:"Selecione um marcador para explorar um destino.",about:"Sobre a WORLDORA",
-abouttext:"WORLDORA é um projeto de turismo virtual e educação cultural.",
-titles:["Persépolis, Irã","Pirâmides de Gizé, Egito","Coliseu, Itália","Museu do Louvre, França","Quioto, Japão","Acrópole, Grécia"],
-descs:["Herança do Império Aquemênida.","Maravilha da arquitetura egípcia antiga.","Símbolo da Roma antiga.","Museu mundial de arte e história.","Cidade histórica de templos e jardins.","Marco da civilização grega antiga."],more:"Saiba mais ↗"
-}
-};
-
-function setLanguage(lang) {
- const t = translations[lang] || translations.en;
- document.documentElement.lang = lang;
- document.documentElement.dir = t.dir;
- const nav = document.querySelectorAll("nav a");
- t.nav.forEach((v,i)=>{if(nav[i])nav[i].textContent=v;});
- document.getElementById("tagline").textContent=t.tag;
- document.getElementById("hero-desc").textContent=t.hero;
- document.getElementById("discover-title").textContent=t.discover;
- document.getElementById("discover-intro").textContent=t.intro;
- document.getElementById("search").placeholder=t.search;
- document.getElementById("map-title").textContent=t.map;
- document.getElementById("map-intro").textContent=t.mapintro;
- document.getElementById("about-title").textContent=t.about;
- document.getElementById("about-text").textContent=t.abouttext;
- document.querySelectorAll("#cards .card").forEach((card,i)=>{
-   const h=card.querySelector("h3");
-   const p=card.querySelector("p");
-   const a=card.querySelector("a");
-   if(h)h.textContent=t.titles[i];
-   if(p)p.textContent=t.descs[i];
-   if(a)a.textContent=t.more;
- });
-}
-<select class="lang" onchange="setLanguage(this.value)" aria-label="Select language">
+<nav>
+<a href="#home" id="navhome">خانه</a>
+<a href="#explore" id="navexplore">اکتشاف</a>
+<a href="#map" id="navmap">نقشه جهان</a>
+<a href="#about" id="navabout">درباره ما</a>
+<select id="language" onchange="changeLanguage(this.value)" aria-label="Language">
 <option value="fa">🇮🇷 فارسی</option>
-<option value="en" selected>🇬🇧 English</option>
+<option value="en">🇬🇧 English</option>
 <option value="ar">🇸🇦 العربية</option>
 <option value="fr">🇫🇷 Français</option>
 <option value="de">🇩🇪 Deutsch</option>
@@ -395,302 +54,98 @@ function setLanguage(lang) {
 <option value="ru">🇷🇺 Русский</option>
 <option value="tr">🇹🇷 Türkçe</option>
 <option value="hi">🇮🇳 हिन्दी</option>
-<option value="pt">🇵🇹 Português</option>
-</select><button class="lang" onclick="toggleLanguage()">English</button>
-
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="WORLDORA - Explore the world, history and cultures.">
-<title>WORLDORA | The World Is Yours to Explore</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#081426;color:#f4f1e8;font-family:Tahoma,Arial,sans-serif}
-header{display:flex;justify-content:space-between;align-items:center;padding:18px 6%;background:#0d1d33;border-bottom:1px solid #b99555;flex-wrap:wrap;gap:12px}
-.logo{font-size:25px;font-weight:bold;color:#e5bd70;letter-spacing:2px}
-button{cursor:pointer;border:0;border-radius:8px;padding:11px 17px;font-weight:bold}
-.lang{background:#e5bd70;color:#081426}
-nav{display:flex;gap:18px;flex-wrap:wrap}
-nav a{color:#fff;text-decoration:none;font-size:14px}
-.hero{text-align:center;padding:85px 20px;background:linear-gradient(135deg,#102b4a,#081426)}
-.hero h1{font-size:42px;color:#e5bd70;margin:0 0 18px}
-.hero p{font-size:18px;line-height:2;color:#ddd}
-.section{padding:45px 6%}
-.section h2{text-align:center;color:#e5bd70;font-size:27px}
-.intro{text-align:center;line-height:2;color:#ddd;max-width:850px;margin:20px auto}
-.search{display:block;width:100%;max-width:550px;margin:25px auto;padding:15px;border-radius:9px;border:1px solid #b99555;background:#14243a;color:white;font-size:16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-.card{background:#14243a;border:1px solid #334b68;border-radius:12px;padding:22px;transition:.2s}
-.card:hover{border-color:#e5bd70;transform:translateY(-3px)}
-.card .emoji{font-size:38px}
-.card h3{color:#e5bd70}
-.card p{line-height:1.9;color:#ddd;font-size:14px}
-.card a{color:#e5bd70;text-decoration:none}
-#map{height:420px;border-radius:12px;border:2px solid #b99555;z-index:1}
-footer{text-align:center;padding:30px;background:#050d19;color:#aaa;line-height:2}
-@media(max-width:600px){.hero h1{font-size:30px}header{justify-content:center}nav{justify-content:center}}
-</style>
-</head>
-<body>
-
-<header>
-<div class="logo">🌍 WORLDORA</div>
-<nav>
-<a href="#home" data-fa="خانه" data-en="Home">خانه</a>
-<a href="#discover" data-fa="اکتشاف" data-en="Discover">اکتشاف</a>
-<a href="#map-section" data-fa="نقشه جهان" data-en="World Map">نقشه جهان</a>
-<a href="#about" data-fa="درباره ما" data-en="About">درباره ما</a>
+<option value="pt">🇧🇷 Português</option>
+</select>
 </nav>
-<button class="lang" onclick="toggleLanguage()">English</button>
-</header>
 
 <main>
 <section class="hero" id="home">
-<h1>WORLDORA</h1>
-<p id="tagline">جهان از آن توست؛ کشف کن، بیاموز و تجربه کن.</p>
-<p id="hero-desc">سفری دیجیتال به تاریخ، فرهنگ، طبیعت و شگفتی‌های جهان.</p>
-</section>
-
-<section class="section" id="discover">
-<h2 id="discover-title">جهان را کشف کن</h2>
-<p class="intro" id="discover-intro">از تمدن‌های باستانی تا شهرهای مدرن، از موزه‌ها تا طبیعت شگفت‌انگیز؛ جهان را از اینجا بشناس.</p>
-<input class="search" id="search" placeholder="نام کشور یا جاذبه را جست‌وجو کن..." oninput="filterCards()">
-<div class="grid" id="cards">
-<article class="card" data-search="ایران پرسپولیس تخت جمشید iran persepolis">
-<div class="emoji">🏛️</div><h3 data-fa="تخت جمشید، ایران" data-en="Persepolis, Iran">تخت جمشید، ایران</h3>
-<p data-fa="یکی از باشکوه‌ترین آثار تمدن هخامنشی و میراث تاریخی ایران." data-en="A magnificent monument of the ancient Achaemenid Empire.">یکی از باشکوه‌ترین آثار تمدن هخامنشی و میراث تاریخی ایران.</p>
-<a href="https://en.wikipedia.org/wiki/Persepolis" target="_blank">معرفی بیشتر ↗</a>
-</article>
-<article class="card" data-search="مصر اهرام جیزه egypt giza pyramids">
-<div class="emoji">🔺</div><h3 data-fa="اهرام جیزه، مصر" data-en="Giza Pyramids, Egypt">اهرام جیزه، مصر</h3>
-<p data-fa="شاهکارهای معماری و مهندسی تمدن مصر باستان." data-en="Architectural wonders of ancient Egyptian civilization.">شاهکارهای معماری و مهندسی تمدن مصر باستان.</p>
-<a href="https://en.wikipedia.org/wiki/Giza_pyramid_complex" target="_blank">معرفی بیشتر ↗</a>
-</article>
-<article class="card" data-search="ایتالیا کولوسئوم رم italy colosseum rome">
-<div class="emoji">🏟️</div><h3 data-fa="کولوسئوم، ایتالیا" data-en="Colosseum, Italy">کولوسئوم، ایتالیا</h3>
-<p data-fa="آمفی‌تئاتر تاریخی و نماد تمدن روم باستان." data-en="The iconic amphitheatre of ancient Rome.">آمفی‌تئاتر تاریخی و نماد تمدن روم باستان.</p>
-<a href="https://en.wikipedia.org/wiki/Colosseum" target="_blank">معرفی بیشتر ↗</a>
-</article>
-<article class="card" data-search="فرانسه موزه لوور paris france louvre">
-<div class="emoji">🖼️</div><h3 data-fa="موزه لوور، فرانسه" data-en="Louvre Museum, France">موزه لوور، فرانسه</h3>
-<p data-fa="یکی از مشهورترین موزه‌های هنری و تاریخی جهان." data-en="One of the world's most famous art and history museums.">یکی از مشهورترین موزه‌های هنری و تاریخی جهان.</p>
-<a href="https://www.louvre.fr/en" target="_blank">وب‌سایت موزه ↗</a>
-</article>
-<article class="card" data-search="ژاپن کیوتو japan kyoto">
-<div class="emoji">⛩️</div><h3 data-fa="کیوتو، ژاپن" data-en="Kyoto, Japan">کیوتو، ژاپن</h3>
-<p data-fa="شهری تاریخی با معابد، باغ‌ها و معماری سنتی ژاپنی." data-en="A historic city of temples, gardens and traditional architecture.">شهری تاریخی با معابد، باغ‌ها و معماری سنتی ژاپنی.</p>
-<a href="https://en.wikipedia.org/wiki/Kyoto" target="_blank">معرفی بیشتر ↗</a>
-</article>
-<article class="card" data-search="یونان آکروپولیس آتن greece athens acropolis">
-<div class="emoji">🏛️</div><h3 data-fa="آکروپولیس، یونان" data-en="Acropolis, Greece">آکروپولیس، یونان</h3>
-<p data-fa="نماد هنر، معماری و تمدن یونان باستان." data-en="A landmark of ancient Greek art and civilization.">نماد هنر، معماری و تمدن یونان باستان.</p>
-<a href="https://en.wikipedia.org/wiki/Acropolis_of_Athens" target="_blank">معرفی بیشتر ↗</a>
-</article>
-</div>
-</section>
-
-<section class="section" id="map-section">
-<h2 id="map-title">نقشه تعاملی جهان</h2>
-<p class="intro" id="map-intro">روی نشانگرهای نقشه بزن تا با مقصدهای منتخب آشنا شوی.</p>
-<div id="map"></div>
-</section>
-
-<section class="section" id="about">
-<h2 id="about-title">درباره WORLDORA</h2>
-<p class="intro" id="about-text">WORLDORA یک پروژه گردشگری مجازی و آموزش فرهنگی است. هدف ما فراهم کردن دسترسی آسان و جذاب به تاریخ، میراث، هنر، طبیعت و فرهنگ ملت‌های جهان است؛ برای همه خانواده‌ها و نسل‌ها.</p>
-</section>
-</main>
-
-<footer>
-<strong>WORLDORA 🌍</strong><br>
-The World Is Yours to Explore<br>
-© 2026 WORLDORA
-</footer>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-let language="fa";
-
-function toggleLanguage(){
- language=language==="fa"?"en":"fa";
- document.documentElement.lang=language;
- document.documentElement.dir=language==="fa"?"rtl":"ltr";
- document.querySelector(".lang").textContent=language==="fa"?"English":"فارسی";
- document.querySelectorAll("[data-fa]").forEach(el=>{
-  el.textContent=el.getAttribute("data-"+language);
- });
- const texts={
- fa:{
- tagline:"جهان از آن توست؛ کشف کن، بیاموز و تجربه کن.",
- hero:"سفری دیجیتال به تاریخ، فرهنگ، طبیعت و شگفتی‌های جهان.",
- discover:"جهان را کشف کن",
- intro:"از تمدن‌های باستانی تا شهرهای مدرن، از موزه‌ها تا طبیعت شگفت‌انگیز؛ جهان را از اینجا بشناس.",
- search:"نام کشور یا جاذبه را جست‌وجو کن...",
- map:"نقشه تعاملی جهان",
- mapintro:"روی نشانگرهای نقشه بزن تا با مقصدهای منتخب آشنا شوی.",
- about:"درباره WORLDORA",
- abouttext:"WORLDORA یک پروژه گردشگری مجازی و آموزش فرهنگی است. هدف ما فراهم کردن دسترسی آسان و جذاب به تاریخ، میراث، هنر، طبیعت و فرهنگ ملت‌های جهان است؛ برای همه خانواده‌ها و نسل‌ها."
- },
- en:{
- tagline:"The World Is Yours to Explore.",
- hero:"A digital journey through history, culture, nature and the wonders of our world.",
- discover:"Discover the World",
- intro:"From ancient civilizations to modern cities, from museums to extraordinary nature — explore the world here.",
- search:"Search for a country or attraction...",
- map:"Interactive World Map",
- mapintro:"Select a marker to explore a featured destination.",
- about:"About WORLDORA",
- abouttext:"WORLDORA is a virtual tourism and cultural education project. Our mission is to make the history, heritage, art, nature and cultures of the world accessible and engaging for families and generations."
- }};
- document.getElementById("tagline").textContent=texts[language].tagline;
- document.getElementById("hero-desc").textContent=texts[language].hero;
- document.getElementById("discover-title").textContent=texts[language].discover;
- document.getElementById("discover-intro").textContent=texts[language].intro;
- document.getElementById("search").placeholder=texts[language].search;
- document.getElementById("map-title").textContent=texts[language].map;
- document.getElementById("map-intro").textContent=texts[language].mapintro;
- document.getElementById("about-title").textContent=texts[language].about;
- document.getElementById("about-text").textContent=texts[language].abouttext;
-}
-
-function filterCards(){
- const q=document.getElementById("search").value.toLowerCase();
- document.querySelectorAll("#cards .card").forEach(card=>{
-  card.style.display=card.dataset.search.toLowerCase().includes(q)?"block":"none";
- });
-}
-
-const map=L.map("map").setView([25,25],2);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
- attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
-
-const places=[
- {name:"تخت جمشید | Persepolis",lat:29.9352,lon:52.8916},
- {name:"اهرام جیزه | Giza Pyramids",lat:29.9792,lon:31.1342},
- {name:"کولوسئوم | Colosseum",lat:41.8902,lon:12.4922},
- {name:"موزه لوور | Louvre Museum",lat:48.8606,lon:2.3376},
- {name:"کیوتو | Kyoto",lat:35.0116,lon:135.7681},
- {name:"آکروپولیس | Acropolis",lat:37.9715,lon:23.7257}
-];
-places.forEach(p=>{
- L.marker([p.lat,p.lon]).addTo(map).bindPopup("<b>"+p.name+"</b>");
-});
-</script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="WORLDORA؛ جهان را کشف کن، تاریخ را بشناس و فرهنگ‌ها را تجربه کن.">
-<title>WORLDORA | The World Is Yours to Explore</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#081426;color:#f5f2e9;font-family:Tahoma,Arial,sans-serif;line-height:1.9}
-header{padding:18px 7%;display:flex;justify-content:space-between;align-items:center;background:#101f35;border-bottom:1px solid #b99b55;flex-wrap:wrap}
-.logo{font-size:28px;font-weight:bold;color:#e4c477;letter-spacing:2px}
-nav a{color:#fff;text-decoration:none;margin:0 10px;font-size:14px}
-.hero{text-align:center;padding:75px 20px 65px;background:radial-gradient(circle at center,#25476c,#081426 70%)}
-.hero h1{font-size:42px;color:#f1d58c;margin:0}
-.hero h2{font-size:22px;font-weight:normal}
-.hero p{max-width:650px;margin:20px auto;color:#d4dce7}
-.btn{display:inline-block;background:#c6a65c;color:#101827;padding:12px 25px;border-radius:7px;text-decoration:none;font-weight:bold;margin-top:15px}
-section{padding:45px 7%}
-.section-title{text-align:center;color:#e6c77e;font-size:27px;margin-bottom:25px}
-.intro{text-align:center;max-width:850px;margin:auto;color:#d3dce7}
-.search{display:block;width:100%;max-width:550px;margin:25px auto;padding:14px;border:1px solid #c6a65c;border-radius:8px;background:#14243a;color:white;font-size:16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-.card{background:#14243a;border:1px solid #334761;border-radius:12px;padding:22px;text-align:center;transition:.2s}
-.card:hover{border-color:#e4c477;transform:translateY(-3px)}
-.emoji{font-size:42px}
-.card h3{color:#e7c879;margin:8px 0}
-.card p{font-size:14px;color:#c4cfdd}
-.card a{color:#e7c879;text-decoration:none}
-.banner{background:#122943;text-align:center;border-top:1px solid #b99b55;border-bottom:1px solid #b99b55}
-footer{text-align:center;padding:30px;background:#050d19;color:#aeb9c8;font-size:13px}
-.hidden{display:none}
-</style>
-</head>
-<body>
-<header>
-<div class="logo">WORLDORA 🌍</div>
-<nav>
-<a href="#home">خانه</a>
-<a href="#explore">اکتشاف</a>
-<a href="#destinations">مقاصد</a>
-<a href="#about">درباره ما</a>
-</nav>
-</header>
-
-<main>
-<div class="hero" id="home">
-<h1>WORLDORA</h1>
-<h2>The World Is Yours to Explore</h2>
-<p>جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.</p>
-<p>سفری دیجیتال به تمدن‌ها، موزه‌ها، آثار تاریخی، طبیعت و شگفتی‌های جهان؛ بدون محدودیت مرزها.</p>
-<a class="btn" href="#explore">شروع سفر جهانی</a>
-</div>
-
-<section id="about">
-<h2 class="section-title">جهان، فراتر از یک صفحه نمایش</h2>
-<p class="intro">WORLDORA یک پلتفرم گردشگری مجازی و آموزش فرهنگی است که مردم سراسر جهان را با تاریخ، هنر، معماری، طبیعت، علم و میراث تمدن‌ها آشنا می‌کند. هدف ما فراهم کردن تجربه‌ای آموزنده، محترمانه و خانوادگی برای همه نسل‌هاست.</p>
+<h1 id="title">به WORLDORA خوش آمدید</h1>
+<p class="intro" id="intro">با یک سفر مجازی، شگفتی‌های جهان را کشف کنید؛ از تمدن‌های باستانی تا شهرهای مدرن، از طبیعت تا هنر و فرهنگ.</p>
 </section>
 
 <section id="explore">
-<h2 class="section-title">جهان را از اینجا کشف کن</h2>
-<input class="search" id="search" placeholder="جست‌وجو در دسته‌بندی‌ها..." oninput="filterCards()">
-<div class="grid" id="categories">
-<div class="card" data-name="تاریخ تمدن"><div class="emoji">🏛️</div><h3>تاریخ و تمدن</h3><p>سفر به گذشته و شناخت تمدن‌های بزرگ.</p></div>
-<div class="card" data-name="موزه"><div class="emoji">🖼️</div><h3>موزه‌ها</h3><p>بازدید مجازی از گنجینه‌های فرهنگی جهان.</p></div>
-<div class="card" data-name="معماری"><div class="emoji">🏰</div><h3>معماری</h3><p>کاخ‌ها، بناها و شاهکارهای معماری.</p></div>
-<div class="card" data-name="طبیعت"><div class="emoji">🌳</div><h3>طبیعت و جغرافیا</h3><p>کوهستان‌ها، جنگل‌ها، دریاها و مناظر طبیعی.</p></div>
-<div class="card" data-name="فرهنگ"><div class="emoji">🌏</div><h3>فرهنگ ملت‌ها</h3><p>آشنایی با زبان‌ها، سنت‌ها و سبک زندگی.</p></div>
-<div class="card" data-name="هنر"><div class="emoji">🎨</div><h3>هنر و آثار تاریخی</h3><p>نقاشی، مجسمه‌سازی و آثار هنری.</p></div>
-<div class="card" data-name="علم فناوری"><div class="emoji">🔬</div><h3>علم و فناوری</h3><p>دستاوردهای علمی و نوآوری‌های بشر.</p></div>
-<div class="card" data-name="شهر"><div class="emoji">🌆</div><h3>شهرهای جهان</h3><p>کشف شهرها و جاذبه‌های شهری.</p></div>
+<h2 id="exploretitle">مقصدهای شگفت‌انگیز جهان</h2>
+<input class="search" id="search" placeholder="جست‌وجوی کشور یا جاذبه..." oninput="filterCards()">
+<div class="cards" id="cards">
+<article class="card" data-name="تخت جمشید persepolis">
+<div class="emoji">🏛️</div><h3>تخت جمشید</h3>
+<p>شکوه تمدن هخامنشی در ایران باستان.</p>
+</article>
+<article class="card" data-name="اهرام مصر pyramids egypt">
+<div class="emoji">🔺</div><h3>اهرام مصر</h3>
+<p>رازهای معماری و تمدن مصر باستان.</p>
+</article>
+<article class="card" data-name="کولوسئوم رم colosseum rome">
+<div class="emoji">🏟️</div><h3>کولوسئوم رم</h3>
+<p>یادگار تاریخی امپراتوری روم.</p>
+</article>
+<article class="card" data-name="موزه لوور louvre paris">
+<div class="emoji">🖼️</div><h3>موزه لوور</h3>
+<p>گنجینه‌ای جهانی از هنر و تاریخ در پاریس.</p>
+</article>
+<article class="card" data-name="کیوتو ژاپن kyoto japan">
+<div class="emoji">⛩️</div><h3>کیوتو ژاپن</h3>
+<p>فرهنگ سنتی، معابد و باغ‌های ژاپنی.</p>
+</article>
+<article class="card" data-name="آکروپولیس یونان acropolis greece">
+<div class="emoji">🏺</div><h3>آکروپولیس یونان</h3>
+<p>میراث معماری و فلسفه یونان باستان.</p>
+</article>
 </div>
 </section>
 
-<section id="destinations">
-<h2 class="section-title">اولین مقاصد WORLDORA</h2>
-<div class="grid">
-<div class="card"><div class="emoji">🇮🇷</div><h3>ایران</h3><p>پرسپولیس، اصفهان، تخت جمشید و تمدن پارسی.</p></div>
-<div class="card"><div class="emoji">🇪🇬</div><h3>مصر</h3><p>اهرام جیزه، معابد و تمدن باستانی مصر.</p></div>
-<div class="card"><div class="emoji">🇮🇹</div><h3>ایتالیا</h3><p>رُم باستان، کولوسئوم و هنر رنسانس.</p></div>
-<div class="card"><div class="emoji">🇫🇷</div><h3>فرانسه</h3><p>پاریس، موزه لوور و معماری تاریخی.</p></div>
-<div class="card"><div class="emoji">🇯🇵</div><h3>ژاپن</h3><p>فرهنگ ژاپنی، معابد و طبیعت شگفت‌انگیز.</p></div>
-<div class="card"><div class="emoji">🇬🇷</div><h3>یونان</h3><p>آتن، آکروپولیس و میراث یونان باستان.</p></div>
-</div>
+<section class="mapbox" id="map">
+<h2 id="maptitle">نقشه جهان</h2>
+<p id="mapintro">برای مشاهده نقشه و کاوش مکان‌های مختلف جهان، از نقشه تعاملی استفاده کنید.</p>
+<a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">باز کردن نقشه تعاملی جهان</a>
 </section>
 
-<section class="banner">
-<h2 class="section-title">یک جهان، هزاران داستان</h2>
-<p>با WORLDORA مرزهای یادگیری و کشف را کنار بزن.</p>
-<a class="btn" href="#home">بازگشت به بالای صفحه</a>
+<section class="mapbox" id="about">
+<h2 id="abouttitle">درباره WORLDORA</h2>
+<p class="intro" id="abouttext">WORLDORA یک پروژه گردشگری مجازی و آموزش جهانی است؛ برای آشنایی با تاریخ، فرهنگ، موزه‌ها، معماری، طبیعت و جاذبه‌های کشورهای جهان.</p>
 </section>
 </main>
 
-<footer>
-<div class="logo">WORLDORA</div>
-<p>The World Is Yours to Explore</p>
-<p>پلتفرم جهانی گردشگری مجازی، فرهنگ و آموزش</p>
-<p>© 2026 WORLDORA. All rights reserved.</p>
-<p>محتوای تصویری و تاریخی باید با رعایت حقوق نشر و اعتبار منابع منتشر شود.</p>
-</footer>
+<footer>WORLDORA © 2026 — The World Is Yours to Explore</footer>
 
 <script>
+const translations={
+fa:{tag:"جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.",home:"خانه",explore:"اکتشاف",map:"نقشه جهان",about:"درباره ما",title:"به WORLDORA خوش آمدید",intro:"با یک سفر مجازی، شگفتی‌های جهان را کشف کنید؛ از تمدن‌های باستانی تا شهرهای مدرن، از طبیعت تا هنر و فرهنگ.",exploretitle:"مقصدهای شگفت‌انگیز جهان",search:"جست‌وجوی کشور یا جاذبه...",mapintro:"برای مشاهده نقشه و کاوش مکان‌های مختلف جهان، از نقشه تعاملی استفاده کنید.",abouttext:"WORLDORA یک پروژه گردشگری مجازی و آموزش جهانی است؛ برای آشنایی با تاریخ، فرهنگ، موزه‌ها، معماری، طبیعت و جاذبه‌های کشورهای جهان.",titles:["تخت جمشید","اهرام مصر","کولوسئوم رم","موزه لوور","کیوتو ژاپن","آکروپولیس یونان"],descs:["شکوه تمدن هخامنشی در ایران باستان.","رازهای معماری و تمدن مصر باستان.","یادگار تاریخی امپراتوری روم.","گنجینه‌ای جهانی از هنر و تاریخ در پاریس.","فرهنگ سنتی، معابد و باغ‌های ژاپنی.","میراث معماری و فلسفه یونان باستان."]},
+en:{tag:"Discover the world, learn history, experience cultures.",home:"Home",explore:"Explore",map:"World Map",about:"About us",title:"Welcome to WORLDORA",intro:"Discover the wonders of the world virtually, from ancient civilizations to modern cities, nature, art and culture.",exploretitle:"Amazing destinations",search:"Search countries or attractions...",mapintro:"Explore places around the world using an interactive map.",abouttext:"WORLDORA is a virtual tourism and global education project exploring history, culture, museums, architecture and nature.",titles:["Persepolis","Egyptian Pyramids","Colosseum of Rome","Louvre Museum","Kyoto, Japan","Acropolis of Greece"],descs:["The glory of ancient Persian civilization.","The mysteries of ancient Egyptian architecture.","A historic monument of the Roman Empire.","A world treasure of art and history in Paris.","Traditional culture, temples and gardens of Japan.","The architectural and philosophical heritage of Greece."]},
+ar:{tag:"اكتشف العالم وتعرّف على التاريخ والثقافات.",home:"الرئيسية",explore:"استكشف",map:"خريطة العالم",about:"من نحن",title:"مرحباً بكم في WORLDORA",intro:"اكتشف عجائب العالم من الحضارات القديمة إلى المدن الحديثة والطبيعة والفنون.",exploretitle:"وجهات مذهلة",search:"ابحث عن بلد أو معلم...",mapintro:"استكشف الأماكن حول العالم عبر خريطة تفاعلية.",abouttext:"WORLDORA مشروع للسياحة الافتراضية والتعليم العالمي.",titles:["برسيبوليس","أهرامات مصر","الكولوسيوم","متحف اللوفر","كيوتو اليابان","أكروبوليس اليونان"],descs:["حضارة فارس القديمة.","أسرار الحضارة المصرية.","أثر الإمبراطورية الرومانية.","كنوز الفن والتاريخ في باريس.","الثقافة والمعابد اليابانية.","تراث اليونان المعماري."]},
+fr:{tag:"Découvrez le monde, son histoire et ses cultures.",home:"Accueil",explore:"Explorer",map:"Carte du monde",about:"À propos",title:"Bienvenue sur WORLDORA",intro:"Découvrez les merveilles du monde, des civilisations anciennes aux villes modernes.",exploretitle:"Destinations remarquables",search:"Rechercher un pays ou un site...",mapintro:"Explorez le monde avec une carte interactive.",abouttext:"WORLDORA est un projet de tourisme virtuel et d'éducation mondiale.",titles:["Persépolis","Pyramides d'Égypte","Colisée de Rome","Musée du Louvre","Kyoto, Japon","Acropole de Grèce"],descs:["La civilisation perse antique.","L'architecture de l'Égypte ancienne.","Un monument de Rome antique.","Un trésor artistique à Paris.","La culture traditionnelle japonaise.","Le patrimoine de la Grèce antique."]},
+de:{tag:"Entdecke die Welt, Geschichte und Kulturen.",home:"Startseite",explore:"Entdecken",map:"Weltkarte",about:"Über uns",title:"Willkommen bei WORLDORA",intro:"Entdecke die Wunder der Welt, von alten Zivilisationen bis zu modernen Städten.",exploretitle:"Besondere Reiseziele",search:"Land oder Sehenswürdigkeit suchen...",mapintro:"Erkunde Orte weltweit mit einer interaktiven Karte.",abouttext:"WORLDORA ist ein Projekt für virtuellen Tourismus und globale Bildung.",titles:["Persepolis","Pyramiden von Gizeh","Kolosseum","Louvre","Kyoto, Japan","Akropolis"],descs:["Die alte persische Zivilisation.","Das alte Ägypten.","Ein Denkmal des Römischen Reiches.","Kunst und Geschichte in Paris.","Traditionelle japanische Kultur.","Das Erbe des antiken Griechenlands."]},
+es:{tag:"Descubre el mundo, su historia y sus culturas.",home:"Inicio",explore:"Explorar",map:"Mapa mundial",about:"Acerca de",title:"Bienvenido a WORLDORA",intro:"Descubre las maravillas del mundo, desde civilizaciones antiguas hasta ciudades modernas.",exploretitle:"Destinos increíbles",search:"Buscar país o atracción...",mapintro:"Explora lugares del mundo con un mapa interactivo.",abouttext:"WORLDORA es un proyecto de turismo virtual y educación global.",titles:["Persépolis","Pirámides de Egipto","Coliseo de Roma","Museo del Louvre","Kioto, Japón","Acrópolis"],descs:["La antigua civilización persa.","La arquitectura del antiguo Egipto.","Un monumento de Roma.","Arte e historia en París.","Cultura tradicional japonesa.","Patrimonio de la antigua Grecia."]},
+zh:{tag:"探索世界，了解历史，体验文化。",home:"首页",explore:"探索",map:"世界地图",about:"关于我们",title:"欢迎来到 WORLDORA",intro:"从古代文明到现代城市，探索世界奇观。",exploretitle:"精彩目的地",search:"搜索国家或景点...",mapintro:"通过互动地图探索世界各地。",abouttext:"WORLDORA 是一个虚拟旅游和全球教育项目。",titles:["波斯波利斯","埃及金字塔","罗马斗兽场","卢浮宫","日本京都","希腊卫城"],descs:["古波斯文明。","古埃及建筑。","罗马帝国遗迹。","巴黎艺术与历史宝藏。","日本传统文化。","古希腊遗产。"]},
+ja:{tag:"世界を発見し、歴史と文化を学ぼう。",home:"ホーム",explore:"探検",map:"世界地図",about:"概要",title:"WORLDORAへようこそ",intro:"古代文明から現代都市まで、世界の驚異を発見しましょう。",exploretitle:"魅力的な目的地",search:"国や観光地を検索...",mapintro:"インタラクティブ地図で世界を探索しましょう。",abouttext:"WORLDORAはバーチャル観光と世界教育のプロジェクトです。",titles:["ペルセポリス","エジプトのピラミッド","コロッセオ","ルーブル美術館","京都","アクロポリス"],descs:["古代ペルシャ文明。","古代エジプト建築。","ローマ帝国の遺跡。","パリの芸術と歴史。","日本の伝統文化。","古代ギリシャの遺産。"]},
+ru:{tag:"Открой мир, узнай историю и культуры.",home:"Главная",explore:"Исследовать",map:"Карта мира",about:"О проекте",title:"Добро пожаловать в WORLDORA",intro:"Откройте чудеса мира от древних цивилизаций до современных городов.",exploretitle:"Удивительные места",search:"Поиск страны или достопримечательности...",mapintro:"Исследуйте мир с помощью интерактивной карты.",abouttext:"WORLDORA — проект виртуального туризма и мирового образования.",titles:["Персеполь","Пирамиды Египта","Колизей","Лувр","Киото","Акрополь"],descs:["Древняя персидская цивилизация.","Архитектура Древнего Египта.","Памятник Римской империи.","Искусство и история Парижа.","Традиционная культура Японии.","Наследие Древней Греции."]},
+tr:{tag:"Dünyayı keşfet, tarihi ve kültürleri öğren.",home:"Ana sayfa",explore:"Keşfet",map:"Dünya haritası",about:"Hakkımızda",title:"WORLDORA'ya hoş geldiniz",intro:"Antik uygarlıklardan modern şehirlere dünyanın harikalarını keşfedin.",exploretitle:"Harika destinasyonlar",search:"Ülke veya yer ara...",mapintro:"Etkileşimli haritayla dünyayı keşfedin.",abouttext:"WORLDORA sanal turizm ve küresel eğitim projesidir.",titles:["Persepolis","Mısır Piramitleri","Kolezyum","Louvre Müzesi","Kyoto","Akropolis"],descs:["Antik Pers uygarlığı.","Antik Mısır mimarisi.","Roma İmparatorluğu anıtı.","Paris'te sanat ve tarih.","Geleneksel Japon kültürü.","Antik Yunan mirası."]},
+hi:{tag:"दुनिया की खोज करें, इतिहास और संस्कृतियों को जानें।",home:"होम",explore:"खोजें",map:"विश्व मानचित्र",about:"हमारे बारे में",title:"WORLDORA में आपका स्वागत है",intro:"प्राचीन सभ्यताओं से आधुनिक शहरों तक दुनिया के आश्चर्यों को जानें।",exploretitle:"अद्भुत स्थान",search:"देश या स्थान खोजें...",mapintro:"इंटरैक्टिव मानचित्र से दुनिया देखें।",abouttext:"WORLDORA आभासी पर्यटन और वैश्विक शिक्षा की परियोजना है।",titles:["पर्सेपोलिस","मिस्र के पिरामिड","कालीज़ीयम","लूव्र संग्रहालय","क्योटो","एक्रोपोलिस"],descs:["प्राचीन फ़ारसी सभ्यता।","प्राचीन मिस्र की वास्तुकला।","रोमन साम्राज्य का स्मारक।","पेरिस की कला और इतिहास।","जापान की पारंपरिक संस्कृति।","प्राचीन यूनान की विरासत।"]},
+pt:{tag:"Descubra o mundo, a história e as culturas.",home:"Início",explore:"Explorar",map:"Mapa mundial",about:"Sobre nós",title:"Bem-vindo ao WORLDORA",intro:"Descubra as maravilhas do mundo, das civilizações antigas às cidades modernas.",exploretitle:"Destinos incríveis",search:"Pesquisar país ou atração...",mapintro:"Explore o mundo com um mapa interativo.",abouttext:"WORLDORA é um projeto de turismo virtual e educação global.",titles:["Persépolis","Pirâmides do Egito","Coliseu de Roma","Museu do Louvre","Quioto","Acrópole"],descs:["Civilização persa antiga.","Arquitetura do Egito antigo.","Monumento do Império Romano.","Arte e história em Paris.","Cultura tradicional japonesa.","Herança da Grécia antiga."]}
+};
+
+function changeLanguage(lang){
+const t=translations[lang]||translations.fa;
+document.documentElement.lang=lang;
+document.documentElement.dir=lang==="fa"||lang==="ar"||lang==="ur"?"rtl":"ltr";
+const ids={tag:"tag",navhome:"home",navexplore:"explore",navmap:"map",navabout:"about",title:"title",intro:"intro",exploretitle:"exploretitle",mapintro:"mapintro",abouttext:"abouttext"};
+Object.keys(ids).forEach(id=>document.getElementById(id).textContent=t[ids[id]]);
+document.getElementById("search").placeholder=t.search;
+document.querySelectorAll("#cards .card").forEach((card,i)=>{
+card.querySelector("h3").textContent=t.titles[i];
+card.querySelector("p").textContent=t.descs[i];
+});
+document.getElementById("maptitle").textContent=t.map;
+document.getElementById("abouttitle").textContent=t.about;
+}
 function filterCards(){
-const q=document.getElementById('search').value.trim().toLowerCase();
-document.querySelectorAll('#categories .card').forEach(card=>{
-card.classList.toggle('hidden',!card.innerText.toLowerCase().includes(q));
+const q=document.getElementById("search").value.toLowerCase();
+document.querySelectorAll("#cards .card").forEach(card=>{
+card.style.display=card.textContent.toLowerCase().includes(q)||card.dataset.name.includes(q)?"block":"none";
 });
 }
+changeLanguage("fa");
 </script>
 </body>
 </html>
