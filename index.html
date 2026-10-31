@@ -4,6 +4,191 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="WORLDORA - Explore the world, history and cultures.">
+<title>WORLDORA | The World Is Yours to Explore</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#081426;color:#f4f1e8;font-family:Tahoma,Arial,sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 6%;background:#0d1d33;border-bottom:1px solid #b99555;flex-wrap:wrap;gap:12px}
+.logo{font-size:25px;font-weight:bold;color:#e5bd70;letter-spacing:2px}
+button{cursor:pointer;border:0;border-radius:8px;padding:11px 17px;font-weight:bold}
+.lang{background:#e5bd70;color:#081426}
+nav{display:flex;gap:18px;flex-wrap:wrap}
+nav a{color:#fff;text-decoration:none;font-size:14px}
+.hero{text-align:center;padding:85px 20px;background:linear-gradient(135deg,#102b4a,#081426)}
+.hero h1{font-size:42px;color:#e5bd70;margin:0 0 18px}
+.hero p{font-size:18px;line-height:2;color:#ddd}
+.section{padding:45px 6%}
+.section h2{text-align:center;color:#e5bd70;font-size:27px}
+.intro{text-align:center;line-height:2;color:#ddd;max-width:850px;margin:20px auto}
+.search{display:block;width:100%;max-width:550px;margin:25px auto;padding:15px;border-radius:9px;border:1px solid #b99555;background:#14243a;color:white;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.card{background:#14243a;border:1px solid #334b68;border-radius:12px;padding:22px;transition:.2s}
+.card:hover{border-color:#e5bd70;transform:translateY(-3px)}
+.card .emoji{font-size:38px}
+.card h3{color:#e5bd70}
+.card p{line-height:1.9;color:#ddd;font-size:14px}
+.card a{color:#e5bd70;text-decoration:none}
+#map{height:420px;border-radius:12px;border:2px solid #b99555;z-index:1}
+footer{text-align:center;padding:30px;background:#050d19;color:#aaa;line-height:2}
+@media(max-width:600px){.hero h1{font-size:30px}header{justify-content:center}nav{justify-content:center}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">🌍 WORLDORA</div>
+<nav>
+<a href="#home" data-fa="خانه" data-en="Home">خانه</a>
+<a href="#discover" data-fa="اکتشاف" data-en="Discover">اکتشاف</a>
+<a href="#map-section" data-fa="نقشه جهان" data-en="World Map">نقشه جهان</a>
+<a href="#about" data-fa="درباره ما" data-en="About">درباره ما</a>
+</nav>
+<button class="lang" onclick="toggleLanguage()">English</button>
+</header>
+
+<main>
+<section class="hero" id="home">
+<h1>WORLDORA</h1>
+<p id="tagline">جهان از آن توست؛ کشف کن، بیاموز و تجربه کن.</p>
+<p id="hero-desc">سفری دیجیتال به تاریخ، فرهنگ، طبیعت و شگفتی‌های جهان.</p>
+</section>
+
+<section class="section" id="discover">
+<h2 id="discover-title">جهان را کشف کن</h2>
+<p class="intro" id="discover-intro">از تمدن‌های باستانی تا شهرهای مدرن، از موزه‌ها تا طبیعت شگفت‌انگیز؛ جهان را از اینجا بشناس.</p>
+<input class="search" id="search" placeholder="نام کشور یا جاذبه را جست‌وجو کن..." oninput="filterCards()">
+<div class="grid" id="cards">
+<article class="card" data-search="ایران پرسپولیس تخت جمشید iran persepolis">
+<div class="emoji">🏛️</div><h3 data-fa="تخت جمشید، ایران" data-en="Persepolis, Iran">تخت جمشید، ایران</h3>
+<p data-fa="یکی از باشکوه‌ترین آثار تمدن هخامنشی و میراث تاریخی ایران." data-en="A magnificent monument of the ancient Achaemenid Empire.">یکی از باشکوه‌ترین آثار تمدن هخامنشی و میراث تاریخی ایران.</p>
+<a href="https://en.wikipedia.org/wiki/Persepolis" target="_blank">معرفی بیشتر ↗</a>
+</article>
+<article class="card" data-search="مصر اهرام جیزه egypt giza pyramids">
+<div class="emoji">🔺</div><h3 data-fa="اهرام جیزه، مصر" data-en="Giza Pyramids, Egypt">اهرام جیزه، مصر</h3>
+<p data-fa="شاهکارهای معماری و مهندسی تمدن مصر باستان." data-en="Architectural wonders of ancient Egyptian civilization.">شاهکارهای معماری و مهندسی تمدن مصر باستان.</p>
+<a href="https://en.wikipedia.org/wiki/Giza_pyramid_complex" target="_blank">معرفی بیشتر ↗</a>
+</article>
+<article class="card" data-search="ایتالیا کولوسئوم رم italy colosseum rome">
+<div class="emoji">🏟️</div><h3 data-fa="کولوسئوم، ایتالیا" data-en="Colosseum, Italy">کولوسئوم، ایتالیا</h3>
+<p data-fa="آمفی‌تئاتر تاریخی و نماد تمدن روم باستان." data-en="The iconic amphitheatre of ancient Rome.">آمفی‌تئاتر تاریخی و نماد تمدن روم باستان.</p>
+<a href="https://en.wikipedia.org/wiki/Colosseum" target="_blank">معرفی بیشتر ↗</a>
+</article>
+<article class="card" data-search="فرانسه موزه لوور paris france louvre">
+<div class="emoji">🖼️</div><h3 data-fa="موزه لوور، فرانسه" data-en="Louvre Museum, France">موزه لوور، فرانسه</h3>
+<p data-fa="یکی از مشهورترین موزه‌های هنری و تاریخی جهان." data-en="One of the world's most famous art and history museums.">یکی از مشهورترین موزه‌های هنری و تاریخی جهان.</p>
+<a href="https://www.louvre.fr/en" target="_blank">وب‌سایت موزه ↗</a>
+</article>
+<article class="card" data-search="ژاپن کیوتو japan kyoto">
+<div class="emoji">⛩️</div><h3 data-fa="کیوتو، ژاپن" data-en="Kyoto, Japan">کیوتو، ژاپن</h3>
+<p data-fa="شهری تاریخی با معابد، باغ‌ها و معماری سنتی ژاپنی." data-en="A historic city of temples, gardens and traditional architecture.">شهری تاریخی با معابد، باغ‌ها و معماری سنتی ژاپنی.</p>
+<a href="https://en.wikipedia.org/wiki/Kyoto" target="_blank">معرفی بیشتر ↗</a>
+</article>
+<article class="card" data-search="یونان آکروپولیس آتن greece athens acropolis">
+<div class="emoji">🏛️</div><h3 data-fa="آکروپولیس، یونان" data-en="Acropolis, Greece">آکروپولیس، یونان</h3>
+<p data-fa="نماد هنر، معماری و تمدن یونان باستان." data-en="A landmark of ancient Greek art and civilization.">نماد هنر، معماری و تمدن یونان باستان.</p>
+<a href="https://en.wikipedia.org/wiki/Acropolis_of_Athens" target="_blank">معرفی بیشتر ↗</a>
+</article>
+</div>
+</section>
+
+<section class="section" id="map-section">
+<h2 id="map-title">نقشه تعاملی جهان</h2>
+<p class="intro" id="map-intro">روی نشانگرهای نقشه بزن تا با مقصدهای منتخب آشنا شوی.</p>
+<div id="map"></div>
+</section>
+
+<section class="section" id="about">
+<h2 id="about-title">درباره WORLDORA</h2>
+<p class="intro" id="about-text">WORLDORA یک پروژه گردشگری مجازی و آموزش فرهنگی است. هدف ما فراهم کردن دسترسی آسان و جذاب به تاریخ، میراث، هنر، طبیعت و فرهنگ ملت‌های جهان است؛ برای همه خانواده‌ها و نسل‌ها.</p>
+</section>
+</main>
+
+<footer>
+<strong>WORLDORA 🌍</strong><br>
+The World Is Yours to Explore<br>
+© 2026 WORLDORA
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+let language="fa";
+
+function toggleLanguage(){
+ language=language==="fa"?"en":"fa";
+ document.documentElement.lang=language;
+ document.documentElement.dir=language==="fa"?"rtl":"ltr";
+ document.querySelector(".lang").textContent=language==="fa"?"English":"فارسی";
+ document.querySelectorAll("[data-fa]").forEach(el=>{
+  el.textContent=el.getAttribute("data-"+language);
+ });
+ const texts={
+ fa:{
+ tagline:"جهان از آن توست؛ کشف کن، بیاموز و تجربه کن.",
+ hero:"سفری دیجیتال به تاریخ، فرهنگ، طبیعت و شگفتی‌های جهان.",
+ discover:"جهان را کشف کن",
+ intro:"از تمدن‌های باستانی تا شهرهای مدرن، از موزه‌ها تا طبیعت شگفت‌انگیز؛ جهان را از اینجا بشناس.",
+ search:"نام کشور یا جاذبه را جست‌وجو کن...",
+ map:"نقشه تعاملی جهان",
+ mapintro:"روی نشانگرهای نقشه بزن تا با مقصدهای منتخب آشنا شوی.",
+ about:"درباره WORLDORA",
+ abouttext:"WORLDORA یک پروژه گردشگری مجازی و آموزش فرهنگی است. هدف ما فراهم کردن دسترسی آسان و جذاب به تاریخ، میراث، هنر، طبیعت و فرهنگ ملت‌های جهان است؛ برای همه خانواده‌ها و نسل‌ها."
+ },
+ en:{
+ tagline:"The World Is Yours to Explore.",
+ hero:"A digital journey through history, culture, nature and the wonders of our world.",
+ discover:"Discover the World",
+ intro:"From ancient civilizations to modern cities, from museums to extraordinary nature — explore the world here.",
+ search:"Search for a country or attraction...",
+ map:"Interactive World Map",
+ mapintro:"Select a marker to explore a featured destination.",
+ about:"About WORLDORA",
+ abouttext:"WORLDORA is a virtual tourism and cultural education project. Our mission is to make the history, heritage, art, nature and cultures of the world accessible and engaging for families and generations."
+ }};
+ document.getElementById("tagline").textContent=texts[language].tagline;
+ document.getElementById("hero-desc").textContent=texts[language].hero;
+ document.getElementById("discover-title").textContent=texts[language].discover;
+ document.getElementById("discover-intro").textContent=texts[language].intro;
+ document.getElementById("search").placeholder=texts[language].search;
+ document.getElementById("map-title").textContent=texts[language].map;
+ document.getElementById("map-intro").textContent=texts[language].mapintro;
+ document.getElementById("about-title").textContent=texts[language].about;
+ document.getElementById("about-text").textContent=texts[language].abouttext;
+}
+
+function filterCards(){
+ const q=document.getElementById("search").value.toLowerCase();
+ document.querySelectorAll("#cards .card").forEach(card=>{
+  card.style.display=card.dataset.search.toLowerCase().includes(q)?"block":"none";
+ });
+}
+
+const map=L.map("map").setView([25,25],2);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+ attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+const places=[
+ {name:"تخت جمشید | Persepolis",lat:29.9352,lon:52.8916},
+ {name:"اهرام جیزه | Giza Pyramids",lat:29.9792,lon:31.1342},
+ {name:"کولوسئوم | Colosseum",lat:41.8902,lon:12.4922},
+ {name:"موزه لوور | Louvre Museum",lat:48.8606,lon:2.3376},
+ {name:"کیوتو | Kyoto",lat:35.0116,lon:135.7681},
+ {name:"آکروپولیس | Acropolis",lat:37.9715,lon:23.7257}
+];
+places.forEach(p=>{
+ L.marker([p.lat,p.lon]).addTo(map).bindPopup("<b>"+p.name+"</b>");
+});
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="WORLDORA؛ جهان را کشف کن، تاریخ را بشناس و فرهنگ‌ها را تجربه کن.">
 <title>WORLDORA | The World Is Yours to Explore</title>
