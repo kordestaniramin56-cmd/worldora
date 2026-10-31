@@ -1,4 +1,17 @@
-<button class="lang" onclick="toggleLanguage()">English</button>
+<select class="lang" onchange="setLanguage(this.value)" aria-label="Select language">
+<option value="fa">🇮🇷 فارسی</option>
+<option value="en" selected>🇬🇧 English</option>
+<option value="ar">🇸🇦 العربية</option>
+<option value="fr">🇫🇷 Français</option>
+<option value="de">🇩🇪 Deutsch</option>
+<option value="es">🇪🇸 Español</option>
+<option value="zh">🇨🇳 中文</option>
+<option value="ja">🇯🇵 日本語</option>
+<option value="ru">🇷🇺 Русский</option>
+<option value="tr">🇹🇷 Türkçe</option>
+<option value="hi">🇮🇳 हिन्दी</option>
+<option value="pt">🇵🇹 Português</option>
+</select><button class="lang" onclick="toggleLanguage()">English</button>
 
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
