@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -828,3 +827,147 @@ footer strong {color:var(--gold)}
 }
 </style>
 </head>
+ 
+<style>
+#heritage .heritage-card{
+ background:#10243c;border:1px solid #2a425e;
+ border-radius:13px;overflow:hidden;cursor:pointer;
+ transition:.2s
+}
+#heritage .heritage-card:hover{border-color:#e5bd70;transform:translateY(-3px)}
+#heritage .heritage-card img{width:100%;height:175px;object-fit:cover;background:#142b45}
+#heritage .heritage-card .heritage-info{padding:13px}
+#heritage .heritage-card h3{color:#e5bd70;margin:0 0 6px}
+#heritage .heritage-card p{color:#aebdd0;font-size:13px}
+#heritage .heritage-detail{line-height:1.9;color:#f6f2e9}
+#heritage .heritage-detail img{width:100%;max-height:320px;object-fit:cover;border-radius:10px}
+#heritage .heritage-detail a{color:#e5bd70}
+#heritage .heritage-loading{color:#e5bd70;padding:20px}
+</style>
+
+<section id="heritage">
+ <div class="wrap">
+  <div class="heading">
+   <div>
+    <h2>🏛️ مکان‌های تاریخی جهان</h2>
+    <p>از تمدن‌های باستانی تا میراث جهانی بشر</p>
+   </div>
+  </div>
+  <div class="grid" id="heritageGrid"></div>
+ </div>
+</section>
+
+<script>
+const heritagePlaces=[
+ {id:"Persepolis",fa:"تخت جمشید",en:"Persepolis",country:"ایران",icon:"🏛️"},
+ {id:"Great_Wall_of_China",fa:"دیوار بزرگ چین",en:"Great Wall of China",country:"چین",icon:"🏯"},
+ {id:"Pyramids_of_Giza",fa:"اهرام جیزه",en:"Pyramids of Giza",country:"مصر",icon:"🔺"},
+ {id:"Colosseum",fa:"کولوسئوم",en:"Colosseum",country:"ایتالیا",icon:"🏟️"},
+ {id:"Petra",fa:"شهر پترا",en:"Petra",country:"اردن",icon:"🏜️"},
+ {id:"Taj_Mahal",fa:"تاج محل",en:"Taj Mahal",country:"هند",icon:"🕌"},
+ {id:"Machu_Picchu",fa:"ماچو پیچو",en:"Machu Picchu",country:"پرو",icon:"⛰️"},
+ {id:"Acropolis_of_Athens",fa:"آکروپولیس آتن",en:"Acropolis of Athens",country:"یونان",icon:"🏛️"},
+ {id:"Angkor_Wat",fa:"آنگکور وات",en:"Angkor Wat",country:"کامبوج",icon:"🛕"},
+ {id:"Stonehenge",fa:"استون‌هنج",en:"Stonehenge",country:"بریتانیا",icon:"🗿"},
+ {id:"Chichen_Itza",fa:"چیچن ایتزا",en:"Chichen Itza",country:"مکزیک",icon:"🌎"},
+ {id:"Hagia_Sophia",fa:"ایاصوفیه",en:"Hagia Sophia",country:"ترکیه",icon:"🕌"}
+];
+
+const heritageGrid=document.getElementById("heritageGrid");
+
+function heritageTitle(p){
+ return lang==="fa"?p.fa:p.en;
+}
+
+function renderHeritage(){
+ heritageGrid.innerHTML=heritagePlaces.map(p=>`
+ <article class="heritage-card" data-heritage="${p.id}">
+  <div style="height:175px;display:flex;align-items:center;justify-content:center;font-size:65px;background:#142b45">
+   ${p.icon}
+  </div>
+  <div class="heritage-info">
+   <h3>${heritageTitle(p)}</h3>
+   <p>${p.country}</p>
+   <button class="gold" type="button">مشاهده تاریخ و اطلاعات</button>
+  </div>
+ </article>`).join("");
+
+ heritageGrid.querySelectorAll("[data-heritage]").forEach(card=>{
+  card.addEventListener("click",()=>{
+   showHeritage(card.dataset.heritage);
+  });
+ });
+}
+
+async function showHeritage(id){
+ const p=heritagePlaces.find(x=>x.id===id);
+ if(!p)return;
+
+ const modal=document.getElementById("modal");
+ const title=document.getElementById("modalTitle");
+ const content=document.getElementById("modalContent");
+
+ title.textContent=heritageTitle(p);
+ content.innerHTML='<div class="heritage-loading">در حال دریافت اطلاعات تاریخی و تصاویر...</div>';
+ modal.classList.add("open");
+
+ const wikiLang=lang==="fa"?"fa":lang;
+ const searchTitle=lang==="fa"?p.fa:p.en;
+
+ try{
+  const url="https://"+wikiLang+
+   ".wikipedia.org/api/rest_v1/page/summary/"+
+   encodeURIComponent(searchTitle);
+
+  let response=await fetch(url);
+
+  if(!response.ok && wikiLang!=="en"){
+   response=await fetch(
+    "https://en.wikipedia.org/api/rest_v1/page/summary/"+
+    encodeURIComponent(p.en)
+   );
+  }
+
+  if(!response.ok)throw new Error("Information unavailable");
+
+  const data=await response.json();
+
+  if(!modal.classList.contains("open"))return;
+
+  const image=data.originalimage?.source||data.thumbnail?.source||"";
+  const description=data.description||"";
+  const extract=data.extract||"اطلاعاتی برای این مکان دریافت نشد.";
+  const page=data.content_urls?.desktop?.page||
+   "https://"+wikiLang+".wikipedia.org/wiki/"+encodeURIComponent(p.en);
+
+  content.innerHTML=`
+   <div class="heritage-detail">
+    ${image?`<img src="${image}" alt="${p.en}">`:
+     `<div style="font-size:55px;text-align:center">${p.icon}</div>`}
+    <h2 style="color:#e5bd70">${data.title||heritageTitle(p)}</h2>
+    <p style="color:#e5bd70">${p.country}</p>
+    ${description?`<p>${description}</p>`:""}
+    <p>${extract}</p>
+    <p><strong>منبع اطلاعات:</strong>
+     <a href="${page}" target="_blank" rel="noopener noreferrer">
+      مطالعه در ویکی‌پدیا
+     </a>
+    </p>
+   </div>`;
+ }catch(error){
+  if(!modal.classList.contains("open"))return;
+  content.innerHTML=`
+   <div class="heritage-detail">
+    <h3 style="color:#e5bd70">${p.fa}</h3>
+    <p>در حال حاضر دریافت اطلاعات آنلاین امکان‌پذیر نیست.</p>
+    <p>اتصال اینترنت را بررسی و دوباره تلاش کن.</p>
+    <button class="gold" onclick="showHeritage('${p.id}')">تلاش مجدد</button>
+   </div>`;
+ }
+}
+
+renderHeritage();
+</script>
+</body>
+</html>
+
