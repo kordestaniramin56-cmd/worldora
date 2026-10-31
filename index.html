@@ -1,930 +1,424 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#081426">
-<title>WORLDORA | Explore the World</title>
-<meta name="description" content="Explore countries, history, culture and the world with WORLDORA.">
+<title>WORLDORA | The World Is Yours to Explore</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-:root{--bg:#081426;--panel:#10243c;--gold:#e5bd70;--text:#f6f2e9;--muted:#aebdd0;--border:#2a425e}
+:root{--bg:#081426;--panel:#10243c;--gold:#e5bd70;--txt:#f6f2e9;--muted:#aebdd0;--line:#2a425e}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Tahoma,sans-serif;line-height:1.7}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px Arial,Tahoma;line-height:1.7}
 button,input,select{font:inherit}
 button{cursor:pointer}
 .wrap{width:min(1180px,92%);margin:auto}
-header{position:sticky;top:0;z-index:1000;background:#081426;border-bottom:1px solid var(--border)}
-nav{display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:70px;flex-wrap:wrap}
-.logo{font-size:25px;font-weight:900;letter-spacing:2px;color:var(--gold)}
+header{position:sticky;top:0;background:#081426;border-bottom:1px solid var(--line);z-index:10}
+nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{font-size:25px;font-weight:bold;color:var(--gold);text-decoration:none}
 .logo span{color:white}
 .links{display:flex;gap:14px;flex-wrap:wrap}
-.links a{font-size:13px;color:white;text-decoration:none}
-.links a:hover{color:var(--gold)}
-select,.secondary{background:var(--panel);color:white;border:1px solid var(--border);border-radius:8px;padding:9px}
-.hero{text-align:center;padding:65px 12px;background:radial-gradient(ellipse at top,#1c3959,#081426 70%)}
-.eyebrow{color:var(--gold);letter-spacing:3px;font-size:12px}
-.hero h1{font-size:clamp(44px,9vw,82px);color:var(--gold);letter-spacing:5px;line-height:1.2;margin:12px}
-.hero h2{font-size:clamp(18px,3vw,27px);font-weight:500}
-.hero p{max-width:750px;color:var(--muted);margin:12px auto}
-.search{max-width:760px;margin:25px auto 0;display:flex;gap:8px;padding:8px;background:var(--panel);border:1px solid var(--border);border-radius:12px}
-.search input{flex:1;min-width:0;background:transparent;color:white;border:0;outline:0;padding:12px}
-.gold{background:var(--gold);color:#182437;border:0;border-radius:8px;padding:11px 20px;font-weight:bold}
-section{padding:42px 0}
-.heading{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.heading h2{margin:0;color:var(--gold);font-size:26px}
-.heading p,.note,.status{color:var(--muted);font-size:13px}
-.filters{display:flex;gap:9px;flex-wrap:wrap;margin:17px 0}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
-.country,.feature{background:var(--panel);border:1px solid var(--border);border-radius:13px;overflow:hidden}
-.country:hover,.feature:hover{border-color:var(--gold)}
-.flag{height:120px;display:flex;align-items:center;justify-content:center;background:#142b45}
-.flag img{max-width:85%;max-height:90px;object-fit:contain}
-.countrybody{padding:13px}
-.country h3{color:var(--gold);margin:0;font-size:18px}
-.country p,.feature p{color:var(--muted);font-size:13px}
-.country button{width:100%;margin-top:10px}
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-.feature{padding:20px}
-.feature .icon{font-size:30px}
+.links a{color:white;text-decoration:none;font-size:13px}
+.hero{text-align:center;padding:55px 12px;background:radial-gradient(ellipse at top,#1c3959,#081426 70%)}
+.hero h1{font-size:clamp(44px,9vw,82px);color:var(--gold);margin:10px}
+.hero h2{font-weight:500}
+.hero p,.muted{color:var(--muted)}
+.search,.tools{display:flex;gap:8px;flex-wrap:wrap;margin:20px auto;max-width:760px}
+.search input,.tools input{flex:1;min-width:180px;background:var(--panel);color:white;border:1px solid var(--line);padding:12px;border-radius:8px}
+.gold{background:var(--gold);color:#182437;border:0;border-radius:8px;padding:10px 17px;font-weight:bold}
+select{background:var(--panel);color:white;border:1px solid var(--line);padding:9px;border-radius:8px}
+section{padding:38px 0}
+.heading{margin-bottom:18px}
+.heading h2{color:var(--gold);margin:0}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.card:hover{border-color:var(--gold)}
+.cardbody{padding:13px}
+.card h3{color:var(--gold);margin:0}
+.card p{color:var(--muted);font-size:13px}
+.flag{height:115px;background:#142b45;display:grid;place-items:center}
+.flag img{max-width:85%;max-height:90px}
+.card button{width:100%;margin-top:8px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.feature{padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
 .feature h3{color:var(--gold)}
-#worldMap{height:410px;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
-.ai{padding:23px;background:linear-gradient(135deg,#172e49,#0c1b2e);border:1px solid #8c744c;border-radius:15px}
-.ai h2{color:var(--gold)}
-.chat{background:#081426;border:1px solid var(--border);border-radius:10px;padding:12px;min-height:100px;max-height:260px;overflow:auto}
-.message{padding:9px 12px;border-radius:9px;margin:8px 0;white-space:pre-wrap}
+#worldMap{height:380px;border:1px solid var(--line);border-radius:12px}
+.ai{padding:20px;background:var(--panel);border:1px solid #8c744c;border-radius:14px}
+.chat{background:var(--bg);padding:12px;border:1px solid var(--line);border-radius:8px;max-height:250px;overflow:auto}
+.message{padding:9px;margin:7px 0;border-radius:8px;white-space:pre-wrap}
 .bot{background:#18324e}
-.user{background:#51432c;margin-inline-start:auto;max-width:90%}
-.chatrow{display:flex;gap:8px;margin-top:10px}
-.chatrow input{flex:1;min-width:0;background:#081426;color:white;border:1px solid var(--border);border-radius:8px;padding:11px}
-footer{text-align:center;padding:28px;border-top:1px solid var(--border);color:var(--muted)}
-footer strong{color:var(--gold)}
-.modal{display:none;position:fixed;inset:0;z-index:2000;background:#000b;align-items:center;justify-content:center;padding:15px}
+.user{background:#51432c}
+.chatrow{display:flex;gap:8px;margin-top:9px}
+.chatrow input{flex:1;min-width:0;background:var(--bg);color:white;border:1px solid var(--line);padding:10px;border-radius:8px}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:30;align-items:center;justify-content:center;padding:12px}
 .modal.open{display:flex}
-.modalbox{width:min(680px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--gold);border-radius:14px;padding:20px}
+.modalbox{background:var(--panel);border:1px solid var(--gold);border-radius:13px;padding:18px;width:min(720px,100%);max-height:90vh;overflow:auto}
 .modalhead{display:flex;justify-content:space-between;align-items:center}
 .modalhead h2{color:var(--gold)}
-.close{font-size:27px;background:none;border:0;color:white}
-.details{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.detail{padding:11px;background:#0b1a2d;border:1px solid var(--border);border-radius:8px;overflow-wrap:anywhere}
+.close{background:none;color:white;border:0;font-size:28px}
+.details{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.detail{background:#0b1a2d;padding:10px;border:1px solid var(--line);border-radius:8px;overflow-wrap:anywhere}
 .detail small{display:block;color:var(--gold)}
-@media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:650px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.features{grid-template-columns:1fr}.search{flex-direction:column}#worldMap{height:320px}.details{grid-template-columns:1fr}}
+.history-img{width:100%;max-height:330px;object-fit:cover;border-radius:9px}
+.history-text{line-height:1.9}
+.history-text a{color:var(--gold)}
+footer{text-align:center;padding:25px;border-top:1px solid var(--line);color:var(--muted)}
+footer b{color:var(--gold)}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){.grid{grid-template-columns:repeat(2,1fr)}.features{grid-template-columns:1fr}#worldMap{height:300px}.details{grid-template-columns:1fr}}
 @media(max-width:370px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><nav>
+
+<header>
+<div class="wrap">
+<nav>
 <a class="logo" href="#">WORLD<span>ORA</span></a>
 <div class="links">
-<a href="#countries" data-t="countries">کشورها</a>
-<a href="#discover" data-t="discover">اکتشاف</a>
-<a href="#map" data-t="map">نقشه جهان</a>
-<a href="#guide" data-t="guide">راهنما</a>
+<a href="#countries">کشورها</a>
+<a href="#discover">اکتشاف</a>
+<a href="#history">تاریخ</a>
+<a href="#map">نقشه</a>
+<a href="#guide">راهنما</a>
 </div>
-<select id="language" aria-label="Language">
-<option value="fa">فارسی</option><option value="en">English</option>
-<option value="ar">العربية</option><option value="fr">Français</option>
-<option value="de">Deutsch</option><option value="es">Español</option>
-<option value="zh">中文</option><option value="ja">日本語</option>
-<option value="ru">Русский</option><option value="tr">Türkçe</option>
-<option value="hi">हिन्दी</option><option value="pt">Português</option>
+<select id="language">
+<option value="fa">فارسی</option>
+<option value="en">English</option>
+<option value="ar">العربية</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+<option value="es">Español</option>
+<option value="zh">中文</option>
+<option value="ja">日本語</option>
+<option value="ru">Русский</option>
+<option value="tr">Türkçe</option>
+<option value="hi">हिन्दी</option>
+<option value="pt">Português</option>
 </select>
-</nav></div></header>
+</nav>
+</div>
+</header>
 
 <main>
 <section class="hero">
-<div class="eyebrow">EXPLORE • DISCOVER • EXPERIENCE</div>
+<div style="color:var(--gold);letter-spacing:3px">EXPLORE • DISCOVER • EXPERIENCE</div>
 <h1>WORLDORA</h1>
-<h2 data-t="slogan">جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.</h2>
-<p data-t="intro">سفری جهانی میان کشورها، تمدن‌ها، طبیعت، هنر، معماری و میراث بشری.</p>
+<h2>جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.</h2>
+<p>سفری جهانی میان کشورها، تمدن‌ها، طبیعت، هنر، معماری و میراث بشری.</p>
 <div class="search">
-<input id="searchInput" data-ph="search" placeholder="نام کشور یا پایتخت را جست‌وجو کن...">
-<button class="gold" id="searchBtn" data-t="searchBtn">جست‌وجو</button>
+<input id="countrySearch" placeholder="نام کشور یا پایتخت را جست‌وجو کن...">
+<button class="gold" id="searchBtn">جست‌وجو</button>
 </div>
 </section>
 
-<section id="countries"><div class="wrap">
-<div class="heading"><div><h2 data-t="countriesTitle">کشورهای جهان</h2><p data-t="countriesSub">اطلاعات کشورها را کشف کن.</p></div><strong id="count"></strong></div>
-<div class="filters">
+<section id="countries">
+<div class="wrap">
+<div class="heading">
+<h2>کشورهای جهان</h2>
+<p class="muted">اطلاعات کشورها را کشف کن.</p>
+<b id="count"></b>
+</div>
+<div class="tools">
 <select id="region">
-<option value="" data-t="allRegions">تمام مناطق</option>
-<option value="Africa">Africa</option><option value="Americas">Americas</option>
-<option value="Asia">Asia</option><option value="Europe">Europe</option>
-<option value="Oceania">Oceania</option>
+<option value="">تمام مناطق</option>
+<option>Africa</option>
+<option>Americas</option>
+<option>Asia</option>
+<option>Europe</option>
+<option>Oceania</option>
 </select>
 <select id="sort">
-<option value="name" data-t="sortName">نام</option>
-<option value="population" data-t="sortPopulation">جمعیت</option>
-<option value="area" data-t="sortArea">مساحت</option>
+<option value="name">نام</option>
+<option value="population">جمعیت</option>
+<option value="area">مساحت</option>
 </select>
-<button class="secondary" id="reload" data-t="reload">بارگذاری مجدد</button>
+<button class="gold" id="reload">بارگذاری مجدد</button>
 </div>
-<div id="status" class="status"></div>
-<div id="loading" class="status" data-t="loading">در حال دریافت اطلاعات کشورها...</div>
+<p id="countryStatus" class="muted">در حال دریافت اطلاعات کشورها...</p>
 <div class="grid" id="countryGrid"></div>
-</div></section>
-
-<section id="discover"><div class="wrap">
-<div class="heading"><div><h2 data-t="discoverTitle">جهان را از زاویه‌ای تازه ببین</h2><p data-t="discoverSub">موضوعات اصلی WORLDORA</p></div></div>
-<div class="features">
-<article class="feature"><div class="icon">🏛️</div><h3 data-t="history">تاریخ و تمدن</h3><p data-t="historyText">از تمدن‌های باستانی تا تاریخ جهان معاصر.</p></article>
-<article class="feature"><div class="icon">🖼️</div><h3 data-t="museum">موزه و هنر</h3><p data-t="museumText">هنر، آثار تاریخی، موزه‌ها و میراث فرهنگی.</p></article>
-<article class="feature"><div class="icon">🏰</div><h3 data-t="architecture">معماری</h3><p data-t="architectureText">شاهکارهای معماری و بناهای تاریخی جهان.</p></article>
-<article class="feature"><div class="icon">🌍</div><h3 data-t="nature">طبیعت و جغرافیا</h3><p data-t="natureText">کوه‌ها، دریاها، جنگل‌ها و شگفتی‌های زمین.</p></article>
-<article class="feature"><div class="icon">🎭</div><h3 data-t="culture">فرهنگ و مردم</h3><p data-t="cultureText">زبان‌ها، سنت‌ها، غذاها و سبک زندگی ملت‌ها.</p></article>
-<article class="feature"><div class="icon">🚀</div><h3 data-t="science">علم و فناوری</h3><p data-t="scienceText">اکتشافات علمی و دستاوردهای فناوری بشر.</p></article>
 </div>
-</div></section>
+</section>
 
-<section id="map"><div class="wrap">
-<div class="heading"><div><h2 data-t="mapTitle">نقشه تعاملی جهان</h2><p data-t="mapSub">کشورها را روی نقشه پیدا کن.</p></div></div>
+<section id="discover">
+<div class="wrap">
+<div class="heading">
+<h2>جهان را از زاویه‌ای تازه ببین</h2>
+<p class="muted">موضوعات اصلی WORLDORA</p>
+</div>
+<div class="features">
+<article class="feature"><h3>🏛️ تاریخ و تمدن</h3><p class="muted">از تمدن‌های باستانی تا تاریخ معاصر.</p></article>
+<article class="feature"><h3>🖼️ موزه و هنر</h3><p class="muted">هنر، آثار تاریخی و میراث فرهنگی.</p></article>
+<article class="feature"><h3>🏰 معماری</h3><p class="muted">شاهکارهای معماری جهان.</p></article>
+<article class="feature"><h3>🌍 طبیعت و جغرافیا</h3><p class="muted">کوه‌ها، دریاها و شگفتی‌های زمین.</p></article>
+<article class="feature"><h3>🎭 فرهنگ و مردم</h3><p class="muted">زبان‌ها، سنت‌ها و سبک زندگی.</p></article>
+<article class="feature"><h3>🚀 علم و فناوری</h3><p class="muted">اکتشافات و دستاوردهای بشر.</p></article>
+</div>
+</div>
+</section>
+
+<section id="history">
+<div class="wrap">
+<div class="heading">
+<h2>🏛️ دانشنامه مکان‌های تاریخی جهان</h2>
+<p class="muted">مکان را انتخاب کن تا اطلاعات و تصویر آن دریافت شود.</p>
+</div>
+<div class="tools">
+<input id="historySearch" placeholder="جست‌وجوی نام مکان یا کشور...">
+<select id="continent">
+<option value="">همه قاره‌ها</option>
+<option value="Asia">آسیا</option>
+<option value="Europe">اروپا</option>
+<option value="Africa">آفریقا</option>
+<option value="Americas">آمریکا</option>
+<option value="Oceania">اقیانوسیه</option>
+</select>
+</div>
+<p id="historyStatus" class="muted"></p>
+<div class="grid" id="historyGrid"></div>
+</div>
+</section>
+
+<section id="map">
+<div class="wrap">
+<div class="heading">
+<h2>نقشه تعاملی جهان</h2>
+<p class="muted">کشورها را روی نقشه پیدا کن.</p>
+</div>
 <div id="worldMap"></div>
-</div></section>
+</div>
+</section>
 
-<section id="guide"><div class="wrap"><div class="ai">
-<h2>WORLDORA AI GUIDE</h2>
-<p data-t="guideIntro">راهنمای نمایشی برای پرسش‌های اولیه درباره سفر و کشورها.</p>
-<div class="chat" id="chat"><div class="message bot" data-t="welcome">سلام! درباره کشورها و پایتخت‌ها سؤال کن.</div></div>
-<div class="chatrow"><input id="question" data-ph="ask" placeholder="سؤالت را بنویس..."><button class="gold" id="askBtn" data-t="send">ارسال</button></div>
-<p class="note" data-t="aiNote">این راهنما نمایشی است؛ برای هوش مصنوعی واقعی باید سرویس امن سمت سرور متصل شود.</p>
-</div></div></section>
+<section id="guide">
+<div class="wrap">
+<div class="ai">
+<h2 style="color:var(--gold)">WORLDORA AI GUIDE</h2>
+<p class="muted">راهنمای آزمایشی پرسش‌های پایه درباره کشورها.</p>
+<div class="chat" id="chat">
+<div class="message bot">سلام! درباره کشورها و پایتخت‌ها سؤال کن.</div>
+</div>
+<div class="chatrow">
+<input id="question" placeholder="سؤالت را بنویس...">
+<button class="gold" id="ask">ارسال</button>
+</div>
+<p class="muted">این راهنما نمایشی است؛ هوش مصنوعی واقعی به سرویس امن سمت سرور نیاز دارد.</p>
+</div>
+</div>
+</section>
 </main>
 
-<div class="modal" id="modal"><div class="modalbox">
-<div class="modalhead"><h2 id="modalTitle"></h2><button class="close" id="closeModal">×</button></div>
+<div class="modal" id="modal">
+<div class="modalbox">
+<div class="modalhead">
+<h2 id="modalTitle"></h2>
+<button class="close" id="close">×</button>
+</div>
 <div id="modalContent"></div>
-</div></div>
-<footer><strong>WORLDORA</strong><br>The World Is Yours to Explore<br><span data-t="footer">جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.</span></footer>
+</div>
+</div>
+
+<footer>
+<b>WORLDORA</b><br>
+The World Is Yours to Explore<br>
+جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.
+</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const base={
-countries:"کشورها",discover:"اکتشاف",map:"نقشه جهان",guide:"راهنما",
-slogan:"جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.",
-intro:"سفری جهانی میان کشورها، تمدن‌ها، طبیعت، هنر، معماری و میراث بشری.",
-search:"نام کشور یا پایتخت را جست‌وجو کن...",searchBtn:"جست‌وجو",
-countriesTitle:"کشورهای جهان",countriesSub:"اطلاعات کشورها را کشف کن.",
-allRegions:"تمام مناطق",sortName:"نام",sortPopulation:"جمعیت",sortArea:"مساحت",
-reload:"بارگذاری مجدد",loading:"در حال دریافت اطلاعات کشورها...",
-discoverTitle:"جهان را از زاویه‌ای تازه ببین",discoverSub:"موضوعات اصلی WORLDORA",
-history:"تاریخ و تمدن",historyText:"از تمدن‌های باستانی تا تاریخ جهان معاصر.",
-museum:"موزه و هنر",museumText:"هنر، آثار تاریخی، موزه‌ها و میراث فرهنگی.",
-architecture:"معماری",architectureText:"شاهکارهای معماری و بناهای تاریخی جهان.",
-nature:"طبیعت و جغرافیا",natureText:"کوه‌ها، دریاها، جنگل‌ها و شگفتی‌های زمین.",
-culture:"فرهنگ و مردم",cultureText:"زبان‌ها، سنت‌ها، غذاها و سبک زندگی ملت‌ها.",
-science:"علم و فناوری",scienceText:"اکتشافات علمی و دستاوردهای فناوری بشر.",
-mapTitle:"نقشه تعاملی جهان",mapSub:"کشورها را روی نقشه پیدا کن.",
-guideIntro:"راهنمای نمایشی برای پرسش‌های اولیه درباره سفر و کشورها.",
-welcome:"سلام! درباره کشورها، پایتخت‌ها و اطلاعات پایه سفر سؤال کن.",
-ask:"سؤالت را بنویس...",send:"ارسال",
-aiNote:"این نسخه راهنمای آزمایشی است؛ برای هوش مصنوعی واقعی باید سرویس امن سمت سرور متصل شود.",
-footer:"جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.",
-capital:"پایتخت",population:"جمعیت",area:"مساحت",region:"منطقه",
-languages:"زبان‌ها",currency:"واحد پول",timezone:"منطقه زمانی",
-details:"مشاهده جزئیات",maps:"مشاهده روی نقشه",
-error:"دریافت اطلاعات ناموفق بود. اتصال اینترنت را بررسی و دوباره تلاش کن.",
-empty:"موردی پیدا نشد.",answer:"برای اطلاعات بیشتر، کشور مورد نظر را از فهرست انتخاب کن."
-};
-const dictionaries={
-fa:{},en:{
-countries:"Countries",discover:"Discover",map:"World Map",guide:"Guide",
-slogan:"Explore the world. Discover history. Experience cultures.",
-intro:"A journey through countries, civilizations, nature, art and heritage.",
-search:"Search country or capital...",searchBtn:"Search",countriesTitle:"Countries of the World",
-countriesSub:"Discover country information.",allRegions:"All regions",sortName:"Name",
-sortPopulation:"Population",sortArea:"Area",reload:"Reload",loading:"Loading countries...",
-discoverTitle:"See the world from a new perspective",discoverSub:"WORLDORA topics",
-history:"History & Civilization",historyText:"From ancient civilizations to modern history.",
-museum:"Museums & Art",museumText:"Art, museums and cultural heritage.",
-architecture:"Architecture",architectureText:"Architectural masterpieces and historic buildings.",
-nature:"Nature & Geography",natureText:"Mountains, seas, forests and natural wonders.",
-culture:"Culture & People",cultureText:"Languages, traditions, food and ways of life.",
-science:"Science & Technology",scienceText:"Scientific discoveries and human innovation.",
-mapTitle:"Interactive World Map",mapSub:"Find countries on the map.",
-guideIntro:"A demonstration guide for basic travel questions.",
-welcome:"Hello! Ask about countries and capitals.",ask:"Write your question...",
-send:"Send",aiNote:"Demo guide only. Real AI requires a secure server-side service.",
-footer:"Explore the world. Discover history. Experience cultures.",
-capital:"Capital",population:"Population",area:"Area",region:"Region",
-languages:"Languages",currency:"Currency",timezone:"Time zone",
-details:"Details",maps:"View on map",error:"Could not load data. Check your connection.",
-empty:"No results found.",answer:"Select a country for more information."
-},
-ar:{
-countries:"الدول",discover:"اكتشف",map:"خريطة العالم",guide:"الدليل",
-slogan:"اكتشف العالم وتعرّف على التاريخ والثقافات.",
-intro:"رحلة عالمية بين الدول والحضارات والطبيعة والفنون.",
-search:"ابحث عن دولة أو عاصمة...",searchBtn:"بحث",countriesTitle:"دول العالم",
-countriesSub:"اكتشف معلومات الدول.",allRegions:"كل المناطق",sortName:"الاسم",
-sortPopulation:"السكان",sortArea:"المساحة",reload:"إعادة التحميل",loading:"جار تحميل الدول...",
-discoverTitle:"اكتشف العالم",discoverSub:"موضوعات WORLDORA",
-history:"التاريخ والحضارات",historyText:"من الحضارات القديمة إلى التاريخ الحديث.",
-museum:"المتاحف والفنون",museumText:"الفنون والمتاحف والتراث الثقافي.",
-architecture:"العمارة",architectureText:"العمارة والمباني التاريخية.",
-nature:"الطبيعة والجغرافيا",natureText:"الجبال والبحار والغابات.",
-culture:"الثقافة والشعوب",cultureText:"اللغات والتقاليد والطعام.",
-science:"العلوم والتكنولوجيا",scienceText:"الاكتشافات والابتكارات.",
-mapTitle:"خريطة العالم التفاعلية",mapSub:"ابحث عن الدول على الخريطة.",
-guideIntro:"دليل تجريبي للأسئلة الأساسية.",welcome:"مرحباً! اسأل عن الدول والعواصم.",
-ask:"اكتب سؤالك...",send:"إرسال",aiNote:"هذا دليل تجريبي وليس ذكاء اصطناعياً متصلاً.",
-footer:"اكتشف العالم والتاريخ والثقافات.",capital:"العاصمة",population:"السكان",
-area:"المساحة",region:"المنطقة",languages:"اللغات",currency:"العملة",
-timezone:"المنطقة الزمنية",details:"التفاصيل",maps:"عرض الخريطة",
-error:"تعذر تحميل البيانات. حاول مجدداً.",empty:"لا توجد نتائج.",
-answer:"اختر دولة من القائمة للمزيد من المعلومات."
-},
-fr:{
-countries:"Pays",discover:"Découvrir",map:"Carte du monde",guide:"Guide",
-slogan:"Explorez le monde, découvrez l’histoire et les cultures.",
-intro:"Un voyage à travers les pays, les civilisations et la nature.",
-search:"Rechercher un pays ou une capitale...",searchBtn:"Rechercher",
-countriesTitle:"Pays du monde",countriesSub:"Découvrez les informations des pays.",
-allRegions:"Toutes les régions",sortName:"Nom",sortPopulation:"Population",
-sortArea:"Superficie",reload:"Actualiser",loading:"Chargement des pays...",
-discoverTitle:"Découvrez le monde autrement",discoverSub:"Les thèmes WORLDORA",
-history:"Histoire et civilisations",historyText:"Des civilisations anciennes à aujourd’hui.",
-museum:"Musées et art",museumText:"Art, musées et patrimoine culturel.",
-architecture:"Architecture",architectureText:"Chefs-d’œuvre et bâtiments historiques.",
-nature:"Nature et géographie",natureText:"Montagnes, mers et forêts.",
-culture:"Culture et peuples",cultureText:"Langues, traditions et cuisine.",
-science:"Science et technologie",scienceText:"Découvertes et innovations.",
-mapTitle:"Carte interactive",mapSub:"Trouvez les pays sur la carte.",
-guideIntro:"Guide de démonstration.",welcome:"Bonjour ! Posez une question sur les pays.",
-ask:"Écrivez votre question...",send:"Envoyer",aiNote:"Démo uniquement. Une IA réelle nécessite un serveur sécurisé.",
-footer:"Explorez le monde et les cultures.",capital:"Capitale",population:"Population",
-area:"Superficie",region:"Région",languages:"Langues",currency:"Monnaie",
-timezone:"Fuseau horaire",details:"Détails",maps:"Voir la carte",
-error:"Impossible de charger les données.",empty:"Aucun résultat.",
-answer:"Sélectionnez un pays pour plus d’informations."
-},
-de:{
-countries:"Länder",discover:"Entdecken",map:"Weltkarte",guide:"Guide",
-slogan:"Entdecke die Welt, Geschichte und Kulturen.",
-intro:"Eine Reise durch Länder, Zivilisationen, Natur und Kunst.",
-search:"Land oder Hauptstadt suchen...",searchBtn:"Suchen",countriesTitle:"Länder der Welt",
-countriesSub:"Länderinformationen entdecken.",allRegions:"Alle Regionen",
-sortName:"Name",sortPopulation:"Bevölkerung",sortArea:"Fläche",reload:"Neu laden",
-loading:"Länderdaten werden geladen...",discoverTitle:"Entdecke die Welt neu",
-discoverSub:"WORLDORA Themen",history:"Geschichte und Zivilisation",
-historyText:"Von antiken Zivilisationen bis heute.",museum:"Museen und Kunst",
-museumText:"Kunst, Museen und Kulturerbe.",architecture:"Architektur",
-architectureText:"Architektur und historische Gebäude.",nature:"Natur und Geografie",
-natureText:"Berge, Meere und Wälder.",culture:"Kultur und Menschen",
-cultureText:"Sprachen, Traditionen und Küche.",science:"Wissenschaft und Technologie",
-scienceText:"Entdeckungen und Innovationen.",mapTitle:"Interaktive Weltkarte",
-mapSub:"Länder auf der Karte finden.",guideIntro:"Ein Demo-Reiseführer.",
-welcome:"Hallo! Frage nach Ländern und Hauptstädten.",ask:"Frage eingeben...",
-send:"Senden",aiNote:"Demo-Version; echte KI benötigt einen sicheren Server.",
-footer:"Entdecke die Welt und ihre Kulturen.",capital:"Hauptstadt",
-population:"Bevölkerung",area:"Fläche",region:"Region",languages:"Sprachen",
-currency:"Währung",timezone:"Zeitzone",details:"Details",maps:"Karte ansehen",
-error:"Daten konnten nicht geladen werden.",empty:"Keine Ergebnisse.",
-answer:"Wähle ein Land für weitere Informationen."
-},
-es:{
-countries:"Países",discover:"Descubrir",map:"Mapa mundial",guide:"Guía",
-slogan:"Explora el mundo, descubre la historia y las culturas.",
-intro:"Un viaje por países, civilizaciones, naturaleza y arte.",
-search:"Buscar país o capital...",searchBtn:"Buscar",countriesTitle:"Países del mundo",
-countriesSub:"Descubre información de los países.",allRegions:"Todas las regiones",
-sortName:"Nombre",sortPopulation:"Población",sortArea:"Superficie",reload:"Recargar",
-loading:"Cargando países...",discoverTitle:"Descubre el mundo de otra manera",
-discoverSub:"Temas WORLDORA",history:"Historia y civilización",
-historyText:"Desde civilizaciones antiguas hasta hoy.",museum:"Museos y arte",
-museumText:"Arte, museos y patrimonio cultural.",architecture:"Arquitectura",
-architectureText:"Obras arquitectónicas y edificios históricos.",nature:"Naturaleza y geografía",
-natureText:"Montañas, mares y bosques.",culture:"Cultura y pueblos",
-cultureText:"Idiomas, tradiciones y gastronomía.",science:"Ciencia y tecnología",
-scienceText:"Descubrimientos e innovación.",mapTitle:"Mapa interactivo",
-mapSub:"Encuentra países en el mapa.",guideIntro:"Guía de demostración.",
-welcome:"¡Hola! Pregunta sobre países y capitales.",ask:"Escribe tu pregunta...",
-send:"Enviar",aiNote:"Versión de demostración; la IA real necesita un servidor seguro.",
-footer:"Explora el mundo y sus culturas.",capital:"Capital",population:"Población",
-area:"Superficie",region:"Región",languages:"Idiomas",currency:"Moneda",
-timezone:"Zona horaria",details:"Detalles",maps:"Ver mapa",
-error:"No se pudieron cargar los datos.",empty:"No hay resultados.",
-answer:"Selecciona un país para más información."
-},
-zh:{
-countries:"国家",discover:"探索",map:"世界地图",guide:"指南",
-slogan:"探索世界，了解历史，体验文化。",intro:"探索国家、文明、自然、艺术与遗产。",
-search:"搜索国家或首都...",searchBtn:"搜索",countriesTitle:"世界各国",
-countriesSub:"探索国家信息。",allRegions:"所有地区",sortName:"名称",
-sortPopulation:"人口",sortArea:"面积",reload:"重新加载",loading:"正在加载国家信息...",
-discoverTitle:"从新视角探索世界",discoverSub:"WORLDORA主题",
-history:"历史与文明",historyText:"从古代文明到现代历史。",
-museum:"博物馆与艺术",museumText:"艺术、博物馆与文化遗产。",
-architecture:"建筑",architectureText:"建筑杰作与历史建筑。",
-nature:"自然与地理",natureText:"山脉、海洋与森林。",
-culture:"文化与人民",cultureText:"语言、传统与美食。",
-science:"科学与技术",scienceText:"科学发现与创新。",
-mapTitle:"互动世界地图",mapSub:"在地图上查找国家。",
-guideIntro:"旅行演示指南。",welcome:"你好！可以询问国家和首都。",
-ask:"输入问题...",send:"发送",aiNote:"这是演示版本，真实AI需要安全服务器。",
-footer:"探索世界与文化。",capital:"首都",population:"人口",area:"面积",
-region:"地区",languages:"语言",currency:"货币",timezone:"时区",
-details:"详细信息",maps:"查看地图",error:"无法加载数据，请重试。",
-empty:"没有找到结果。",answer:"请选择一个国家以了解更多信息。"
-},
-ja:{
-countries:"国",discover:"発見",map:"世界地図",guide:"ガイド",
-slogan:"世界を探検し、歴史を知り、文化を体験しよう。",
-intro:"国、文明、自然、芸術を巡る世界の旅。",
-search:"国または首都を検索...",searchBtn:"検索",countriesTitle:"世界の国々",
-countriesSub:"国の情報を発見。",allRegions:"すべての地域",sortName:"名前",
-sortPopulation:"人口",sortArea:"面積",reload:"再読み込み",loading:"国の情報を読み込み中...",
-discoverTitle:"新しい視点で世界を発見",discoverSub:"WORLDORAのテーマ",
-history:"歴史と文明",historyText:"古代文明から現代史まで。",
-museum:"博物館と芸術",museumText:"芸術、博物館、文化遺産。",
-architecture:"建築",architectureText:"建築の傑作と歴史的建造物。",
-nature:"自然と地理",natureText:"山、海、森。",culture:"文化と人々",
-cultureText:"言語、伝統、食文化。",science:"科学と技術",
-scienceText:"科学の発見と革新。",mapTitle:"インタラクティブ世界地図",
-mapSub:"地図で国を探す。",guideIntro:"旅行案内デモ。",
-welcome:"こんにちは。国や首都について質問してください。",
-ask:"質問を入力...",send:"送信",aiNote:"デモ版です。本物のAIには安全なサーバーが必要です。",
-footer:"世界と文化を探検しよう。",capital:"首都",population:"人口",
-area:"面積",region:"地域",languages:"言語",currency:"通貨",
-timezone:"タイムゾーン",details:"詳細",maps:"地図を見る",
-error:"データを読み込めませんでした。",empty:"結果がありません。",
-answer:"詳しい情報は国を選択してください。"
-},
-ru:{
-countries:"Страны",discover:"Открытия",map:"Карта мира",guide:"Гид",
-slogan:"Открой мир, узнай историю и культуры.",
-intro:"Путешествие по странам, цивилизациям, природе и искусству.",
-search:"Поиск страны или столицы...",searchBtn:"Поиск",countriesTitle:"Страны мира",
-countriesSub:"Откройте информацию о странах.",allRegions:"Все регионы",
-sortName:"Название",sortPopulation:"Население",sortArea:"Площадь",
-reload:"Обновить",loading:"Загрузка стран...",discoverTitle:"Откройте мир по-новому",
-discoverSub:"Темы WORLDORA",history:"История и цивилизация",
-historyText:"От древних цивилизаций до наших дней.",museum:"Музеи и искусство",
-museumText:"Искусство, музеи и наследие.",architecture:"Архитектура",
-architectureText:"Архитектурные шедевры.",nature:"Природа и география",
-natureText:"Горы, моря и леса.",culture:"Культура и народы",
-cultureText:"Языки, традиции и кухня.",science:"Наука и технологии",
-scienceText:"Открытия и инновации.",mapTitle:"Интерактивная карта мира",
-mapSub:"Найдите страны на карте.",guideIntro:"Демонстрационный гид.",
-welcome:"Здравствуйте! Спрашивайте о странах и столицах.",
-ask:"Введите вопрос...",send:"Отправить",aiNote:"Демо-версия; настоящий ИИ требует защищённого сервера.",
-footer:"Откройте мир и культуры.",capital:"Столица",population:"Население",
-area:"Площадь",region:"Регион",languages:"Языки",currency:"Валюта",
-timezone:"Часовой пояс",details:"Подробнее",maps:"На карте",
-error:"Не удалось загрузить данные.",empty:"Ничего не найдено.",
-answer:"Выберите страну для подробной информации."
-},
-tr:{
-countries:"Ülkeler",discover:"Keşfet",map:"Dünya Haritası",guide:"Rehber",
-slogan:"Dünyayı keşfet, tarihi öğren, kültürleri yaşa.",
-intro:"Ülkeler, medeniyetler, doğa ve sanat arasında bir yolculuk.",
-search:"Ülke veya başkent ara...",searchBtn:"Ara",countriesTitle:"Dünya Ülkeleri",
-countriesSub:"Ülke bilgilerini keşfet.",allRegions:"Tüm bölgeler",sortName:"İsim",
-sortPopulation:"Nüfus",sortArea:"Alan",reload:"Yenile",loading:"Ülkeler yükleniyor...",
-discoverTitle:"Dünyayı yeni bir açıdan keşfet",discoverSub:"WORLDORA konuları",
-history:"Tarih ve medeniyet",historyText:"Antik medeniyetlerden modern tarihe.",
-museum:"Müzeler ve sanat",museumText:"Sanat, müzeler ve kültürel miras.",
-architecture:"Mimari",architectureText:"Mimari eserler ve tarihi yapılar.",
-nature:"Doğa ve coğrafya",natureText:"Dağlar, denizler ve ormanlar.",
-culture:"Kültür ve insanlar",cultureText:"Diller, gelenekler ve yemekler.",
-science:"Bilim ve teknoloji",scienceText:"Bilimsel keşifler ve yenilikler.",
-mapTitle:"Etkileşimli dünya haritası",mapSub:"Ülkeleri haritada bulun.",
-guideIntro:"Deneme seyahat rehberi.",welcome:"Merhaba! Ülkeler ve başkentler hakkında soru sor.",
-ask:"Sorunuzu yazın...",send:"Gönder",aiNote:"Demo sürümü; gerçek yapay zekâ için güvenli sunucu gerekir.",
-footer:"Dünyayı ve kültürleri keşfet.",capital:"Başkent",population:"Nüfus",
-area:"Alan",region:"Bölge",languages:"Diller",currency:"Para birimi",
-timezone:"Saat dilimi",details:"Detaylar",maps:"Haritada gör",
-error:"Veriler yüklenemedi.",empty:"Sonuç bulunamadı.",
-answer:"Daha fazla bilgi için bir ülke seçin."
-},
-hi:{
-countries:"देश",discover:"खोजें",map:"विश्व मानचित्र",guide:"मार्गदर्शक",
-slogan:"दुनिया की खोज करें, इतिहास जानें और संस्कृतियों का अनुभव करें।",
-intro:"देशों, सभ्यताओं, प्रकृति और कला की विश्व यात्रा।",
-search:"देश या राजधानी खोजें...",searchBtn:"खोजें",countriesTitle:"विश्व के देश",
-countriesSub:"देशों की जानकारी खोजें।",allRegions:"सभी क्षेत्र",sortName:"नाम",
-sortPopulation:"जनसंख्या",sortArea:"क्षेत्रफल",reload:"फिर लोड करें",
-loading:"देशों की जानकारी लोड हो रही है...",discoverTitle:"दुनिया को नए नज़रिए से देखें",
-discoverSub:"WORLDORA विषय",history:"इतिहास और सभ्यता",
-historyText:"प्राचीन सभ्यताओं से आधुनिक इतिहास तक।",museum:"संग्रहालय और कला",
-museumText:"कला, संग्रहालय और सांस्कृतिक विरासत।",architecture:"वास्तुकला",
-architectureText:"वास्तुकला की उत्कृष्ट कृतियाँ।",nature:"प्रकृति और भूगोल",
-natureText:"पहाड़, समुद्र और जंगल।",culture:"संस्कृति और लोग",
-cultureText:"भाषाएँ, परंपराएँ और भोजन।",science:"विज्ञान और तकनीक",
-scienceText:"वैज्ञानिक खोजें और नवाचार।",mapTitle:"इंटरैक्टिव विश्व मानचित्र",
-mapSub:"मानचित्र पर देश खोजें।",guideIntro:"यात्रा मार्गदर्शक का प्रदर्शन संस्करण।",
-welcome:"नमस्ते! देशों और राजधानियों के बारे में पूछें।",
-ask:"अपना प्रश्न लिखें...",send:"भेजें",aiNote:"यह डेमो है; वास्तविक AI के लिए सुरक्षित सर्वर आवश्यक है।",
-footer:"दुनिया और संस्कृतियों की खोज करें।",capital:"राजधानी",population:"जनसंख्या",
-area:"क्षेत्रफल",region:"क्षेत्र",languages:"भाषाएँ",currency:"मुद्रा",
-timezone:"समय क्षेत्र",details:"विवरण",maps:"मानचित्र देखें",
-error:"जानकारी लोड नहीं हो सकी।",empty:"कोई परिणाम नहीं मिला।",
-answer:"अधिक जानकारी के लिए देश चुनें।"
-},
-pt:{
-countries:"Países",discover:"Descobrir",map:"Mapa mundial",guide:"Guia",
-slogan:"Explore o mundo, descubra a história e viva as culturas.",
-intro:"Uma viagem por países, civilizações, natureza e arte.",
-search:"Pesquisar país ou capital...",searchBtn:"Pesquisar",
-countriesTitle:"Países do mundo",countriesSub:"Descubra informações dos países.",
-allRegions:"Todas as regiões",sortName:"Nome",sortPopulation:"População",
-sortArea:"Área",reload:"Recarregar",loading:"Carregando países...",
-discoverTitle:"Descubra o mundo de outra perspectiva",discoverSub:"Temas WORLDORA",
-history:"História e civilização",historyText:"Das civilizações antigas à história moderna.",
-museum:"Museus e arte",museumText:"Arte, museus e patrimônio cultural.",
-architecture:"Arquitetura",architectureText:"Obras arquitetônicas e edifícios históricos.",
-nature:"Natureza e geografia",natureText:"Montanhas, mares e florestas.",
-culture:"Cultura e povos",cultureText:"Idiomas, tradições e gastronomia.",
-science:"Ciência e tecnologia",scienceText:"Descobertas científicas e inovação.",
-mapTitle:"Mapa interativo",mapSub:"Encontre países no mapa.",
-guideIntro:"Guia de demonstração.",welcome:"Olá! Pergunte sobre países e capitais.",
-ask:"Escreva sua pergunta...",send:"Enviar",aiNote:"Versão de demonstração; IA real exige servidor seguro.",
-footer:"Explore o mundo e suas culturas.",capital:"Capital",population:"População",
-area:"Área",region:"Região",languages:"Idiomas",currency:"Moeda",
-timezone:"Fuso horário",details:"Detalhes",maps:"Ver mapa",
-error:"Não foi possível carregar os dados.",empty:"Nenhum resultado.",
-answer:"Selecione um país para mais informações."
-}
-};
-
-let lang="fa",countries=[],map=null,markers=[];
 const $=id=>document.getElementById(id);
-const tr=key=>(dictionaries[lang]&&dictionaries[lang][key])||base[key]||key;
-function setLanguage(code){
-lang=code;
-document.documentElement.lang=code;
-document.documentElement.dir=["fa","ar"].includes(code)?"rtl":"ltr";
-document.querySelectorAll("[data-t]").forEach(el=>{el.textContent=tr(el.dataset.t)});
-document.querySelectorAll("[data-ph]").forEach(el=>{el.placeholder=tr(el.dataset.ph)});
-if(countries.length)renderCountries();
-}
-$("language").addEventListener("change",e=>setLanguage(e.target.value));
+let countries=[],map=null,markers=[],lang="fa";
 
-function countryName(c){
-return c.translations?.[lang]?.common||c.name?.nativeName?.[Object.keys(c.name.nativeName||{})[0]]?.common||c.name.common;
-}
-function number(n){return new Intl.NumberFormat(lang).format(n||0)}
+const words={
+fa:{cap:"پایتخت",pop:"جمعیت",area:"مساحت",region:"منطقه",lang:"زبان‌ها",money:"واحد پول",zone:"منطقه زمانی",details:"جزئیات",empty:"موردی پیدا نشد."},
+en:{cap:"Capital",pop:"Population",area:"Area",region:"Region",lang:"Languages",money:"Currency",zone:"Time zone",details:"Details",empty:"No results found."},
+ar:{cap:"العاصمة",pop:"السكان",area:"المساحة",region:"المنطقة",lang:"اللغات",money:"العملة",zone:"المنطقة الزمنية",details:"التفاصيل",empty:"لا توجد نتائج."}
+};
+
+const w=k=>(words[lang]||words.en)[k]||words.en[k];
+const fmt=n=>new Intl.NumberFormat(lang).format(n||0);
+const safe=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function countryName(c){return c.translations?.[lang]?.common||c.name.common}
+
 function renderCountries(){
-const q=$("searchInput").value.trim().toLocaleLowerCase();
-const region=$("region").value;
-const sort=$("sort").value;
-let list=countries.filter(c=>
-(!region||c.region===region)&&
-(!q||[c.name.common,c.name.official,c.capital?.[0],countryName(c)].filter(Boolean).some(x=>x.toLocaleLowerCase().includes(q)))
-);
-list.sort((a,b)=>sort==="name"?countryName(a).localeCompare(countryName(b),lang):sort==="population"?(b.population||0)-(a.population||0):(b.area||0)-(a.area||0));
-$("count").textContent=number(list.length);
-$("countryGrid").innerHTML=list.map(c=>`
-<article class="country">
-<div class="flag"><img loading="lazy" src="${c.flags.png}" alt="${c.flags.alt||c.name.common}"></div>
-<div class="countrybody">
-<h3>${countryName(c)}</h3>
-<p>${tr("capital")}: ${c.capital?.[0]||"—"}</p>
-<p>${tr("population")}: ${number(c.population)}</p>
-<button class="gold" data-code="${c.cca3}">${tr("details")}</button>
-</div></article>`).join("")||`<p>${tr("empty")}</p>`;
-$("countryGrid").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>showDetails(b.dataset.code)));
+let q=$("countrySearch").value.toLowerCase().trim();
+let r=$("region").value,s=$("sort").value;
+let a=countries.filter(c=>(!r||c.region===r)&&(!q||[c.name.common,c.name.official,c.capital?.[0],countryName(c)].filter(Boolean).some(x=>x.toLowerCase().includes(q))));
+a.sort((x,y)=>s==="name"?countryName(x).localeCompare(countryName(y),lang):s==="population"?(y.population||0)-(x.population||0):(y.area||0)-(x.area||0));
+$("count").textContent=fmt(a.length);
+$("countryGrid").innerHTML=a.map(c=>`<article class="card"><div class="flag"><img loading="lazy" src="${safe(c.flags.png)}" alt=""></div><div class="cardbody"><h3>${safe(countryName(c))}</h3><p>${w("cap")}: ${safe(c.capital?.[0]||"—")}</p><p>${w("pop")}: ${fmt(c.population)}</p><button class="gold" data-code="${c.cca3}">${w("details")}</button></div></article>`).join("")||w("empty");
+$("countryGrid").querySelectorAll("[data-code]").forEach(b=>b.onclick=()=>showCountry(b.dataset.code));
 }
 
 async function loadCountries(){
-$("loading").hidden=false;
-$("status").textContent="";
-$("countryGrid").innerHTML="";
+$("countryStatus").textContent="در حال دریافت اطلاعات کشورها...";
 try{
-const response=await fetch("https://restcountries.com/v3.1/all?fields=name,translations,flags,capital,region,population,area,languages,currencies,timezones,latlng,maps,cca3");
-if(!response.ok)throw new Error("API error");
-countries=await response.json();
+let r=await fetch("https://restcountries.com/v3.1/all?fields=name,translations,flags,capital,region,population,area,languages,currencies,timezones,latlng,maps,cca3");
+if(!r.ok)throw Error();
+countries=await r.json();
+$("countryStatus").textContent="";
 renderCountries();
-$("loading").hidden=true;
 if(map)drawMarkers();
-}catch(error){
-$("loading").hidden=true;
-$("status").textContent=tr("error");
+}catch(e){
+$("countryStatus").textContent="دریافت کشورها ناموفق بود؛ اینترنت را بررسی و دوباره تلاش کن.";
 }
 }
-function showDetails(code){
-const c=countries.find(x=>x.cca3===code);
+
+function showCountry(code){
+let c=countries.find(x=>x.cca3===code);
 if(!c)return;
-const languages=Object.values(c.languages||{}).join(", ")||"—";
-const currency=Object.values(c.currencies||{}).map(x=>x.name).join(", ")||"—";
-const fields=[
-[tr("capital"),c.capital?.join(", ")||"—"],
-[tr("population"),number(c.population)],
-[tr("area"),number(c.area)+" km²"],
-[tr("region"),c.region||"—"],
-[tr("languages"),languages],
-[tr("currency"),currency],
-[tr("timezone"),(c.timezones||[]).join(", ")||"—"]
+let rows=[
+[w("cap"),c.capital?.join(", ")||"—"],
+[w("pop"),fmt(c.population)],
+[w("area"),fmt(c.area)+" km²"],
+[w("region"),c.region],
+[w("lang"),Object.values(c.languages||{}).join(", ")],
+[w("money"),Object.values(c.currencies||{}).map(x=>x.name).join(", ")],
+[w("zone"),(c.timezones||[]).join(", ")]
 ];
 $("modalTitle").textContent=countryName(c);
-$("modalContent").innerHTML=`
-<div class="flag"><img src="${c.flags.png}" alt=""></div>
-<div class="details">${fields.map(([a,b])=>`<div class="detail"><small>${a}</small>${b}</div>`).join("")}</div>
-<p><a href="${c.maps.googleMaps}" target="_blank" rel="noopener">${tr("maps")}</a></p>`;
+$("modalContent").innerHTML=`<div class="flag"><img src="${safe(c.flags.png)}"></div><div class="details">${rows.map(x=>`<div class="detail"><small>${safe(x[0])}</small>${safe(x[1])}</div>`).join("")}</div><p><a style="color:var(--gold)" target="_blank" rel="noopener" href="${safe(c.maps.googleMaps)}">مشاهده روی نقشه</a></p>`;
 $("modal").classList.add("open");
-if(c.latlng?.length===2&&map)map.setView(c.latlng,5);
+if(map&&c.latlng?.length===2)map.setView(c.latlng,5);
 }
-$("closeModal").onclick=()=>$("modal").classList.remove("open");
-$("modal").addEventListener("click",e=>{if(e.target===$("modal"))$("modal").classList.remove("open")});
+
+const sites=[
+["Persepolis","تخت جمشید","ایران","Asia","🏛️"],
+["Naqsh-e Rostam","نقش رستم","ایران","Asia","🏛️"],
+["Pasargadae","پاسارگاد","ایران","Asia","🏛️"],
+["Bam Citadel","ارگ بم","ایران","Asia","🏰"],
+["Shushtar Historical Hydraulic System","سازه‌های آبی شوشتر","ایران","Asia","💧"],
+["Chogha Zanbil","چغازنبیل","ایران","Asia","🏛️"],
+["Naqsh-e Jahan Square","میدان نقش جهان","ایران","Asia","🏛️"],
+["Golestan Palace","کاخ گلستان","ایران","Asia","🏰"],
+["Great Wall of China","دیوار بزرگ چین","چین","Asia","🏯"],
+["Forbidden City","شهر ممنوعه","چین","Asia","🏯"],
+["Terracotta Army","ارتش سفالی","چین","Asia","🗿"],
+["Pyramids of Giza","اهرام جیزه","مصر","Africa","🔺"],
+["Great Sphinx of Giza","ابوالهول بزرگ","مصر","Africa","🗿"],
+["Karnak","معبد کرنک","مصر","Africa","🏛️"],
+["Petra","شهر پترا","اردن","Asia","🏜️"],
+["Baalbek","بعلبک","لبنان","Asia","🏛️"],
+["Hagia Sophia","ایاصوفیه","ترکیه","Asia","🕌"],
+["Ephesus","افسوس","ترکیه","Asia","🏛️"],
+["Taj Mahal","تاج محل","هند","Asia","🕌"],
+["Angkor Wat","آنگکور وات","کامبوج","Asia","🛕"],
+["Borobudur","بوروبودور","اندونزی","Asia","🛕"],
+["Machu Picchu","ماچو پیچو","پرو","Americas","⛰️"],
+["Chichen Itza","چیچن ایتزا","مکزیک","Americas","🏛️"],
+["Teotihuacan","تئوتیئواکان","مکزیک","Americas","🔺"],
+["Colosseum","کولوسئوم","ایتالیا","Europe","🏟️"],
+["Pompeii","پمپئی","ایتالیا","Europe","🏛️"],
+["Acropolis of Athens","آکروپولیس آتن","یونان","Europe","🏛️"],
+["Parthenon","پارتنون","یونان","Europe","🏛️"],
+["Stonehenge","استون‌هنج","بریتانیا","Europe","🗿"],
+["Eiffel Tower","برج ایفل","فرانسه","Europe","🗼"],
+["Palace of Versailles","کاخ ورسای","فرانسه","Europe","🏰"],
+["Brandenburg Gate","دروازه براندنبورگ","آلمان","Europe","🏛️"],
+["Neuschwanstein Castle","قلعه نوی‌شوان‌اشتاین","آلمان","Europe","🏰"],
+["Alhambra","کاخ الحمرا","اسپانیا","Europe","🏰"],
+["Kremlin","کرملین","روسیه","Europe","🏰"],
+["Himeji Castle","قلعه هیمه‌جی","ژاپن","Asia","🏯"],
+["Sydney Opera House","خانه اپرای سیدنی","استرالیا","Oceania","🎭"],
+["Great Zimbabwe","زیمبابوه بزرگ","زیمبابوه","Africa","🏛️"],
+["Lalibela","کلیساهای لالیبلا","اتیوپی","Africa","⛪"]
+];
+
+function renderHistory(){
+let q=$("historySearch").value.toLowerCase().trim();
+let r=$("continent").value;
+let a=sites.filter(p=>(!r||p[3]===r)&&(!q||p[0].toLowerCase().includes(q)||p[1].toLowerCase().includes(q)||p[2].toLowerCase().includes(q)));
+$("historyStatus").textContent=a.length+" مکان تاریخی";
+$("historyGrid").innerHTML=a.map(p=>`<article class="card" data-site="${safe(p[0])}"><div class="flag" style="font-size:58px">${p[4]}</div><div class="cardbody"><h3>${safe(lang==="fa"?p[1]:p[0])}</h3><p>${safe(p[2])}</p><button class="gold">مشاهده تاریخچه و تصویر</button></div></article>`).join("")||w("empty");
+$("historyGrid").querySelectorAll("[data-site]").forEach(el=>el.onclick=()=>showHistory(el.dataset.site));
+}
+
+async function showHistory(title){
+let p=sites.find(x=>x[0]===title);
+if(!p)return;
+$("modalTitle").textContent=lang==="fa"?p[1]:p[0];
+$("modalContent").innerHTML='<p class="muted">در حال دریافت توضیحات و تصویر...</p>';
+$("modal").classList.add("open");
+try{
+let wl=lang==="fa"?"fa":"en";
+let url="https://"+wl+".wikipedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(lang==="fa"?p[1]:p[0])+"&gsrnamespace=0&gsrlimit=1&prop=pageimages%7Cextracts&piprop=thumbnail&pithumbsize=900&exintro=1&explaintext=1&format=json&origin=*";
+let r=await fetch(url);
+if(!r.ok)throw Error();
+let d=await r.json(),a=Object.values(d.query?.pages||{})[0];
+if(!a&&wl!=="en"){
+r=await fetch("https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(p[0])+"&gsrnamespace=0&gsrlimit=1&prop=pageimages%7Cextracts&piprop=thumbnail&pithumbsize=900&exintro=1&explaintext=1&format=json&origin=*");
+d=await r.json();
+a=Object.values(d.query?.pages||{})[0];
+}
+if(!a)throw Error();
+let img=a.thumbnail?.source||"";
+let link="https://"+wl+".wikipedia.org/?curid="+a.pageid;
+$("modalContent").innerHTML=`<div class="history-text">${img?`<img class="history-img" src="${safe(img)}" alt="${safe(a.title)}">`:""}<h2 style="color:var(--gold)">${safe(a.title)}</h2><p><b>کشور:</b> ${safe(p[2])}</p><p>${safe(a.extract||"توضیحی در منبع یافت نشد.")}</p><a href="${link}" target="_blank" rel="noopener">مطالعه منبع و اطلاعات بیشتر</a></div>`;
+}catch(e){
+$("modalContent").innerHTML='<p class="muted">دریافت اطلاعات آنلاین ممکن نشد. اینترنت یا دسترسی به ویکی‌پدیا را بررسی کن و دوباره تلاش کن.</p><button class="gold" id="retry">تلاش مجدد</button>';
+$("retry").onclick=()=>showHistory(title);
+}
+}
+
+$("close").onclick=()=>$("modal").classList.remove("open");
+$("modal").onclick=e=>{if(e.target===$("modal"))$("modal").classList.remove("open")};
 $("searchBtn").onclick=renderCountries;
-$("searchInput").addEventListener("input",renderCountries);
+$("countrySearch").oninput=renderCountries;
 $("region").onchange=renderCountries;
 $("sort").onchange=renderCountries;
 $("reload").onclick=loadCountries;
+$("historySearch").oninput=renderHistory;
+$("continent").onchange=renderHistory;
 
 function initMap(){
-if(!window.L){$("worldMap").textContent="Map library could not load.";return}
-map=L.map("worldMap").setView([25,10],2);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
-maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
+if(!window.L){
+$("worldMap").textContent="نقشه بارگذاری نشد؛ سایر بخش‌ها فعال هستند.";
+return;
 }
+map=L.map("worldMap").setView([25,10],2);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(map);
+}
+
 function drawMarkers(){
 markers.forEach(m=>map.removeLayer(m));
 markers=[];
 countries.forEach(c=>{
 if(c.latlng?.length===2){
-const m=L.marker(c.latlng).addTo(map).bindPopup(countryName(c));
-m.on("click",()=>{});
+let m=L.marker(c.latlng).addTo(map).bindPopup(safe(countryName(c)));
 markers.push(m);
 }
 });
 }
-$("askBtn").onclick=askQuestion;
-$("question").addEventListener("keydown",e=>{if(e.key==="Enter")askQuestion()});
+
 function askQuestion(){
-const input=$("question"),q=input.value.trim();
+let q=$("question").value.trim();
 if(!q)return;
-const chat=$("chat");
-const user=document.createElement("div");
-user.className="message user";
-user.textContent=q;
-chat.appendChild(user);
-const answer=document.createElement("div");
-answer.className="message bot";
-const found=countries.find(c=>
-countryName(c).toLowerCase().includes(q.toLowerCase())||
-c.name.common.toLowerCase().includes(q.toLowerCase())||
-(c.capital||[]).some(x=>x.toLowerCase().includes(q.toLowerCase()))
-);
-answer.textContent=found?
-`${countryName(found)}\n${tr("capital")}: ${found.capital?.[0]||"—"}\n${tr("population")}: ${number(found.population)}\n${tr("region")}: ${found.region}`:tr("answer");
-chat.appendChild(answer);
-chat.scrollTop=chat.scrollHeight;
-input.value="";
+let u=document.createElement("div");
+u.className="message user";
+u.textContent=q;
+$("chat").appendChild(u);
+let c=countries.find(x=>x.name.common.toLowerCase().includes(q.toLowerCase())||(x.capital||[]).some(v=>v.toLowerCase().includes(q.toLowerCase())));
+let a=document.createElement("div");
+a.className="message bot";
+a.textContent=c?countryName(c)+"\n"+w("cap")+": "+(c.capital?.[0]||"—")+"\n"+w("pop")+": "+fmt(c.population):"برای اطلاعات پایه، نام یک کشور یا پایتخت را وارد کن.";
+$("chat").appendChild(a);
+$("chat").scrollTop=$("chat").scrollHeight;
+$("question").value="";
 }
+
+$("ask").onclick=askQuestion;
+$("question").onkeydown=e=>{if(e.key==="Enter")askQuestion()};
+$("language").onchange=e=>{
+lang=e.target.value;
+document.documentElement.lang=lang;
+document.documentElement.dir=["fa","ar"].includes(lang)?"rtl":"ltr";
+renderCountries();
+renderHistory();
+};
+
+renderHistory();
 initMap();
 loadCountries();
 </script>
 </body>
 </html>
-
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#081426">
-<title>WORLDORA | The World Is Yours to Explore</title>
-<meta name="description" content="Explore the world, history, culture and tourism.">
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
-<style>
-:root {
- --bg:#081426;
- --panel:#10243c;
- --gold:#e5bd70;
- --text:#f6f2e9;
- --muted:#aebdd0;
- --border:#2a425e;
-}
-* {box-sizing:border-box}
-body {
- margin:0;
- background:var(--bg);
- color:var(--text);
- font-family:Arial,Tahoma,sans-serif;
- line-height:1.7;
-}
-button,input,select {font:inherit}
-button {cursor:pointer}
-a {color:var(--gold);text-decoration:none}
-header {
- position:sticky;
- top:0;
- z-index:1000;
- background:#081426;
- border-bottom:1px solid var(--border);
-}
-.wrap {width:min(1180px,92%);margin:auto}
-nav {
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:15px;
- min-height:70px;
- flex-wrap:wrap;
-}
-.logo {
- font-size:26px;
- font-weight:900;
- letter-spacing:2px;
- color:var(--gold);
-}
-.logo span {color:white}
-.links {display:flex;gap:15px;flex-wrap:wrap}
-.links a {font-size:13px;color:white}
-.links a:hover {color:var(--gold)}
-.lang {
- background:transparent;
- color:var(--gold);
- border:1px solid var(--gold);
- border-radius:8px;
- padding:7px;
-}
-.hero {
- text-align:center;
- padding:65px 12px;
- background:radial-gradient(ellipse at top,#1c3959,#081426 70%);
-}
-.eyebrow {color:var(--gold);letter-spacing:3px;font-size:12px}
-.hero h1 {
- font-size:clamp(44px,9vw,82px);
- color:var(--gold);
- letter-spacing:5px;
- line-height:1.2;
- margin:12px;
-}
-.hero h2 {font-size:clamp(18px,3vw,27px);font-weight:500}
-.hero p {max-width:750px;color:var(--muted);margin:12px auto}
-.search {
- max-width:760px;
- margin:25px auto 0;
- display:flex;
- gap:8px;
- padding:8px;
- background:var(--panel);
- border:1px solid var(--border);
- border-radius:12px;
-}
-.search input {
- flex:1;
- min-width:0;
- background:transparent;
- color:white;
- border:0;
- outline:0;
- padding:12px;
-}
-.gold {
- background:var(--gold);
- color:#182437;
- border:0;
- border-radius:8px;
- padding:11px 20px;
- font-weight:bold;
-}
-.gold:hover {background:#f4d99e}
-section {padding:42px 0}
-.heading {
- display:flex;
- justify-content:space-between;
- align-items:end;
- gap:12px;
- margin-bottom:20px;
- flex-wrap:wrap;
-}
-.heading h2 {margin:0;color:var(--gold);font-size:26px}
-.heading p,.note {color:var(--muted);font-size:13px}
-select,.secondary {
- background:var(--panel);
- color:white;
- border:1px solid var(--border);
- border-radius:8px;
- padding:10px;
-}
-.filters {display:flex;gap:9px;flex-wrap:wrap;margin:17px 0}
-.status {font-size:13px;color:var(--muted);margin:12px 0}
-.grid {
- display:grid;
- grid-template-columns:repeat(4,minmax(0,1fr));
- gap:15px;
-}
-.country,.feature {
- background:var(--panel);
- border:1px solid var(--border);
- border-radius:13px;
- overflow:hidden;
-}
-.country:hover,.feature:hover {border-color:var(--gold)}
-.flag {
- height:120px;
- display:flex;
- align-items:center;
- justify-content:center;
- background:#142b45;
-}
-.flag img {max-width:85%;max-height:90px;object-fit:contain}
-.countrybody {padding:13px}
-.country h3 {color:var(--gold);margin:0;font-size:18px}
-.country p,.feature p {color:var(--muted);font-size:13px}
-.country button {width:100%;margin-top:10px}
-.features {
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:15px;
-}
-.feature {padding:20px}
-.feature .icon {font-size:30px}
-.feature h3 {color:var(--gold)}
-#worldMap {
- height:410px;
- border-radius:12px;
- overflow:hidden;
- border:1px solid var(--border);
-}
-.ai {
- padding:23px;
- background:linear-gradient(135deg,#172e49,#0c1b2e);
- border:1px solid #8c744c;
- border-radius:15px;
-}
-.ai h2 {color:var(--gold)}
-.chat {
- background:#081426;
- border:1px solid var(--border);
- border-radius:10px;
- padding:12px;
- min-height:120px;
- max-height:260px;
- overflow:auto;
-}
-.message {padding:9px 12px;border-radius:9px;margin:8px 0;white-space:pre-wrap}
-.bot {background:#18324e}
-.user {background:#51432c;margin-inline-start:auto;max-width:90%}
-.chatrow {display:flex;gap:8px;margin-top:10px}
-.chatrow input {
- flex:1;
- min-width:0;
- background:#081426;
- color:white;
- border:1px solid var(--border);
- border-radius:8px;
- padding:11px;
-}
-footer {
- text-align:center;
- padding:28px;
- border-top:1px solid var(--border);
- color:var(--muted);
-}
-footer strong {color:var(--gold)}
-.modal {
- display:none;
- position:fixed;
- inset:0;
- z-index:2000;
- background:#000b;
- align-items:center;
- justify-content:center;
- padding:15px;
-}
-.modal.open {display:flex}
-.modalbox {
- width:min(680px,100%);
- max-height:90vh;
- overflow:auto;
- background:var(--panel);
- border:1px solid var(--gold);
- border-radius:14px;
- padding:20px;
-}
-.modalhead {display:flex;justify-content:space-between;align-items:center}
-.modalhead h2 {color:var(--gold)}
-.close {font-size:27px;background:none;border:0;color:white}
-.details {display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.detail {
- padding:11px;
- background:#0b1a2d;
- border:1px solid var(--border);
- border-radius:8px;
- overflow-wrap:anywhere;
-}
-.detail small {display:block;color:var(--gold)}
-@media(max-width:900px) {
- .grid {grid-template-columns:repeat(3,minmax(0,1fr))}
-}
-@media(max-width:650px) {
- .grid {grid-template-columns:repeat(2,minmax(0,1fr))}
- .features {grid-template-columns:1fr}
- .search {flex-direction:column}
- #worldMap {height:320px}
- .details {grid-template-columns:1fr}
-}
-@media(max-width:370px) {
- .grid {grid-template-columns:1fr}
-}
-</style>
-</head>
- 
-<style>
-#heritage .heritage-card{
- background:#10243c;border:1px solid #2a425e;
- border-radius:13px;overflow:hidden;cursor:pointer;
- transition:.2s
-}
-#heritage .heritage-card:hover{border-color:#e5bd70;transform:translateY(-3px)}
-#heritage .heritage-card img{width:100%;height:175px;object-fit:cover;background:#142b45}
-#heritage .heritage-card .heritage-info{padding:13px}
-#heritage .heritage-card h3{color:#e5bd70;margin:0 0 6px}
-#heritage .heritage-card p{color:#aebdd0;font-size:13px}
-#heritage .heritage-detail{line-height:1.9;color:#f6f2e9}
-#heritage .heritage-detail img{width:100%;max-height:320px;object-fit:cover;border-radius:10px}
-#heritage .heritage-detail a{color:#e5bd70}
-#heritage .heritage-loading{color:#e5bd70;padding:20px}
-</style>
-
-<section id="heritage">
- <div class="wrap">
-  <div class="heading">
-   <div>
-    <h2>🏛️ مکان‌های تاریخی جهان</h2>
-    <p>از تمدن‌های باستانی تا میراث جهانی بشر</p>
-   </div>
-  </div>
-  <div class="grid" id="heritageGrid"></div>
- </div>
-</section>
-
-<script>
-
-const heritagePlaces=[
-{id:"Persepolis",fa:"تخت جمشید",en:"Persepolis",country:"ایران",icon:"🏛️"},
-{id:"Naqsh-e_Rostam",fa:"نقش رستم",en:"Naqsh-e Rostam",country:"ایران",icon:"🏛️"},
-{id:"Pasargadae",fa:"پاسارگاد",en:"Pasargadae",country:"ایران",icon:"🏛️"},
-{id:"Bam_Citadel",fa:"ارگ بم",en:"Bam Citadel",country:"ایران",icon:"🏰"},
-{id:"Shushtar_Historical_Hydraulic_System",fa:"سازه‌های آبی شوشتر",en:"Shushtar Historical Hydraulic System",country:"ایران",icon:"💧"},
-{id:"Sheikh_Lotfollah_Mosque",fa:"مسجد شیخ لطف‌الله",en:"Sheikh Lotfollah Mosque",country:"ایران",icon:"🕌"},
-{id:"Imam_Square",fa:"میدان نقش جهان",en:"Naqsh-e Jahan Square",country:"ایران",icon:"🏛️"},
-{id:"Golestan_Palace",fa:"کاخ گلستان",en:"Golestan Palace",country:"ایران",icon:"🏰"},
-{id:"Arg-e_Rayen",fa:"ارگ رایِن",en:"Rayen Castle",country:"ایران",icon:"🏰"},
-{id:"Chogha_Zanbil",fa:"چغازنبیل",en:"Chogha Zanbil",country:"ایران",icon:"🏛️"},
-{id:"Great_Wall_of_China",fa:"دیوار بزرگ چین",en:"Great Wall of China",country:"چین",icon:"🏯"},
-{id:"Forbidden_City",fa:"شهر ممنوعه",en:"Forbidden City",country:"چین",icon:"🏯"},
-{id:"Terracotta_Army",fa:"ارتش سفالی",en:"Terracotta Army",country:"چین",icon:"🗿"},
-{id:"Temple_of_Heaven",fa:"معبد آسمان",en:"Temple of Heaven",country:"چین",icon:"🏯"},
-{id:"Pyramids_of_Giza",fa:"اهرام جیزه",en:"Pyramids of Giza",country:"مصر",icon:"🔺"},
-{id:"Great_Sphinx_of_Giza",fa:"ابوالهول بزرگ",en:"Great Sphinx of Giza",country:"مصر",icon:"🗿"},
-{id:"Karnak",fa:"معبد کرنک",en:"Karnak",country:"مصر",icon:"🏛️"},
-{id:"Valley_of_the_Kings",fa:"دره پادشاهان",en:"Valley of the Kings",country:"مصر",icon:"⚱️"},
-{id:"Abu_Simbel_temples",fa:"معبد ابوسمبل",en:"Abu Simbel temples",country:"مصر",icon:"🏛️"},
-{id:"Petra",fa:"شهر پترا",en:"Petra",country:"اردن",icon:"🏜️"},
-{id:"Baalbek",fa:"بعلبک",en:"Baalbek",country:"لبنان",icon:"🏛️"},
-{id:"Palmyra",fa:"پالمیرا",en:"Palmyra",country:"سوریه",icon:"🏛️"},
-{id:"Hagia_Sophia",fa:"ایاصوفیه",en:"Hagia Sophia",country:"ترکیه",icon:"🕌"},
-{id:"Ephesus",fa:"افسوس",en:"Ephesus",country:"ترکیه",icon:"🏛️"},
-{id:"Göbekli_Tepe",fa:"گوبکلی‌تپه",en:"Göbekli Tepe",country:"ترکیه",icon:"🗿"},
-{id:"Taj_Mahal",fa:"تاج محل",en:"Taj Mahal",country:"هند",icon:"🕌"},
-{id:"Red_Fort",fa:"قلعه سرخ",en:"Red Fort",country:"هند",icon:"🏰"},
-{id:"Qutb_Minar",fa:"قطب منار",en:"Qutb Minar",country:"هند",icon:"🗼"},
-{id:"Ajanta_Caves",fa:"غارهای آجانتا",en:"Ajanta Caves",country:"هند",icon:"🛕"},
-{id:"Angkor_Wat",fa:"آنگکور وات",en:"Angkor Wat",country:"کامبوج",icon:"🛕"},
-{id:"Borobudur",fa:"معبد بوروبودور",en:"Borobudur",country:"اندونزی",icon:"🛕"},
-{id:"Bagan",fa:"شهر باستانی باگان",en:"Bagan",country:"میانمار",icon:"🛕"},
-{id:"Machu_Picchu",fa:"ماچو پیچو",en:"Machu Picchu",country:"پرو",icon:"⛰️"},
-{id:"Chichen_Itza",fa:"چیچن ایتزا",en:"Chichen Itza",country:"مکزیک",icon:"🏛️"},
-{id:"Teotihuacan",fa:"تئوتیئواکان",en:"Teotihuacan",country:"مکزیک",icon:"🔺"},
-{id:"Tikal",fa:"تیکال",en:"Tikal",country:"گواتمالا",icon:"🌴"},
-{id:"Easter_Island",fa:"مجسمه‌های جزیره ایستر",en:"Easter Island",country:"شیلی",icon:"🗿"},
-{id:"Colosseum",fa:"کولوسئوم",en:"Colosseum",country:"ایتالیا",icon:"🏟️"},
-{id:"Roman_Forum",fa:"انجمن رومی",en:"Roman Forum",country:"ایتالیا",icon:"🏛️"},
-{id:"Pompeii",fa:"پمپئی",en:"Pompeii",country:"ایتالیا",icon:"🏛️"},
-{id:"Leaning_Tower_of_Pisa",fa:"برج کج پیزا",en:"Leaning Tower of Pisa",country:"ایتالیا",icon:"🗼"},
-{id:"Acropolis_of_Athens",fa:"آکروپولیس آتن",en:"Acropolis of Athens",country:"یونان",icon:"🏛️"},
-{id:"Parthenon",fa:"پارتنون",en:"Parthenon",country:"یونان",icon:"🏛️"},
-{id:"Delphi",fa:"دلفی",en:"Delphi",country:"یونان",icon:"🏛️"},
-{id:"Stonehenge",fa:"استون‌هنج",en:"Stonehenge",country:"بریتانیا",icon:"🗿"},
-{id:"Tower_of_London",fa:"برج لندن",en:"Tower of London",country:"بریتانیا",icon:"🏰"},
-{id:"Westminster_Abbey",fa:"کلیسای وست‌مینستر",en:"Westminster Abbey",country:"بریتانیا",icon:"⛪"},
-{id:"Eiffel_Tower",fa:"برج ایفل",en:"Eiffel Tower",country:"فرانسه",icon:"🗼"},
-{id:"Palace_of_Versailles",fa:"کاخ ورسای",en:"Palace of Versailles",country:"فرانسه",icon:"🏰"},
-{id:"Mont-Saint-Michel",fa:"مون سن میشل",en:"Mont-Saint-Michel",country:"فرانسه",icon:"🏰"},
-{id:"Brandenburg_Gate",fa:"دروازه براندنبورگ",en:"Brandenburg Gate",country:"آلمان",icon:"🏛️"},
-{id:"Cologne_Cathedral",fa:"کلیسای جامع کلن",en:"Cologne Cathedral",country:"آلمان",icon:"⛪"},
-{id:"Neuschwanstein_Castle",fa:"قلعه نوی‌شوان‌اشتاین",en:"Neuschwanstein Castle",country:"آلمان",icon:"🏰"},
-{id:"Alhambra",fa:"کاخ الحمرا",en:"Alhambra",country:"اسپانیا",icon:"🏰"},
-{id:"Sagrada_Familia",fa:"ساگرادا فامیلیا",en:"Sagrada Familia",country:"اسپانیا",icon:"⛪"},
-{id:"Prague_Castle",fa:"قلعه پراگ",en:"Prague Castle",country:"جمهوری چک",icon:"🏰"},
-{id:"Bran_Castle",fa:"قلعه بران",en:"Bran Castle",country:"رومانی",icon:"🏰"},
-{id:"Kremlin",fa:"کرملین",en:"Moscow Kremlin",country:"روسیه",icon:"🏰"},
-{id:"Saint_Basils_Cathedral",fa:"کلیسای سنت باسیل",en:"Saint Basil's Cathedral",country:"روسیه",icon:"⛪"},
-{id:"Himeji_Castle",fa:"قلعه هیمه‌جی",en:"Himeji Castle",country:"ژاپن",icon:"🏯"},
-{id:"Kiyomizu-dera",fa:"معبد کیومیزو",en:"Kiyomizu-dera",country:"ژاپن",icon:"🛕"},
-{id:"Hiroshima_Peace_Memorial",fa:"یادمان صلح هیروشیما",en:"Hiroshima Peace Memorial",country:"ژاپن",icon:"🕊️"},
-{id:"Sydney_Opera_House",fa:"خانه اپرای سیدنی",en:"Sydney Opera House",country:"استرالیا",icon:"🎭"},
-{id:"Robben_Island",fa:"جزیره روبن",en:"Robben Island",country:"آفریقای جنوبی",icon:"🏝️"},
-{id:"Great_Zimbabwe",fa:"زیمبابوه بزرگ",en:"Great Zimbabwe",country:"زیمبابوه",icon:"🏛️"},
-{id:"Lalibela",fa:"کلیساهای لالیبلا",en:"Lalibela",country:"اتیوپی",icon:"⛪"}
-];
-
