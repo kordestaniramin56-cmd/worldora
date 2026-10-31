@@ -858,116 +858,73 @@ footer strong {color:var(--gold)}
 </section>
 
 <script>
+
 const heritagePlaces=[
- {id:"Persepolis",fa:"تخت جمشید",en:"Persepolis",country:"ایران",icon:"🏛️"},
- {id:"Great_Wall_of_China",fa:"دیوار بزرگ چین",en:"Great Wall of China",country:"چین",icon:"🏯"},
- {id:"Pyramids_of_Giza",fa:"اهرام جیزه",en:"Pyramids of Giza",country:"مصر",icon:"🔺"},
- {id:"Colosseum",fa:"کولوسئوم",en:"Colosseum",country:"ایتالیا",icon:"🏟️"},
- {id:"Petra",fa:"شهر پترا",en:"Petra",country:"اردن",icon:"🏜️"},
- {id:"Taj_Mahal",fa:"تاج محل",en:"Taj Mahal",country:"هند",icon:"🕌"},
- {id:"Machu_Picchu",fa:"ماچو پیچو",en:"Machu Picchu",country:"پرو",icon:"⛰️"},
- {id:"Acropolis_of_Athens",fa:"آکروپولیس آتن",en:"Acropolis of Athens",country:"یونان",icon:"🏛️"},
- {id:"Angkor_Wat",fa:"آنگکور وات",en:"Angkor Wat",country:"کامبوج",icon:"🛕"},
- {id:"Stonehenge",fa:"استون‌هنج",en:"Stonehenge",country:"بریتانیا",icon:"🗿"},
- {id:"Chichen_Itza",fa:"چیچن ایتزا",en:"Chichen Itza",country:"مکزیک",icon:"🌎"},
- {id:"Hagia_Sophia",fa:"ایاصوفیه",en:"Hagia Sophia",country:"ترکیه",icon:"🕌"}
+{id:"Persepolis",fa:"تخت جمشید",en:"Persepolis",country:"ایران",icon:"🏛️"},
+{id:"Naqsh-e_Rostam",fa:"نقش رستم",en:"Naqsh-e Rostam",country:"ایران",icon:"🏛️"},
+{id:"Pasargadae",fa:"پاسارگاد",en:"Pasargadae",country:"ایران",icon:"🏛️"},
+{id:"Bam_Citadel",fa:"ارگ بم",en:"Bam Citadel",country:"ایران",icon:"🏰"},
+{id:"Shushtar_Historical_Hydraulic_System",fa:"سازه‌های آبی شوشتر",en:"Shushtar Historical Hydraulic System",country:"ایران",icon:"💧"},
+{id:"Sheikh_Lotfollah_Mosque",fa:"مسجد شیخ لطف‌الله",en:"Sheikh Lotfollah Mosque",country:"ایران",icon:"🕌"},
+{id:"Imam_Square",fa:"میدان نقش جهان",en:"Naqsh-e Jahan Square",country:"ایران",icon:"🏛️"},
+{id:"Golestan_Palace",fa:"کاخ گلستان",en:"Golestan Palace",country:"ایران",icon:"🏰"},
+{id:"Arg-e_Rayen",fa:"ارگ رایِن",en:"Rayen Castle",country:"ایران",icon:"🏰"},
+{id:"Chogha_Zanbil",fa:"چغازنبیل",en:"Chogha Zanbil",country:"ایران",icon:"🏛️"},
+{id:"Great_Wall_of_China",fa:"دیوار بزرگ چین",en:"Great Wall of China",country:"چین",icon:"🏯"},
+{id:"Forbidden_City",fa:"شهر ممنوعه",en:"Forbidden City",country:"چین",icon:"🏯"},
+{id:"Terracotta_Army",fa:"ارتش سفالی",en:"Terracotta Army",country:"چین",icon:"🗿"},
+{id:"Temple_of_Heaven",fa:"معبد آسمان",en:"Temple of Heaven",country:"چین",icon:"🏯"},
+{id:"Pyramids_of_Giza",fa:"اهرام جیزه",en:"Pyramids of Giza",country:"مصر",icon:"🔺"},
+{id:"Great_Sphinx_of_Giza",fa:"ابوالهول بزرگ",en:"Great Sphinx of Giza",country:"مصر",icon:"🗿"},
+{id:"Karnak",fa:"معبد کرنک",en:"Karnak",country:"مصر",icon:"🏛️"},
+{id:"Valley_of_the_Kings",fa:"دره پادشاهان",en:"Valley of the Kings",country:"مصر",icon:"⚱️"},
+{id:"Abu_Simbel_temples",fa:"معبد ابوسمبل",en:"Abu Simbel temples",country:"مصر",icon:"🏛️"},
+{id:"Petra",fa:"شهر پترا",en:"Petra",country:"اردن",icon:"🏜️"},
+{id:"Baalbek",fa:"بعلبک",en:"Baalbek",country:"لبنان",icon:"🏛️"},
+{id:"Palmyra",fa:"پالمیرا",en:"Palmyra",country:"سوریه",icon:"🏛️"},
+{id:"Hagia_Sophia",fa:"ایاصوفیه",en:"Hagia Sophia",country:"ترکیه",icon:"🕌"},
+{id:"Ephesus",fa:"افسوس",en:"Ephesus",country:"ترکیه",icon:"🏛️"},
+{id:"Göbekli_Tepe",fa:"گوبکلی‌تپه",en:"Göbekli Tepe",country:"ترکیه",icon:"🗿"},
+{id:"Taj_Mahal",fa:"تاج محل",en:"Taj Mahal",country:"هند",icon:"🕌"},
+{id:"Red_Fort",fa:"قلعه سرخ",en:"Red Fort",country:"هند",icon:"🏰"},
+{id:"Qutb_Minar",fa:"قطب منار",en:"Qutb Minar",country:"هند",icon:"🗼"},
+{id:"Ajanta_Caves",fa:"غارهای آجانتا",en:"Ajanta Caves",country:"هند",icon:"🛕"},
+{id:"Angkor_Wat",fa:"آنگکور وات",en:"Angkor Wat",country:"کامبوج",icon:"🛕"},
+{id:"Borobudur",fa:"معبد بوروبودور",en:"Borobudur",country:"اندونزی",icon:"🛕"},
+{id:"Bagan",fa:"شهر باستانی باگان",en:"Bagan",country:"میانمار",icon:"🛕"},
+{id:"Machu_Picchu",fa:"ماچو پیچو",en:"Machu Picchu",country:"پرو",icon:"⛰️"},
+{id:"Chichen_Itza",fa:"چیچن ایتزا",en:"Chichen Itza",country:"مکزیک",icon:"🏛️"},
+{id:"Teotihuacan",fa:"تئوتیئواکان",en:"Teotihuacan",country:"مکزیک",icon:"🔺"},
+{id:"Tikal",fa:"تیکال",en:"Tikal",country:"گواتمالا",icon:"🌴"},
+{id:"Easter_Island",fa:"مجسمه‌های جزیره ایستر",en:"Easter Island",country:"شیلی",icon:"🗿"},
+{id:"Colosseum",fa:"کولوسئوم",en:"Colosseum",country:"ایتالیا",icon:"🏟️"},
+{id:"Roman_Forum",fa:"انجمن رومی",en:"Roman Forum",country:"ایتالیا",icon:"🏛️"},
+{id:"Pompeii",fa:"پمپئی",en:"Pompeii",country:"ایتالیا",icon:"🏛️"},
+{id:"Leaning_Tower_of_Pisa",fa:"برج کج پیزا",en:"Leaning Tower of Pisa",country:"ایتالیا",icon:"🗼"},
+{id:"Acropolis_of_Athens",fa:"آکروپولیس آتن",en:"Acropolis of Athens",country:"یونان",icon:"🏛️"},
+{id:"Parthenon",fa:"پارتنون",en:"Parthenon",country:"یونان",icon:"🏛️"},
+{id:"Delphi",fa:"دلفی",en:"Delphi",country:"یونان",icon:"🏛️"},
+{id:"Stonehenge",fa:"استون‌هنج",en:"Stonehenge",country:"بریتانیا",icon:"🗿"},
+{id:"Tower_of_London",fa:"برج لندن",en:"Tower of London",country:"بریتانیا",icon:"🏰"},
+{id:"Westminster_Abbey",fa:"کلیسای وست‌مینستر",en:"Westminster Abbey",country:"بریتانیا",icon:"⛪"},
+{id:"Eiffel_Tower",fa:"برج ایفل",en:"Eiffel Tower",country:"فرانسه",icon:"🗼"},
+{id:"Palace_of_Versailles",fa:"کاخ ورسای",en:"Palace of Versailles",country:"فرانسه",icon:"🏰"},
+{id:"Mont-Saint-Michel",fa:"مون سن میشل",en:"Mont-Saint-Michel",country:"فرانسه",icon:"🏰"},
+{id:"Brandenburg_Gate",fa:"دروازه براندنبورگ",en:"Brandenburg Gate",country:"آلمان",icon:"🏛️"},
+{id:"Cologne_Cathedral",fa:"کلیسای جامع کلن",en:"Cologne Cathedral",country:"آلمان",icon:"⛪"},
+{id:"Neuschwanstein_Castle",fa:"قلعه نوی‌شوان‌اشتاین",en:"Neuschwanstein Castle",country:"آلمان",icon:"🏰"},
+{id:"Alhambra",fa:"کاخ الحمرا",en:"Alhambra",country:"اسپانیا",icon:"🏰"},
+{id:"Sagrada_Familia",fa:"ساگرادا فامیلیا",en:"Sagrada Familia",country:"اسپانیا",icon:"⛪"},
+{id:"Prague_Castle",fa:"قلعه پراگ",en:"Prague Castle",country:"جمهوری چک",icon:"🏰"},
+{id:"Bran_Castle",fa:"قلعه بران",en:"Bran Castle",country:"رومانی",icon:"🏰"},
+{id:"Kremlin",fa:"کرملین",en:"Moscow Kremlin",country:"روسیه",icon:"🏰"},
+{id:"Saint_Basils_Cathedral",fa:"کلیسای سنت باسیل",en:"Saint Basil's Cathedral",country:"روسیه",icon:"⛪"},
+{id:"Himeji_Castle",fa:"قلعه هیمه‌جی",en:"Himeji Castle",country:"ژاپن",icon:"🏯"},
+{id:"Kiyomizu-dera",fa:"معبد کیومیزو",en:"Kiyomizu-dera",country:"ژاپن",icon:"🛕"},
+{id:"Hiroshima_Peace_Memorial",fa:"یادمان صلح هیروشیما",en:"Hiroshima Peace Memorial",country:"ژاپن",icon:"🕊️"},
+{id:"Sydney_Opera_House",fa:"خانه اپرای سیدنی",en:"Sydney Opera House",country:"استرالیا",icon:"🎭"},
+{id:"Robben_Island",fa:"جزیره روبن",en:"Robben Island",country:"آفریقای جنوبی",icon:"🏝️"},
+{id:"Great_Zimbabwe",fa:"زیمبابوه بزرگ",en:"Great Zimbabwe",country:"زیمبابوه",icon:"🏛️"},
+{id:"Lalibela",fa:"کلیساهای لالیبلا",en:"Lalibela",country:"اتیوپی",icon:"⛪"}
 ];
-
-const heritageGrid=document.getElementById("heritageGrid");
-
-function heritageTitle(p){
- return lang==="fa"?p.fa:p.en;
-}
-
-function renderHeritage(){
- heritageGrid.innerHTML=heritagePlaces.map(p=>`
- <article class="heritage-card" data-heritage="${p.id}">
-  <div style="height:175px;display:flex;align-items:center;justify-content:center;font-size:65px;background:#142b45">
-   ${p.icon}
-  </div>
-  <div class="heritage-info">
-   <h3>${heritageTitle(p)}</h3>
-   <p>${p.country}</p>
-   <button class="gold" type="button">مشاهده تاریخ و اطلاعات</button>
-  </div>
- </article>`).join("");
-
- heritageGrid.querySelectorAll("[data-heritage]").forEach(card=>{
-  card.addEventListener("click",()=>{
-   showHeritage(card.dataset.heritage);
-  });
- });
-}
-
-async function showHeritage(id){
- const p=heritagePlaces.find(x=>x.id===id);
- if(!p)return;
-
- const modal=document.getElementById("modal");
- const title=document.getElementById("modalTitle");
- const content=document.getElementById("modalContent");
-
- title.textContent=heritageTitle(p);
- content.innerHTML='<div class="heritage-loading">در حال دریافت اطلاعات تاریخی و تصاویر...</div>';
- modal.classList.add("open");
-
- const wikiLang=lang==="fa"?"fa":lang;
- const searchTitle=lang==="fa"?p.fa:p.en;
-
- try{
-  const url="https://"+wikiLang+
-   ".wikipedia.org/api/rest_v1/page/summary/"+
-   encodeURIComponent(searchTitle);
-
-  let response=await fetch(url);
-
-  if(!response.ok && wikiLang!=="en"){
-   response=await fetch(
-    "https://en.wikipedia.org/api/rest_v1/page/summary/"+
-    encodeURIComponent(p.en)
-   );
-  }
-
-  if(!response.ok)throw new Error("Information unavailable");
-
-  const data=await response.json();
-
-  if(!modal.classList.contains("open"))return;
-
-  const image=data.originalimage?.source||data.thumbnail?.source||"";
-  const description=data.description||"";
-  const extract=data.extract||"اطلاعاتی برای این مکان دریافت نشد.";
-  const page=data.content_urls?.desktop?.page||
-   "https://"+wikiLang+".wikipedia.org/wiki/"+encodeURIComponent(p.en);
-
-  content.innerHTML=`
-   <div class="heritage-detail">
-    ${image?`<img src="${image}" alt="${p.en}">`:
-     `<div style="font-size:55px;text-align:center">${p.icon}</div>`}
-    <h2 style="color:#e5bd70">${data.title||heritageTitle(p)}</h2>
-    <p style="color:#e5bd70">${p.country}</p>
-    ${description?`<p>${description}</p>`:""}
-    <p>${extract}</p>
-    <p><strong>منبع اطلاعات:</strong>
-     <a href="${page}" target="_blank" rel="noopener noreferrer">
-      مطالعه در ویکی‌پدیا
-     </a>
-    </p>
-   </div>`;
- }catch(error){
-  if(!modal.classList.contains("open"))return;
-  content.innerHTML=`
-   <div class="heritage-detail">
-    <h3 style="color:#e5bd70">${p.fa}</h3>
-    <p>در حال حاضر دریافت اطلاعات آنلاین امکان‌پذیر نیست.</p>
-    <p>اتصال اینترنت را بررسی و دوباره تلاش کن.</p>
-    <button class="gold" onclick="showHeritage('${p.id}')">تلاش مجدد</button>
-   </div>`;
- }
-}
-
-renderHeritage();
-</script>
-</body>
-</html>
 
