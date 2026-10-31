@@ -1,334 +1,248 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#071629">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#081426">
 <title>WORLDORA | The World Is Yours to Explore</title>
+<meta name="description" content="Explore the world, history, culture and tourism.">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
 <style>
-:root{--bg:#071629;--panel:#10243c;--panel2:#142d49;--gold:#e5bd68;--white:#f5f2eb;--muted:#b8c5d4;--line:#29425e}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,Tahoma,sans-serif}
-button,input,select{font:inherit}
-button{cursor:pointer}
-header{position:sticky;top:0;z-index:10;background:#091a2d;border-bottom:1px solid var(--line);padding:14px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.logo{font-size:25px;font-weight:900;letter-spacing:2px;color:var(--gold)}
-nav{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.btn,select{border:1px solid #526981;border-radius:9px;padding:10px 14px;background:var(--panel2);color:white}
-.btn.gold{background:var(--gold);color:#172437;border:0;font-weight:bold}
-.hero{text-align:center;padding:65px 18px 50px;background:radial-gradient(ellipse at top,#244563 0,#10243c 40%,#071629 80%)}
-.hero h1{font-size:clamp(40px,8vw,70px);color:var(--gold);margin:0 0 12px;letter-spacing:4px}
-.hero p{color:var(--muted);line-height:2;font-size:17px}
-.search{display:flex;max-width:720px;margin:25px auto 0;gap:8px}
-.search input{flex:1;min-width:0}
-input,select{background:#10243c;color:white;border:1px solid #526981;border-radius:9px;padding:13px}
-input::placeholder{color:#aab7c6}
-main{max-width:1250px;margin:auto;padding:25px 18px}
-.section{margin:35px 0}
-h2.section-title{color:var(--gold);font-size:25px;margin:0 0 18px}
-.subtitle{color:var(--muted);line-height:1.9}
-.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:17px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:.2s}
-.card:hover{transform:translateY(-4px);border-color:var(--gold)}
-.card img{width:100%;height:155px;object-fit:cover;background:#203d59}
-.card-body{padding:14px}
-.card h3{color:var(--gold);margin:0 0 9px;font-size:18px}
-.card p{color:var(--muted);font-size:13px;line-height:1.7;margin:5px 0}
-.feature{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
-.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}
-.feature-item{background:var(--panel2);padding:17px;border-radius:11px}
-.feature-item b{color:var(--gold);display:block;margin-bottom:8px}
-#detail{display:none}
-.detail-head{display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:var(--panel);padding:18px;border-radius:14px}
-.detail-head img{width:150px;height:100px;object-fit:contain}
-.detail-head h2{color:var(--gold)}
-.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:20px 0}
-.info{background:var(--panel);border:1px solid var(--line);padding:15px;border-radius:10px;overflow-wrap:anywhere}
-.info b{display:block;color:var(--gold);margin-bottom:9px}
-.links{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
-a{color:var(--gold)}
-a.btn{text-decoration:none;display:inline-block}
-.ai{border:1px solid #8d7545;background:linear-gradient(130deg,#193653,#0d2035);padding:22px;border-radius:15px}
-.ai h2{color:var(--gold)}
-.ai p{color:var(--muted);line-height:1.9}
-.ai input{width:100%;margin:8px 0}
-#guideAnswer{white-space:pre-wrap;line-height:1.9;color:var(--white)}
-#status{color:var(--muted);padding:15px;text-align:center}
-footer{margin-top:45px;border-top:1px solid var(--line);text-align:center;padding:30px;color:var(--muted);line-height:2}
-.hidden{display:none!important}
-@media(max-width:600px){header{justify-content:center}.search{flex-direction:column}.hero{padding:45px 15px}.logo{font-size:22px}}
+:root {
+ --bg:#081426;
+ --panel:#10243c;
+ --gold:#e5bd70;
+ --text:#f6f2e9;
+ --muted:#aebdd0;
+ --border:#2a425e;
+}
+* {box-sizing:border-box}
+body {
+ margin:0;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Arial,Tahoma,sans-serif;
+ line-height:1.7;
+}
+button,input,select {font:inherit}
+button {cursor:pointer}
+a {color:var(--gold);text-decoration:none}
+header {
+ position:sticky;
+ top:0;
+ z-index:1000;
+ background:#081426;
+ border-bottom:1px solid var(--border);
+}
+.wrap {width:min(1180px,92%);margin:auto}
+nav {
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:15px;
+ min-height:70px;
+ flex-wrap:wrap;
+}
+.logo {
+ font-size:26px;
+ font-weight:900;
+ letter-spacing:2px;
+ color:var(--gold);
+}
+.logo span {color:white}
+.links {display:flex;gap:15px;flex-wrap:wrap}
+.links a {font-size:13px;color:white}
+.links a:hover {color:var(--gold)}
+.lang {
+ background:transparent;
+ color:var(--gold);
+ border:1px solid var(--gold);
+ border-radius:8px;
+ padding:7px;
+}
+.hero {
+ text-align:center;
+ padding:65px 12px;
+ background:radial-gradient(ellipse at top,#1c3959,#081426 70%);
+}
+.eyebrow {color:var(--gold);letter-spacing:3px;font-size:12px}
+.hero h1 {
+ font-size:clamp(44px,9vw,82px);
+ color:var(--gold);
+ letter-spacing:5px;
+ line-height:1.2;
+ margin:12px;
+}
+.hero h2 {font-size:clamp(18px,3vw,27px);font-weight:500}
+.hero p {max-width:750px;color:var(--muted);margin:12px auto}
+.search {
+ max-width:760px;
+ margin:25px auto 0;
+ display:flex;
+ gap:8px;
+ padding:8px;
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:12px;
+}
+.search input {
+ flex:1;
+ min-width:0;
+ background:transparent;
+ color:white;
+ border:0;
+ outline:0;
+ padding:12px;
+}
+.gold {
+ background:var(--gold);
+ color:#182437;
+ border:0;
+ border-radius:8px;
+ padding:11px 20px;
+ font-weight:bold;
+}
+.gold:hover {background:#f4d99e}
+section {padding:42px 0}
+.heading {
+ display:flex;
+ justify-content:space-between;
+ align-items:end;
+ gap:12px;
+ margin-bottom:20px;
+ flex-wrap:wrap;
+}
+.heading h2 {margin:0;color:var(--gold);font-size:26px}
+.heading p,.note {color:var(--muted);font-size:13px}
+select,.secondary {
+ background:var(--panel);
+ color:white;
+ border:1px solid var(--border);
+ border-radius:8px;
+ padding:10px;
+}
+.filters {display:flex;gap:9px;flex-wrap:wrap;margin:17px 0}
+.status {font-size:13px;color:var(--muted);margin:12px 0}
+.grid {
+ display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:15px;
+}
+.country,.feature {
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:13px;
+ overflow:hidden;
+}
+.country:hover,.feature:hover {border-color:var(--gold)}
+.flag {
+ height:120px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:#142b45;
+}
+.flag img {max-width:85%;max-height:90px;object-fit:contain}
+.countrybody {padding:13px}
+.country h3 {color:var(--gold);margin:0;font-size:18px}
+.country p,.feature p {color:var(--muted);font-size:13px}
+.country button {width:100%;margin-top:10px}
+.features {
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:15px;
+}
+.feature {padding:20px}
+.feature .icon {font-size:30px}
+.feature h3 {color:var(--gold)}
+#worldMap {
+ height:410px;
+ border-radius:12px;
+ overflow:hidden;
+ border:1px solid var(--border);
+}
+.ai {
+ padding:23px;
+ background:linear-gradient(135deg,#172e49,#0c1b2e);
+ border:1px solid #8c744c;
+ border-radius:15px;
+}
+.ai h2 {color:var(--gold)}
+.chat {
+ background:#081426;
+ border:1px solid var(--border);
+ border-radius:10px;
+ padding:12px;
+ min-height:120px;
+ max-height:260px;
+ overflow:auto;
+}
+.message {padding:9px 12px;border-radius:9px;margin:8px 0;white-space:pre-wrap}
+.bot {background:#18324e}
+.user {background:#51432c;margin-inline-start:auto;max-width:90%}
+.chatrow {display:flex;gap:8px;margin-top:10px}
+.chatrow input {
+ flex:1;
+ min-width:0;
+ background:#081426;
+ color:white;
+ border:1px solid var(--border);
+ border-radius:8px;
+ padding:11px;
+}
+footer {
+ text-align:center;
+ padding:28px;
+ border-top:1px solid var(--border);
+ color:var(--muted);
+}
+footer strong {color:var(--gold)}
+.modal {
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:2000;
+ background:#000b;
+ align-items:center;
+ justify-content:center;
+ padding:15px;
+}
+.modal.open {display:flex}
+.modalbox {
+ width:min(680px,100%);
+ max-height:90vh;
+ overflow:auto;
+ background:var(--panel);
+ border:1px solid var(--gold);
+ border-radius:14px;
+ padding:20px;
+}
+.modalhead {display:flex;justify-content:space-between;align-items:center}
+.modalhead h2 {color:var(--gold)}
+.close {font-size:27px;background:none;border:0;color:white}
+.details {display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.detail {
+ padding:11px;
+ background:#0b1a2d;
+ border:1px solid var(--border);
+ border-radius:8px;
+ overflow-wrap:anywhere;
+}
+.detail small {display:block;color:var(--gold)}
+@media(max-width:900px) {
+ .grid {grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:650px) {
+ .grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+ .features {grid-template-columns:1fr}
+ .search {flex-direction:column}
+ #worldMap {height:320px}
+ .details {grid-template-columns:1fr}
+}
+@media(max-width:370px) {
+ .grid {grid-template-columns:1fr}
+}
 </style>
 </head>
-<body>
-
-<header>
-  <div class="logo">WORLDORA 🌍</div>
-  <nav>
-    <button class="btn" onclick="showHome()" id="navHome">خانه</button>
-    <button class="btn" onclick="scrollToSection('countries')" id="navCountries">کشورها</button>
-    <button class="btn" onclick="scrollToSection('guide')" id="navGuide">راهنما</button>
-    <select id="language" onchange="setLanguage()">
-      <option value="fa">فارسی</option>
-      <option value="en">English</option>
-      <option value="ar">العربية</option>
-      <option value="fr">Français</option>
-      <option value="de">Deutsch</option>
-      <option value="es">Español</option>
-      <option value="zh">中文</option>
-      <option value="ja">日本語</option>
-      <option value="ru">Русский</option>
-      <option value="tr">Türkçe</option>
-      <option value="hi">हिन्दी</option>
-      <option value="pt">Português</option>
-    </select>
-  </nav>
-</header>
-
-<section class="hero" id="hero">
-  <h1>WORLDORA</h1>
-  <p id="slogan">جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.</p>
-  <p>The World Is Yours to Explore</p>
-  <div class="search">
-    <input id="searchBox" placeholder="نام کشور را وارد کن..." oninput="renderCountries()">
-    <button class="btn gold" onclick="renderCountries()" id="searchButton">جست‌وجو</button>
-  </div>
-</section>
-
-<main>
-  <section id="homePage">
-    <section class="section">
-      <h2 class="section-title" id="featuredTitle">مقصدهای منتخب جهان</h2>
-      <p class="subtitle" id="featuredIntro">با برخی از مشهورترین جاذبه‌های تاریخی و فرهنگی جهان آشنا شوید.</p>
-      <div class="grid" id="featuredGrid"></div>
-    </section>
-
-    <section class="section" id="countries">
-      <h2 class="section-title" id="countriesTitle">کاوش در کشورهای جهان</h2>
-      <p class="subtitle" id="countriesIntro">کشور موردنظر خود را پیدا کنید و اطلاعات اولیه آن را ببینید.</p>
-      <div class="toolbar">
-        <select id="region" onchange="renderCountries()">
-          <option value="">همه مناطق</option>
-          <option value="Asia">Asia / آسیا</option>
-          <option value="Europe">Europe / اروپا</option>
-          <option value="Africa">Africa / آفریقا</option>
-          <option value="Americas">Americas / آمریکا</option>
-          <option value="Oceania">Oceania / اقیانوسیه</option>
-        </select>
-        <button class="btn" onclick="loadCountries()" id="reloadButton">بارگذاری دوباره</button>
-      </div>
-      <div id="status">در حال دریافت اطلاعات کشورها...</div>
-      <div class="grid" id="countryGrid"></div>
-    </section>
-
-    <section class="section">
-      <h2 class="section-title" id="exploreTitle">جهانگردی مجازی چه امکاناتی دارد؟</h2>
-      <div class="feature">
-        <div class="feature-grid">
-          <div class="feature-item"><b>🏛 تاریخ و تمدن</b><span>شناخت تمدن‌ها، آثار تاریخی و میراث جهانی.</span></div>
-          <div class="feature-item"><b>🎨 هنر و فرهنگ</b><span>آشنایی با هنر، موسیقی، آداب و سنت‌های ملت‌ها.</span></div>
-          <div class="feature-item"><b>🏞 طبیعت و جغرافیا</b><span>کوه‌ها، دریاها، جنگل‌ها و مناطق طبیعی.</span></div>
-          <div class="feature-item"><b>🖼 موزه‌ها</b><span>شناخت موزه‌ها، آثار هنری و مجموعه‌های فرهنگی.</span></div>
-          <div class="feature-item"><b>🗺 نقشه گردشگری</b><span>مشاهده موقعیت کشورها و جاذبه‌های گردشگری.</span></div>
-          <div class="feature-item"><b>🌐 تور مجازی</b><span>آمادگی برای بازدیدهای تصویری و تورهای ۳۶۰ درجه.</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section ai" id="guide">
-      <h2>🤖 WORLDORA SMART GUIDE</h2>
-      <p>راهنمای گردشگری WORLDORA برای کمک به شناخت کشورها، شهرها، جاذبه‌ها، تاریخ و فرهنگ جهان.</p>
-      <input id="guideQuestion" placeholder="مثلاً درباره تاریخ تخت جمشید توضیح بده...">
-      <button class="btn gold" onclick="askGuide()">ارسال پرسش</button>
-      <p id="guideAnswer">راهنمای نمایشی سایت آماده است. اتصال به هوش مصنوعی واقعی در مرحله بعد از طریق سرور امن انجام می‌شود.</p>
-    </section>
-  </section>
-
-  <section id="detail">
-    <button class="btn" onclick="showHome()" id="backButton">← بازگشت</button>
-    <div id="detailContent"></div>
-  </section>
-</main>
-
-<footer>
-  <div class="logo">WORLDORA</div>
-  <p>The World Is Yours to Explore</p>
-  <p>Discover the World • Learn History • Experience Cultures</p>
-  <p>© WORLDORA</p>
-</footer>
-
-<script>
-const featured=[
- {id:"iran",name:"تخت جمشید",country:"ایران",en:"Persepolis",desc:"پایتخت تشریفاتی امپراتوری هخامنشی و یکی از مهم‌ترین محوطه‌های تاریخی ایران.",lat:29.9352,lon:52.8916,search:"Persepolis"},
- {id:"egypt",name:"اهرام جیزه",country:"مصر",en:"Pyramids of Giza",desc:"مجموعه‌ای از بناهای عظیم مصر باستان و از شناخته‌شده‌ترین آثار تاریخی جهان.",lat:29.9792,lon:31.1342,search:"Pyramids of Giza"},
- {id:"rome",name:"کولوسئوم",country:"ایتالیا",en:"Colosseum",desc:"آمفی‌تئاتر مشهور روم باستان و نمادی از معماری امپراتوری روم.",lat:41.8902,lon:12.4922,search:"Colosseum Rome"},
- {id:"paris",name:"موزه لوور",country:"فرانسه",en:"Louvre Museum",desc:"یکی از مشهورترین موزه‌های هنری جهان با مجموعه‌ای بزرگ از آثار تاریخی.",lat:48.8606,lon:2.3376,search:"Louvre Museum"},
- {id:"kyoto",name:"معبد کیومیزو",country:"ژاپن",en:"Kiyomizu-dera",desc:"معبد تاریخی کیوتو با معماری چوبی و چشم‌اندازهای زیبا.",lat:34.9949,lon:135.7850,search:"Kiyomizu dera Kyoto"},
- {id:"athens",name:"آکروپولیس",country:"یونان",en:"Acropolis of Athens",desc:"مجموعه تاریخی باستانی آتن و یکی از نمادهای تمدن یونان.",lat:37.9715,lon:23.7257,search:"Acropolis Athens"}
-];
-
-const translations={
-fa:{home:"خانه",countries:"کشورها",guide:"راهنما",slogan:"جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.",search:"نام کشور را وارد کن...",searchBtn:"جست‌وجو",featured:"مقصدهای منتخب جهان",intro:"با برخی از مشهورترین جاذبه‌های تاریخی و فرهنگی جهان آشنا شوید.",countryTitle:"کاوش در کشورهای جهان",countryIntro:"کشور موردنظر خود را پیدا کنید و اطلاعات اولیه آن را ببینید.",reload:"بارگذاری دوباره",back:"← بازگشت",capital:"پایتخت",region:"منطقه",population:"جمعیت",languages:"زبان‌ها",currency:"واحد پول",map:"مشاهده نقشه",wiki:"اطلاعات بیشتر",images:"مشاهده تصاویر",loading:"در حال دریافت اطلاعات کشورها...",error:"دریافت اطلاعات ناموفق بود. اتصال اینترنت را بررسی کنید.",count:"کشور نمایش داده شد"},
-en:{home:"Home",countries:"Countries",guide:"Guide",slogan:"Discover the world. Learn history. Experience cultures.",search:"Enter a country name...",searchBtn:"Search",featured:"Featured Destinations",intro:"Discover famous historical and cultural attractions around the world.",countryTitle:"Explore the Countries",countryIntro:"Find a country and explore its basic information.",reload:"Reload countries",back:"← Back",capital:"Capital",region:"Region",population:"Population",languages:"Languages",currency:"Currency",map:"View map",wiki:"More information",images:"View images",loading:"Loading countries...",error:"Could not load countries. Check your internet connection.",count:"countries displayed"},
-ar:{home:"الرئيسية",countries:"الدول",guide:"الدليل",slogan:"اكتشف العالم وتعرّف على التاريخ والثقافات.",search:"اكتب اسم الدولة...",searchBtn:"بحث",featured:"وجهات مميزة",intro:"اكتشف أشهر المعالم التاريخية والثقافية.",countryTitle:"استكشف دول العالم",countryIntro:"اختر دولة للاطلاع على معلوماتها.",reload:"إعادة التحميل",back:"← عودة",capital:"العاصمة",region:"المنطقة",population:"السكان",languages:"اللغات",currency:"العملة",map:"عرض الخريطة",wiki:"معلومات إضافية",images:"الصور",loading:"جارٍ تحميل الدول...",error:"تعذر تحميل الدول.",count:"دولة"},
-de:{home:"Startseite",countries:"Länder",guide:"Reiseführer",slogan:"Entdecke die Welt. Lerne Geschichte. Erlebe Kulturen.",search:"Land eingeben...",searchBtn:"Suchen",featured:"Ausgewählte Reiseziele",intro:"Entdecke berühmte historische und kulturelle Sehenswürdigkeiten.",countryTitle:"Länder entdecken",countryIntro:"Wähle ein Land und entdecke seine Informationen.",reload:"Neu laden",back:"← Zurück",capital:"Hauptstadt",region:"Region",population:"Einwohner",languages:"Sprachen",currency:"Währung",map:"Karte ansehen",wiki:"Mehr Informationen",images:"Bilder ansehen",loading:"Länder werden geladen...",error:"Länder konnten nicht geladen werden.",count:"Länder angezeigt"}
-};
-function tr(k){let lang=document.getElementById("language").value;return (translations[lang]||translations.en)[k]||(translations.en[k]||k)}
-let countries=[];
-
-function setLanguage(){
- const lang=document.getElementById("language").value;
- document.documentElement.lang=lang;
- document.documentElement.dir=["fa","ar"].includes(lang)?"rtl":"ltr";
- const map={navHome:"home",navCountries:"countries",navGuide:"guide",slogan:"slogan",searchButton:"searchBtn",featuredTitle:"featured",featuredIntro:"intro",countriesTitle:"countryTitle",countriesIntro:"countryIntro",reloadButton:"reload",backButton:"back"};
- Object.entries(map).forEach(([id,key])=>document.getElementById(id).textContent=tr(key));
- document.getElementById("searchBox").placeholder=tr("search");
- renderCountries();
-}
-
-function scrollToSection(id){showHome();setTimeout(()=>document.getElementById(id).scrollIntoView({behavior:"smooth"}),50)}
-function showHome(){
- document.getElementById("detail").style.display="none";
- document.getElementById("homePage").style.display="block";
- document.getElementById("hero").style.display="block";
- window.scrollTo({top:0,behavior:"smooth"});
-}
-function showDetail(){
- document.getElementById("homePage").style.display="none";
- document.getElementById("hero").style.display="none";
- document.getElementById("detail").style.display="block";
- window.scrollTo(0,0);
-}
-
-function renderFeatured(){
- const grid=document.getElementById("featuredGrid");
- grid.innerHTML="";
- featured.forEach(place=>{
-  const card=document.createElement("article");
-  card.className="card";
-  const img=document.createElement("img");
-  img.loading="lazy";
-  img.alt=place.en;
-  img.src="https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(place.search.replaceAll(" ","_"))+"?width=600";
-  img.onerror=()=>{img.src="https://placehold.co/600x300/10243c/e5bd68?text="+encodeURIComponent(place.en)};
-  const body=document.createElement("div");body.className="card-body";
-  const h=document.createElement("h3");h.textContent=place.name;
-  const p=document.createElement("p");p.textContent=place.country+" • "+place.en;
-  const d=document.createElement("p");d.textContent=place.desc;
-  body.append(h,p,d);card.append(img,body);
-  card.onclick=()=>openAttraction(place);
-  grid.append(card);
- });
-}
-
-async function loadCountries(){
- document.getElementById("status").textContent=tr("loading");
- try{
-  const response=await fetch("https://restcountries.com/v3.1/all?fields=name,capital,region,flags,cca2,latlng,population,languages,currencies,translations");
-  if(!response.ok)throw new Error("API error");
-  countries=await response.json();
-  countries.sort((a,b)=>a.name.common.localeCompare(b.name.common));
-  renderCountries();
- }catch(e){
-  document.getElementById("status").textContent=tr("error");
- }
-}
-
-function countryName(c){
- const lang=document.getElementById("language").value;
- if(lang==="fa")return c.translations?.per?.common||c.name.common;
- if(lang==="ar")return c.translations?.ara?.common||c.name.common;
- if(lang==="fr")return c.translations?.fra?.common||c.name.common;
- if(lang==="de")return c.translations?.deu?.common||c.name.common;
- if(lang==="es")return c.translations?.spa?.common||c.name.common;
- if(lang==="ja")return c.translations?.jpn?.common||c.name.common;
- if(lang==="ru")return c.translations?.rus?.common||c.name.common;
- if(lang==="zh")return c.translations?.zho?.common||c.name.common;
- if(lang==="pt")return c.translations?.por?.common||c.name.common;
- if(lang==="tr")return c.translations?.tur?.common||c.name.common;
- if(lang==="hi")return c.translations?.hin?.common||c.name.common;
- return c.name.common;
-}
-
-function renderCountries(){
- if(!countries.length)return;
- const q=document.getElementById("searchBox").value.trim().toLowerCase();
- const region=document.getElementById("region").value;
- const filtered=countries.filter(c=>{
-  const names=[c.name.common,c.name.official,countryName(c)].join(" ").toLowerCase();
-  return (!q||names.includes(q))&&(!region||c.region===region);
- });
- const grid=document.getElementById("countryGrid");
- grid.innerHTML="";
- document.getElementById("status").textContent=filtered.length+" "+tr("count");
- filtered.forEach(c=>{
-  const card=document.createElement("article");card.className="card";
-  const img=document.createElement("img");img.src=c.flags?.png||"";img.alt="Flag";img.loading="lazy";
-  const body=document.createElement("div");body.className="card-body";
-  const h=document.createElement("h3");h.textContent=countryName(c);
-  const p=document.createElement("p");p.textContent=c.region||"";
-  const cap=document.createElement("p");cap.textContent=(c.capital||["—"]).join(", ");
-  body.append(h,p,cap);card.append(img,body);
-  card.onclick=()=>openCountry(c.cca2);
-  grid.append(card);
- });
-}
-
-function openCountry(code){
- const c=countries.find(x=>x.cca2===code);if(!c)return;
- showDetail();
- const name=countryName(c);
- const coords=c.latlng||[];
- const map=coords.length===2?`https://www.openstreetmap.org/?mlat=${coords[0]}&mlon=${coords[1]}#map=5/${coords[0]}/${coords[1]}`:"https://www.openstreetmap.org";
- const wiki="https://en.wikipedia.org/wiki/"+encodeURIComponent(c.name.common.replaceAll(" ","_"));
- const images="https://commons.wikimedia.org/wiki/Special:MediaSearch?type=image&search="+encodeURIComponent(c.name.common);
- const languages=Object.values(c.languages||{}).join(", ")||"—";
- const currency=Object.values(c.currencies||{}).map(x=>x.name).join(", ")||"—";
- const data=[
-  [tr("capital"),(c.capital||["—"]).join(", ")],
-  [tr("region"),c.region||"—"],
-  [tr("population"),(c.population||0).toLocaleString()],
-  [tr("languages"),languages],
-  [tr("currency"),currency]
- ];
- const root=document.getElementById("detailContent");root.innerHTML="";
- const head=document.createElement("div");head.className="detail-head";
- const flag=document.createElement("img");flag.src=c.flags?.svg||c.flags?.png||"";flag.alt="Flag";
- const title=document.createElement("div");const h=document.createElement("h2");h.textContent=name;
- const official=document.createElement("p");official.className="subtitle";official.textContent=c.name.official||name;
- title.append(h,official);head.append(flag,title);
- const info=document.createElement("div");info.className="info-grid";
- data.forEach(([label,value])=>{const box=document.createElement("div");box.className="info";const b=document.createElement("b");b.textContent=label;const span=document.createElement("span");span.textContent=value;box.append(b,span);info.append(box)});
- const links=document.createElement("div");links.className="links";
- links.innerHTML=`<a class="btn gold" href="${map}" target="_blank" rel="noopener">${tr("map")}</a><a class="btn" href="${wiki}" target="_blank" rel="noopener">${tr("wiki")}</a><a class="btn" href="${images}" target="_blank" rel="noopener">${tr("images")}</a>`;
- const heading=document.createElement("h2");heading.className="section-title";heading.textContent=name;
- const note=document.createElement("p");note.className="subtitle";note.textContent="برای گسترش صفحه این کشور، اطلاعات جاذبه‌های گردشگری، تاریخ، فرهنگ، طبیعت و موزه‌ها به بانک محتوای WORLDORA افزوده خواهد شد.";
- root.append(heading,head,info,links,note);
-}
-
-function openAttraction(place){
- showDetail();
- const root=document.getElementById("detailContent");root.innerHTML="";
- const h=document.createElement("h2");h.className="section-title";h.textContent=place.name;
- const sub=document.createElement("p");sub.className="subtitle";sub.textContent=place.en+" • "+place.country;
- const desc=document.createElement("div");desc.className="feature";desc.textContent=place.desc;
- const links=document.createElement("div");links.className="links";
- const map=`https://www.openstreetmap.org/?mlat=${place.lat}&mlon=${place.lon}#map=15/${place.lat}/${place.lon}`;
- const wiki="https://en.wikipedia.org/wiki/"+encodeURIComponent(place.search.replaceAll(" ","_"));
- links.innerHTML=`<a class="btn gold" target="_blank" rel="noopener" href="${map}">${tr("map")}</a><a class="btn" target="_blank" rel="noopener" href="${wiki}">${tr("wiki")}</a><a class="btn" target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/Special:MediaSearch?type=image&search=${encodeURIComponent(place.search)}">${tr("images")}</a>`;
- root.append(h,sub,desc,links);
-}
-
-function askGuide(){
- const q=document.getElementById("guideQuestion").value.trim();
- const answer=document.getElementById("guideAnswer");
- if(!q){answer.textContent="لطفاً پرسش خود را بنویس.";return}
- answer.textContent="پرسش شما ثبت شد: "+q+"\n\nاین نسخه هنوز به سرویس هوش مصنوعی متصل نیست. برای پاسخ واقعی باید یک سرویس هوش مصنوعی از طریق سرور امن متصل شود؛ این کار در مرحله بعد انجام می‌شود.";
-}
-
-renderFeatured();
-loadCountries();
-</script>
-</body>
-</html>
