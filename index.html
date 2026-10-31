@@ -1,1 +1,113 @@
 
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="WORLDORA؛ جهان را کشف کن، تاریخ را بشناس و فرهنگ‌ها را تجربه کن.">
+<title>WORLDORA | The World Is Yours to Explore</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#081426;color:#f5f2e9;font-family:Tahoma,Arial,sans-serif;line-height:1.9}
+header{padding:18px 7%;display:flex;justify-content:space-between;align-items:center;background:#101f35;border-bottom:1px solid #b99b55;flex-wrap:wrap}
+.logo{font-size:28px;font-weight:bold;color:#e4c477;letter-spacing:2px}
+nav a{color:#fff;text-decoration:none;margin:0 10px;font-size:14px}
+.hero{text-align:center;padding:75px 20px 65px;background:radial-gradient(circle at center,#25476c,#081426 70%)}
+.hero h1{font-size:42px;color:#f1d58c;margin:0}
+.hero h2{font-size:22px;font-weight:normal}
+.hero p{max-width:650px;margin:20px auto;color:#d4dce7}
+.btn{display:inline-block;background:#c6a65c;color:#101827;padding:12px 25px;border-radius:7px;text-decoration:none;font-weight:bold;margin-top:15px}
+section{padding:45px 7%}
+.section-title{text-align:center;color:#e6c77e;font-size:27px;margin-bottom:25px}
+.intro{text-align:center;max-width:850px;margin:auto;color:#d3dce7}
+.search{display:block;width:100%;max-width:550px;margin:25px auto;padding:14px;border:1px solid #c6a65c;border-radius:8px;background:#14243a;color:white;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.card{background:#14243a;border:1px solid #334761;border-radius:12px;padding:22px;text-align:center;transition:.2s}
+.card:hover{border-color:#e4c477;transform:translateY(-3px)}
+.emoji{font-size:42px}
+.card h3{color:#e7c879;margin:8px 0}
+.card p{font-size:14px;color:#c4cfdd}
+.card a{color:#e7c879;text-decoration:none}
+.banner{background:#122943;text-align:center;border-top:1px solid #b99b55;border-bottom:1px solid #b99b55}
+footer{text-align:center;padding:30px;background:#050d19;color:#aeb9c8;font-size:13px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">WORLDORA 🌍</div>
+<nav>
+<a href="#home">خانه</a>
+<a href="#explore">اکتشاف</a>
+<a href="#destinations">مقاصد</a>
+<a href="#about">درباره ما</a>
+</nav>
+</header>
+
+<main>
+<div class="hero" id="home">
+<h1>WORLDORA</h1>
+<h2>The World Is Yours to Explore</h2>
+<p>جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.</p>
+<p>سفری دیجیتال به تمدن‌ها، موزه‌ها، آثار تاریخی، طبیعت و شگفتی‌های جهان؛ بدون محدودیت مرزها.</p>
+<a class="btn" href="#explore">شروع سفر جهانی</a>
+</div>
+
+<section id="about">
+<h2 class="section-title">جهان، فراتر از یک صفحه نمایش</h2>
+<p class="intro">WORLDORA یک پلتفرم گردشگری مجازی و آموزش فرهنگی است که مردم سراسر جهان را با تاریخ، هنر، معماری، طبیعت، علم و میراث تمدن‌ها آشنا می‌کند. هدف ما فراهم کردن تجربه‌ای آموزنده، محترمانه و خانوادگی برای همه نسل‌هاست.</p>
+</section>
+
+<section id="explore">
+<h2 class="section-title">جهان را از اینجا کشف کن</h2>
+<input class="search" id="search" placeholder="جست‌وجو در دسته‌بندی‌ها..." oninput="filterCards()">
+<div class="grid" id="categories">
+<div class="card" data-name="تاریخ تمدن"><div class="emoji">🏛️</div><h3>تاریخ و تمدن</h3><p>سفر به گذشته و شناخت تمدن‌های بزرگ.</p></div>
+<div class="card" data-name="موزه"><div class="emoji">🖼️</div><h3>موزه‌ها</h3><p>بازدید مجازی از گنجینه‌های فرهنگی جهان.</p></div>
+<div class="card" data-name="معماری"><div class="emoji">🏰</div><h3>معماری</h3><p>کاخ‌ها، بناها و شاهکارهای معماری.</p></div>
+<div class="card" data-name="طبیعت"><div class="emoji">🌳</div><h3>طبیعت و جغرافیا</h3><p>کوهستان‌ها، جنگل‌ها، دریاها و مناظر طبیعی.</p></div>
+<div class="card" data-name="فرهنگ"><div class="emoji">🌏</div><h3>فرهنگ ملت‌ها</h3><p>آشنایی با زبان‌ها، سنت‌ها و سبک زندگی.</p></div>
+<div class="card" data-name="هنر"><div class="emoji">🎨</div><h3>هنر و آثار تاریخی</h3><p>نقاشی، مجسمه‌سازی و آثار هنری.</p></div>
+<div class="card" data-name="علم فناوری"><div class="emoji">🔬</div><h3>علم و فناوری</h3><p>دستاوردهای علمی و نوآوری‌های بشر.</p></div>
+<div class="card" data-name="شهر"><div class="emoji">🌆</div><h3>شهرهای جهان</h3><p>کشف شهرها و جاذبه‌های شهری.</p></div>
+</div>
+</section>
+
+<section id="destinations">
+<h2 class="section-title">اولین مقاصد WORLDORA</h2>
+<div class="grid">
+<div class="card"><div class="emoji">🇮🇷</div><h3>ایران</h3><p>پرسپولیس، اصفهان، تخت جمشید و تمدن پارسی.</p></div>
+<div class="card"><div class="emoji">🇪🇬</div><h3>مصر</h3><p>اهرام جیزه، معابد و تمدن باستانی مصر.</p></div>
+<div class="card"><div class="emoji">🇮🇹</div><h3>ایتالیا</h3><p>رُم باستان، کولوسئوم و هنر رنسانس.</p></div>
+<div class="card"><div class="emoji">🇫🇷</div><h3>فرانسه</h3><p>پاریس، موزه لوور و معماری تاریخی.</p></div>
+<div class="card"><div class="emoji">🇯🇵</div><h3>ژاپن</h3><p>فرهنگ ژاپنی، معابد و طبیعت شگفت‌انگیز.</p></div>
+<div class="card"><div class="emoji">🇬🇷</div><h3>یونان</h3><p>آتن، آکروپولیس و میراث یونان باستان.</p></div>
+</div>
+</section>
+
+<section class="banner">
+<h2 class="section-title">یک جهان، هزاران داستان</h2>
+<p>با WORLDORA مرزهای یادگیری و کشف را کنار بزن.</p>
+<a class="btn" href="#home">بازگشت به بالای صفحه</a>
+</section>
+</main>
+
+<footer>
+<div class="logo">WORLDORA</div>
+<p>The World Is Yours to Explore</p>
+<p>پلتفرم جهانی گردشگری مجازی، فرهنگ و آموزش</p>
+<p>© 2026 WORLDORA. All rights reserved.</p>
+<p>محتوای تصویری و تاریخی باید با رعایت حقوق نشر و اعتبار منابع منتشر شود.</p>
+</footer>
+
+<script>
+function filterCards(){
+const q=document.getElementById('search').value.trim().toLowerCase();
+document.querySelectorAll('#categories .card').forEach(card=>{
+card.classList.toggle('hidden',!card.innerText.toLowerCase().includes(q));
+});
+}
+</script>
+</body>
+</html>
