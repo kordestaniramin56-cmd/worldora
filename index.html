@@ -1,263 +1,143 @@
 
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071629">
-<title>WORLDORA | Explore the World</title>
 <style>
-:root{--bg:#071629;--panel:#10243c;--gold:#e5bd68;--text:#f4f1e9;--muted:#b7c3d1}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
-header{padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;border-bottom:1px solid #263c53}
-.logo{font-size:27px;font-weight:bold;color:var(--gold);letter-spacing:2px}
-nav{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
-button,select,input{font:inherit}
-button{cursor:pointer}
-select,input{background:#10243c;color:white;border:1px solid #52657a;border-radius:10px;padding:11px}
-.hero{text-align:center;padding:65px 18px 45px;background:radial-gradient(ellipse at top,#1b3b59,#071629 70%)}
-.hero h1{font-size:clamp(32px,6vw,58px);margin:10px;color:var(--gold)}
-.hero p{color:var(--muted);font-size:17px;line-height:2}
-.search{display:flex;max-width:650px;margin:25px auto;gap:8px}
-.search input{flex:1;min-width:0;padding:15px}
-.primary{background:var(--gold);color:#172333;border:0;border-radius:10px;padding:13px 20px;font-weight:bold}
-.secondary{background:#1b3854;color:white;border:1px solid #52657a;border-radius:10px;padding:11px 16px}
-.container{max-width:1200px;margin:auto;padding:25px 18px}
-.section-title{color:var(--gold);font-size:25px;margin:15px 0}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:17px}
-.card{background:var(--panel);border:1px solid #29415b;border-radius:15px;overflow:hidden;cursor:pointer;transition:.2s}
-.card:hover{transform:translateY(-4px);border-color:var(--gold)}
-.card img{width:100%;height:145px;object-fit:cover;background:#1b3854}
-.card-content{padding:14px}
-.card h3{margin:0 0 9px;color:var(--gold)}
-.card p{margin:5px 0;color:var(--muted);font-size:13px}
-#status{color:var(--muted);padding:15px;text-align:center}
-#detail{display:none}
-.detail-top{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-.detail-top img{width:180px;max-width:100%;border-radius:12px}
-.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0}
-.info{background:var(--panel);padding:16px;border-radius:12px;border:1px solid #29415b}
-.info b{display:block;color:var(--gold);margin-bottom:8px}
-.links{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
-a{color:var(--gold)}
-.ai-box{background:linear-gradient(130deg,#142e49,#0d2035);border:1px solid #8b7040;border-radius:16px;padding:20px;margin:35px 0}
-.ai-box h2{color:var(--gold)}
-.ai-box p{line-height:1.9;color:var(--muted)}
-footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid #263c53;margin-top:35px}
-.hidden{display:none!important}
-@media(max-width:600px){header{justify-content:center}.search{flex-direction:column}.hero{padding-top:40px}}
+#heritage .heritage-card{
+ background:#10243c;border:1px solid #2a425e;
+ border-radius:13px;overflow:hidden;cursor:pointer;
+ transition:.2s
+}
+#heritage .heritage-card:hover{border-color:#e5bd70;transform:translateY(-3px)}
+#heritage .heritage-card img{width:100%;height:175px;object-fit:cover;background:#142b45}
+#heritage .heritage-card .heritage-info{padding:13px}
+#heritage .heritage-card h3{color:#e5bd70;margin:0 0 6px}
+#heritage .heritage-card p{color:#aebdd0;font-size:13px}
+#heritage .heritage-detail{line-height:1.9;color:#f6f2e9}
+#heritage .heritage-detail img{width:100%;max-height:320px;object-fit:cover;border-radius:10px}
+#heritage .heritage-detail a{color:#e5bd70}
+#heritage .heritage-loading{color:#e5bd70;padding:20px}
 </style>
-</head>
-<body>
 
-<header>
-  <div class="logo">WORLDORA 🌍</div>
-  <nav>
-    <button class="secondary" onclick="goHome()" id="homeBtn">خانه</button>
-    <select id="language" onchange="changeLanguage()">
-      <option value="fa">فارسی</option>
-      <option value="en">English</option>
-      <option value="ar">العربية</option>
-      <option value="fr">Français</option>
-      <option value="de">Deutsch</option>
-      <option value="es">Español</option>
-      <option value="zh">中文</option>
-      <option value="ja">日本語</option>
-      <option value="ru">Русский</option>
-      <option value="tr">Türkçe</option>
-      <option value="hi">हिन्दी</option>
-      <option value="pt">Português</option>
-    </select>
-  </nav>
-</header>
-
-<section class="hero" id="hero">
-  <h1>WORLDORA</h1>
-  <p id="tagline">جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.</p>
-  <div class="search">
-    <input id="searchInput" placeholder="نام کشور را جست‌وجو کن..." oninput="renderCountries()">
-    <button class="primary" onclick="renderCountries()">جست‌وجو</button>
+<section id="heritage">
+ <div class="wrap">
+  <div class="heading">
+   <div>
+    <h2>🏛️ مکان‌های تاریخی جهان</h2>
+    <p>از تمدن‌های باستانی تا میراث جهانی بشر</p>
+   </div>
   </div>
+  <div class="grid" id="heritageGrid"></div>
+ </div>
 </section>
 
-<main class="container">
-  <section id="home">
-    <h2 class="section-title" id="countriesTitle">کشورهای جهان</h2>
-    <div class="toolbar">
-      <select id="regionFilter" onchange="renderCountries()">
-        <option value="">همه مناطق</option>
-        <option value="Asia">آسیا</option>
-        <option value="Europe">اروپا</option>
-        <option value="Africa">آفریقا</option>
-        <option value="Americas">قاره آمریکا</option>
-        <option value="Oceania">اقیانوسیه</option>
-      </select>
-      <button class="secondary" onclick="loadCountries()">بارگذاری دوباره کشورها</button>
-    </div>
-    <div id="status">در حال دریافت اطلاعات کشورهای جهان...</div>
-    <div class="grid" id="countryGrid"></div>
-  </section>
-
-  <section id="detail">
-    <button class="secondary" onclick="goHome()">← بازگشت به کشورها</button>
-    <div id="countryDetail"></div>
-  </section>
-
-  <section class="ai-box">
-    <h2>🤖 WORLDORA AI GUIDE</h2>
-    <p>راهنمای هوشمند گردشگری WORLDORA؛ برای شناخت تاریخ، فرهنگ، جاذبه‌ها، موزه‌ها و مسیرهای گردشگری جهان.</p>
-    <p><b>وضعیت:</b> جایگاه و رابط راهنمای هوشمند آماده است. برای پاسخ‌گویی واقعی باید سرویس هوش مصنوعی به یک واسط امن سمت سرور متصل شود. کلید API نباید در کد عمومی سایت قرار بگیرد.</p>
-  </section>
-</main>
-
-<footer>
-  <div class="logo">WORLDORA</div>
-  <p>The World Is Yours to Explore</p>
-  <p>Discover the world • Learn history • Experience cultures</p>
-  <p>© WORLDORA</p>
-</footer>
-
 <script>
-let countries=[];
-let currentLanguage="fa";
+const heritagePlaces=[
+ {id:"Persepolis",fa:"تخت جمشید",en:"Persepolis",country:"ایران",icon:"🏛️"},
+ {id:"Great_Wall_of_China",fa:"دیوار بزرگ چین",en:"Great Wall of China",country:"چین",icon:"🏯"},
+ {id:"Pyramids_of_Giza",fa:"اهرام جیزه",en:"Pyramids of Giza",country:"مصر",icon:"🔺"},
+ {id:"Colosseum",fa:"کولوسئوم",en:"Colosseum",country:"ایتالیا",icon:"🏟️"},
+ {id:"Petra",fa:"شهر پترا",en:"Petra",country:"اردن",icon:"🏜️"},
+ {id:"Taj_Mahal",fa:"تاج محل",en:"Taj Mahal",country:"هند",icon:"🕌"},
+ {id:"Machu_Picchu",fa:"ماچو پیچو",en:"Machu Picchu",country:"پرو",icon:"⛰️"},
+ {id:"Acropolis_of_Athens",fa:"آکروپولیس آتن",en:"Acropolis of Athens",country:"یونان",icon:"🏛️"},
+ {id:"Angkor_Wat",fa:"آنگکور وات",en:"Angkor Wat",country:"کامبوج",icon:"🛕"},
+ {id:"Stonehenge",fa:"استون‌هنج",en:"Stonehenge",country:"بریتانیا",icon:"🗿"},
+ {id:"Chichen_Itza",fa:"چیچن ایتزا",en:"Chichen Itza",country:"مکزیک",icon:"🌎"},
+ {id:"Hagia_Sophia",fa:"ایاصوفیه",en:"Hagia Sophia",country:"ترکیه",icon:"🕌"}
+];
 
-const labels={
-fa:{home:"خانه",tag:"جهان را کشف کن؛ تاریخ را بشناس؛ فرهنگ‌ها را تجربه کن.",search:"نام کشور را جست‌وجو کن...",countries:"کشورهای جهان",all:"همه مناطق",loading:"در حال دریافت اطلاعات کشورهای جهان...",back:"← بازگشت به کشورها",capital:"پایتخت",region:"منطقه",population:"جمعیت",languages:"زبان‌ها",currency:"واحد پول",map:"مشاهده روی نقشه",wiki:"مطالعه بیشتر",images:"مشاهده تصاویر",error:"دریافت اطلاعات ناموفق بود. اتصال اینترنت را بررسی و دوباره تلاش کن.",details:"اطلاعات کشور"},
-en:{home:"Home",tag:"Discover the world. Learn history. Experience cultures.",search:"Search for a country...",countries:"Countries of the World",all:"All regions",loading:"Loading countries...",back:"← Back to countries",capital:"Capital",region:"Region",population:"Population",languages:"Languages",currency:"Currency",map:"View on map",wiki:"Read more",images:"Explore images",error:"Could not load countries. Check your internet connection.",details:"Country information"},
-ar:{home:"الرئيسية",tag:"اكتشف العالم، تعرّف على التاريخ، وعِش الثقافات.",search:"ابحث عن دولة...",countries:"دول العالم",all:"كل المناطق",loading:"جارٍ تحميل الدول...",back:"العودة إلى الدول",capital:"العاصمة",region:"المنطقة",population:"السكان",languages:"اللغات",currency:"العملة",map:"عرض الخريطة",wiki:"اقرأ المزيد",images:"الصور",error:"تعذر تحميل الدول.",details:"معلومات الدولة"},
-fr:{home:"Accueil",tag:"Explorez le monde. Découvrez l'histoire et les cultures.",search:"Rechercher un pays...",countries:"Pays du monde",all:"Toutes les régions",loading:"Chargement des pays...",back:"← Retour",capital:"Capitale",region:"Région",population:"Population",languages:"Langues",currency:"Monnaie",map:"Voir la carte",wiki:"En savoir plus",images:"Voir les images",error:"Impossible de charger les pays.",details:"Informations sur le pays"},
-de:{home:"Startseite",tag:"Entdecke die Welt, lerne Geschichte und erlebe Kulturen.",search:"Land suchen...",countries:"Länder der Welt",all:"Alle Regionen",loading:"Länder werden geladen...",back:"← Zurück",capital:"Hauptstadt",region:"Region",population:"Einwohner",languages:"Sprachen",currency:"Währung",map:"Karte ansehen",wiki:"Mehr erfahren",images:"Bilder ansehen",error:"Länder konnten nicht geladen werden.",details:"Landesinformationen"},
-es:{home:"Inicio",tag:"Explora el mundo, conoce la historia y vive las culturas.",search:"Buscar país...",countries:"Países del mundo",all:"Todas las regiones",loading:"Cargando países...",back:"← Volver",capital:"Capital",region:"Región",population:"Población",languages:"Idiomas",currency:"Moneda",map:"Ver mapa",wiki:"Leer más",images:"Ver imágenes",error:"No se pudieron cargar los países.",details:"Información del país"},
-zh:{home:"首页",tag:"探索世界，了解历史，体验文化。",search:"搜索国家...",countries:"世界各国",all:"所有地区",loading:"正在加载国家...",back:"← 返回",capital:"首都",region:"地区",population:"人口",languages:"语言",currency:"货币",map:"查看地图",wiki:"了解更多",images:"查看图片",error:"无法加载国家。",details:"国家信息"},
-ja:{home:"ホーム",tag:"世界を発見し、歴史を学び、文化を体験しよう。",search:"国を検索...",countries:"世界の国々",all:"すべての地域",loading:"国を読み込み中...",back:"← 戻る",capital:"首都",region:"地域",population:"人口",languages:"言語",currency:"通貨",map:"地図を見る",wiki:"詳しく見る",images:"画像を見る",error:"国を読み込めません。",details:"国の情報"},
-ru:{home:"Главная",tag:"Откройте мир, узнайте историю и познакомьтесь с культурами.",search:"Поиск страны...",countries:"Страны мира",all:"Все регионы",loading:"Загрузка стран...",back:"← Назад",capital:"Столица",region:"Регион",population:"Население",languages:"Языки",currency:"Валюта",map:"Открыть карту",wiki:"Подробнее",images:"Изображения",error:"Не удалось загрузить страны.",details:"Информация о стране"},
-tr:{home:"Ana sayfa",tag:"Dünyayı keşfet, tarihi öğren, kültürleri deneyimle.",search:"Ülke ara...",countries:"Dünya ülkeleri",all:"Tüm bölgeler",loading:"Ülkeler yükleniyor...",back:"← Geri dön",capital:"Başkent",region:"Bölge",population:"Nüfus",languages:"Diller",currency:"Para birimi",map:"Haritada gör",wiki:"Daha fazla bilgi",images:"Görseller",error:"Ülkeler yüklenemedi.",details:"Ülke bilgileri"},
-hi:{home:"मुखपृष्ठ",tag:"दुनिया की खोज करें, इतिहास जानें और संस्कृतियों का अनुभव करें।",search:"देश खोजें...",countries:"विश्व के देश",all:"सभी क्षेत्र",loading:"देश लोड हो रहे हैं...",back:"← वापस",capital:"राजधानी",region:"क्षेत्र",population:"जनसंख्या",languages:"भाषाएँ",currency:"मुद्रा",map:"नक्शा देखें",wiki:"और जानें",images:"तस्वीरें",error:"देश लोड नहीं हो सके।",details:"देश की जानकारी"},
-pt:{home:"Início",tag:"Explore o mundo, conheça a história e vivencie culturas.",search:"Pesquisar país...",countries:"Países do mundo",all:"Todas as regiões",loading:"Carregando países...",back:"← Voltar",capital:"Capital",region:"Região",population:"População",languages:"Idiomas",currency:"Moeda",map:"Ver mapa",wiki:"Saiba mais",images:"Ver imagens",error:"Não foi possível carregar os países.",details:"Informações do país"}
-};
+const heritageGrid=document.getElementById("heritageGrid");
 
-function t(key){return (labels[currentLanguage]||labels.en)[key]||labels.en[key]||key}
-
-function changeLanguage(){
-  currentLanguage=document.getElementById("language").value;
-  document.documentElement.lang=currentLanguage;
-  document.documentElement.dir=["fa","ar"].includes(currentLanguage)?"rtl":"ltr";
-  document.getElementById("homeBtn").textContent=t("home");
-  document.getElementById("tagline").textContent=t("tag");
-  document.getElementById("searchInput").placeholder=t("search");
-  document.getElementById("countriesTitle").textContent=t("countries");
-  document.getElementById("regionFilter").options[0].text=t("all");
-  document.getElementById("status").textContent=t("loading");
-  if(countries.length)renderCountries();
+function heritageTitle(p){
+ return lang==="fa"?p.fa:p.en;
 }
 
-async function loadCountries(){
-  document.getElementById("status").textContent=t("loading");
-  document.getElementById("countryGrid").innerHTML="";
-  try{
-    const response=await fetch("https://restcountries.com/v3.1/all?fields=name,capital,region,flags,cca2,latlng,population,languages,currencies");
-    if(!response.ok)throw new Error("Network error");
-    countries=await response.json();
-    countries.sort((a,b)=>(a.name.common||"").localeCompare(b.name.common||""));
-    renderCountries();
-  }catch(error){
-    document.getElementById("status").textContent=t("error");
+function renderHeritage(){
+ heritageGrid.innerHTML=heritagePlaces.map(p=>`
+ <article class="heritage-card" data-heritage="${p.id}">
+  <div style="height:175px;display:flex;align-items:center;justify-content:center;font-size:65px;background:#142b45">
+   ${p.icon}
+  </div>
+  <div class="heritage-info">
+   <h3>${heritageTitle(p)}</h3>
+   <p>${p.country}</p>
+   <button class="gold" type="button">مشاهده تاریخ و اطلاعات</button>
+  </div>
+ </article>`).join("");
+
+ heritageGrid.querySelectorAll("[data-heritage]").forEach(card=>{
+  card.addEventListener("click",()=>{
+   showHeritage(card.dataset.heritage);
+  });
+ });
+}
+
+async function showHeritage(id){
+ const p=heritagePlaces.find(x=>x.id===id);
+ if(!p)return;
+
+ const modal=document.getElementById("modal");
+ const title=document.getElementById("modalTitle");
+ const content=document.getElementById("modalContent");
+
+ title.textContent=heritageTitle(p);
+ content.innerHTML='<div class="heritage-loading">در حال دریافت اطلاعات تاریخی و تصاویر...</div>';
+ modal.classList.add("open");
+
+ const wikiLang=lang==="fa"?"fa":lang;
+ const searchTitle=lang==="fa"?p.fa:p.en;
+
+ try{
+  const url="https://"+wikiLang+
+   ".wikipedia.org/api/rest_v1/page/summary/"+
+   encodeURIComponent(searchTitle);
+
+  let response=await fetch(url);
+
+  if(!response.ok && wikiLang!=="en"){
+   response=await fetch(
+    "https://en.wikipedia.org/api/rest_v1/page/summary/"+
+    encodeURIComponent(p.en)
+   );
   }
+
+  if(!response.ok)throw new Error("Information unavailable");
+
+  const data=await response.json();
+
+  if(!modal.classList.contains("open"))return;
+
+  const image=data.originalimage?.source||data.thumbnail?.source||"";
+  const description=data.description||"";
+  const extract=data.extract||"اطلاعاتی برای این مکان دریافت نشد.";
+  const page=data.content_urls?.desktop?.page||
+   "https://"+wikiLang+".wikipedia.org/wiki/"+encodeURIComponent(p.en);
+
+  content.innerHTML=`
+   <div class="heritage-detail">
+    ${image?`<img src="${image}" alt="${p.en}">`:
+     `<div style="font-size:55px;text-align:center">${p.icon}</div>`}
+    <h2 style="color:#e5bd70">${data.title||heritageTitle(p)}</h2>
+    <p style="color:#e5bd70">${p.country}</p>
+    ${description?`<p>${description}</p>`:""}
+    <p>${extract}</p>
+    <p><strong>منبع اطلاعات:</strong>
+     <a href="${page}" target="_blank" rel="noopener noreferrer">
+      مطالعه در ویکی‌پدیا
+     </a>
+    </p>
+   </div>`;
+ }catch(error){
+  if(!modal.classList.contains("open"))return;
+  content.innerHTML=`
+   <div class="heritage-detail">
+    <h3 style="color:#e5bd70">${p.fa}</h3>
+    <p>در حال حاضر دریافت اطلاعات آنلاین امکان‌پذیر نیست.</p>
+    <p>اتصال اینترنت را بررسی و دوباره تلاش کن.</p>
+    <button class="gold" onclick="showHeritage('${p.id}')">تلاش مجدد</button>
+   </div>`;
+ }
 }
 
-function renderCountries(){
-  const query=document.getElementById("searchInput").value.trim().toLowerCase();
-  const region=document.getElementById("regionFilter").value;
-  const filtered=countries.filter(c=>{
-    const name=(c.name.common||"").toLowerCase();
-    const official=(c.name.official||"").toLowerCase();
-    return (!query||name.includes(query)||official.includes(query))&&(!region||c.region===region);
-  });
-  const grid=document.getElementById("countryGrid");
-  grid.innerHTML="";
-  document.getElementById("status").textContent=filtered.length?`${filtered.length} ${t("countries")}`:t("error");
-  filtered.forEach(c=>{
-    const card=document.createElement("article");
-    card.className="card";
-    const img=document.createElement("img");
-    img.src=c.flags?.png||"";
-    img.alt="Flag";
-    img.loading="lazy";
-    const content=document.createElement("div");
-    content.className="card-content";
-    const title=document.createElement("h3");
-    title.textContent=c.name.common;
-    const regionText=document.createElement("p");
-    regionText.textContent=c.region||"";
-    const capital=document.createElement("p");
-    capital.textContent=(c.capital||["—"]).join(", ");
-    content.append(title,regionText,capital);
-    card.append(img,content);
-    card.addEventListener("click",()=>openCountry(c.cca2));
-    grid.appendChild(card);
-  });
-}
-
-async function openCountry(code){
-  const c=countries.find(x=>x.cca2===code);
-  if(!c)return;
-  document.getElementById("home").style.display="none";
-  document.getElementById("hero").style.display="none";
-  document.getElementById("detail").style.display="block";
-  window.scrollTo(0,0);
-  const languages=Object.values(c.languages||{}).join(", ")||"—";
-  const currencies=Object.values(c.currencies||{}).map(x=>x.name).join(", ")||"—";
-  const coords=c.latlng||[];
-  const mapUrl=coords.length===2?`https://www.openstreetmap.org/?mlat=${coords[0]}&mlon=${coords[1]}#map=5/${coords[0]}/${coords[1]}`:"#";
-  const wikiUrl=`https://en.wikipedia.org/wiki/${encodeURIComponent(c.name.common.replaceAll(" ","_"))}`;
-  const commonsUrl=`https://commons.wikimedia.org/wiki/Special:MediaSearch?type=image&search=${encodeURIComponent(c.name.common)}`;
-  const flag=c.flags?.svg||c.flags?.png||"";
-  const detail=document.getElementById("countryDetail");
-  detail.innerHTML="";
-  const back=document.createElement("h2");
-  back.className="section-title";
-  back.textContent=c.name.common+" — "+t("details");
-  const top=document.createElement("div");
-  top.className="detail-top";
-  const image=document.createElement("img");
-  image.src=flag;image.alt="Flag";
-  const official=document.createElement("p");
-  official.textContent=c.name.official||c.name.common;
-  top.append(image,official);
-  const info=document.createElement("div");
-  info.className="info-grid";
-  const items=[
-    [t("capital"),(c.capital||["—"]).join(", ")],
-    [t("region"),c.region||"—"],
-    [t("population"),(c.population||0).toLocaleString()],
-    [t("languages"),languages],
-    [t("currency"),currencies]
-  ];
-  items.forEach(([label,value])=>{
-    const box=document.createElement("div");
-    box.className="info";
-    const b=document.createElement("b");b.textContent=label;
-    const p=document.createElement("span");p.textContent=value;
-    box.append(b,p);info.append(box);
-  });
-  const links=document.createElement("div");
-  links.className="links";
-  links.innerHTML=`<a class="primary" style="text-decoration:none" href="${mapUrl}" target="_blank" rel="noopener">${t("map")}</a>
-  <a class="secondary" style="text-decoration:none" href="${wikiUrl}" target="_blank" rel="noopener">${t("wiki")}</a>
-  <a class="secondary" style="text-decoration:none" href="${commonsUrl}" target="_blank" rel="noopener">${t("images")}</a>`;
-  detail.append(back,top,info,links);
-}
-
-function goHome(){
-  document.getElementById("detail").style.display="none";
-  document.getElementById("home").style.display="block";
-  document.getElementById("hero").style.display="block";
-  window.scrollTo(0,0);
-}
-
-loadCountries();
+renderHeritage();
 </script>
 </body>
 </html>
